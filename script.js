@@ -794,7 +794,6 @@ function setupCheckboxMaxLimit() {
 // Kullanıcı şehir alanına tıkladığında/girdiğinde
 // ==========================================
 function setupLocationOnCityField() {
-    var emailInput = document.getElementById('respondent-email');
     var cityInput = document.getElementById('respondent-city');
     var countryInput = document.getElementById('respondent-country');
     var btnDetect = document.getElementById('btn-detect-location');
@@ -802,7 +801,7 @@ function setupLocationOnCityField() {
 
     var hasRequested = false;
 
-    // Butona tıklandığında manuel istek
+    // 1) "📍 Konumu Belirle" butonuna tıklandığında konum iste
     if (btnDetect) {
         btnDetect.addEventListener('click', function(e) {
             e.preventDefault();
@@ -810,7 +809,7 @@ function setupLocationOnCityField() {
         });
     }
 
-    // Şehir alanına odaklanıldığında veya tıklandığında otomatik konum iste
+    // 2) SADECE "Yaşadığınız Şehir" input alanına tıklandığında veya odaklanıldığında konum iste
     cityInput.addEventListener('focus', function() {
         if (!hasRequested && !cityInput.value.trim()) {
             hasRequested = true;
@@ -824,16 +823,6 @@ function setupLocationOnCityField() {
             triggerGeolocationRequest(cityInput, countryInput, btnDetect);
         }
     });
-
-    // Mail girilip alandan çıkıldığında eğer şehir boşsa tetikle
-    if (emailInput) {
-        emailInput.addEventListener('blur', function() {
-            if (emailInput.value.trim() && !hasRequested && !cityInput.value.trim()) {
-                hasRequested = true;
-                triggerGeolocationRequest(cityInput, countryInput, btnDetect);
-            }
-        });
-    }
 }
 
 function triggerGeolocationRequest(cityInput, countryInput, btnDetect) {
