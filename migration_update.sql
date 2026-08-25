@@ -117,3 +117,29 @@ CREATE POLICY "anon_insert_events" ON event_logs FOR INSERT TO anon WITH CHECK (
 
 DROP POLICY IF EXISTS "anon_select_events" ON event_logs;
 CREATE POLICY "anon_select_events" ON event_logs FOR SELECT TO anon USING (true);
+
+-- 7) click_logs (Tıklama Logları Tablosu)
+CREATE TABLE IF NOT EXISTS click_logs (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    visit_id UUID REFERENCES site_visits(id) ON DELETE CASCADE,
+    fingerprint_id UUID REFERENCES visitor_fingerprints(id) ON DELETE SET NULL,
+    action TEXT NOT NULL,
+    element TEXT,
+    element_id TEXT,
+    element_class TEXT,
+    page_path TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_click_logs_visit_id ON click_logs(visit_id);
+CREATE INDEX IF NOT EXISTS idx_click_logs_fingerprint ON click_logs(fingerprint_id);
+CREATE INDEX IF NOT EXISTS idx_click_logs_created_at ON click_logs(created_at);
+
+ALTER TABLE click_logs ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "anon_insert_clicks" ON click_logs;
+CREATE POLICY "anon_insert_clicks" ON click_logs FOR INSERT TO anon WITH CHECK (true);
+
+DROP POLICY IF EXISTS "anon_select_clicks" ON click_logs;
+CREATE POLICY "anon_select_clicks" ON click_logs FOR SELECT TO anon USING (true);
+
