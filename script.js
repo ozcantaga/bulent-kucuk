@@ -1181,6 +1181,7 @@ function setupParticles() {
 function isSurveyCompleted() {
     return STATE.submitted || localStorage.getItem('survey_completed') === 'true';
 }
+window.isSurveyCompleted = isSurveyCompleted;
 
 function updateAidSectionState(forceCompleted) {
     var completed = typeof forceCompleted === 'boolean' ? forceCompleted : isSurveyCompleted();
@@ -1232,6 +1233,7 @@ function updateAidSectionState(forceCompleted) {
         }
     });
 }
+window.updateAidSectionState = updateAidSectionState;
 
 function handleAidCardClick(cardEl) {
     if (!cardEl) return;

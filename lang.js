@@ -520,6 +520,38 @@
             if (p) p.innerHTML = card.desc;
             if (tag) tag.textContent = card.tag;
         });
+
+        // Banner ve kart kilit/açık durum metinlerini dile göre anında güncelle
+        var isCompleted = false;
+        try {
+            isCompleted = localStorage.getItem('survey_completed') === 'true' || 
+                          (typeof window.isSurveyCompleted === 'function' && window.isSurveyCompleted());
+        } catch (e) {}
+
+        var bannerTitle = document.getElementById('banner-title');
+        var bannerDesc = document.getElementById('banner-desc');
+        var bannerBtn = document.getElementById('btn-banner-action');
+
+        if (bannerTitle) {
+            bannerTitle.textContent = isCompleted ? t.aidBannerUnlockedTitle : t.aidBannerLockedTitle;
+        }
+        if (bannerDesc) {
+            bannerDesc.textContent = isCompleted ? t.aidBannerUnlockedDesc : t.aidBannerLockedDesc;
+        }
+        if (bannerBtn) {
+            var btnText = bannerBtn.querySelector('.btn-text');
+            if (btnText) {
+                btnText.textContent = isCompleted ? t.aidBtnOpen : t.aidBtnFill;
+            }
+        }
+
+        // Kart içi buton etiketlerini güncelle
+        cards.forEach(function (card) {
+            var actionLabel = card.querySelector('.action-label');
+            if (actionLabel) {
+                actionLabel.textContent = isCompleted ? t.aidBtnGo : t.aidBtnLocked;
+            }
+        });
     }
 
     function translateInfoNotice(t) {
