@@ -1,24 +1,25 @@
-# DX Promo Kampanya Sayfası
+# Dansk Livs- og Socialstøtteundersøgelse (Danimarka Türk Diasporası Araştırması)
 
-Bu proje, kullanıcılara kazı kazan mantığı ile indirim kuponu veren statik bir promosyon (landing page) web projesidir.
+Danimarka'da yaşayan Türk toplumunun sosyal bağlarını, iletişim alışkanlıklarını, yerleşim tercihlerini ve Danimarka resmi kurum ve sosyal yardım rehberine erişimini konu alan iki dilli (Türkçe & Danca) web platformu ve araştırma anketi.
 
-## Özellikler
-- **Statik HTML/CSS/JS:** Herhangi bir derleme (build) işlemine gerek duymadan çalışır.
-- **Supabase Entegrasyonu:** Kullanıcıların doldurduğu form bilgileri (Ad, Soyad, İletişim) ve ardından verdikleri konum izinleri (Enlem, Boylam) Supabase veritabanına kaydedilir.
-- **Mobil Uyumlu Tasarım:** Tüm ekran boyutlarında sorunsuz çalışır.
-- **Animasyonlar & Kazı Kazan:** Canvas API kullanılarak interaktif bir kazı kazan deneyimi sunulur.
+## 🌟 Özellikler
 
-## Vercel Üzerinde Yayınlama (Deployment)
+- **Çift Dil Desteği (TR / DA):** Tarayıcı diline göre otomatik Türkçe veya Danca açılır. Sayfa üzerindeki buton ile anında dil değişimi yapılabilir.
+- **Danimarka Resmi Destek Rehberi:** Ny i Danmark, Borger.dk, Jobnet, UIM, SIRI, SU, Sundhed gibi resmi Danimarka devlet kurumları ve yardım programları bilgilendirmesi.
+- **İnteraktif 5 Adımlı Anket:** Demografik, coğrafi, sosyal ağlar, haberleşme ve iletişim bilgilerini kapsayan responsive anket akışı.
+- **Gelişmiş Analitik & Dijital Kimlik:** Cihaz bilgisi, tarayıcı özellikleri, oturum süresi, scroll derinliği ve güvenli anonim fingerprint takibi.
+- **Supabase Entegrasyonu:** PostgreSQL tabanlı veritabanı, Row Level Security (RLS) güvenlik politikaları ve adım adım otomatik taslak kaydı.
+- **Vercel Uyumlu:** Vercel Analytics ve Serverless API loglama (`/api/log`) desteği.
 
-Proje standart bir statik web sitesi olduğundan Vercel üzerinde anında yayınlanabilir. Herhangi bir `package.json` veya derleme (build) komutuna ihtiyaç yoktur.
+## 🚀 Kurulum ve Çalıştırma
 
-### Adım Adım Kurulum
-1. Bu projeyi kendi **GitHub** hesabınıza bir repository olarak yükleyin (push).
-2. [Vercel](https://vercel.com/) paneline giriş yapın.
-3. **"Add New"** > **"Project"** seçeneğine tıklayın.
-4. GitHub hesabınızı bağladıysanız, listeden projenizin repository'sini seçip **"Import"** butonuna basın.
-5. "Framework Preset" kısmı otomatik olarak **"Other"** seçili gelecektir (böyle kalmalı).
-6. **"Deploy"** butonuna basarak yayınlama işlemini tamamlayın. Birkaç saniye içinde siteniz canlıya alınacaktır.
+Yerel ortamda çalıştırmak için:
+```bash
+npx serve .
+```
 
-## Güvenlik Notları
-- Frontend üzerinde Supabase `anon` (public) anahtarı kullanılmaktadır. Bu güvenlik açığı oluşturmaz, ancak Supabase panelinizde `user_data` tablosu için **Row Level Security (RLS)** kurallarını (sadece INSERT ve UPDATE'e izin verecek şekilde) yapılandırdığınızdan emin olun.
+## 📦 Vercel Deployment
+
+1. Projeyi GitHub'a yükleyin.
+2. [Vercel](https://vercel.com/) paneline gidin ve repository'yi bağlayın.
+3. Otomatik deploy tamamlandığında siteniz canlıya geçecektir.
