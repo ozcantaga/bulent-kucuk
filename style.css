@@ -269,6 +269,170 @@ input, select { font-family: inherit; }
 }
 
 /* ============================================
+   TAM EKRAN ANKET MODALİ (Fullscreen Survey Modal)
+   ============================================ */
+.survey-container-wrapper {
+    position: relative;
+    width: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.fullscreen-topbar {
+    display: none;
+}
+
+/* Modal Aktifken Arka Planı Kilitle ve Tam Ekran Yap */
+body.fullscreen-survey-active {
+    overflow: hidden !important;
+    touch-action: none;
+}
+
+body.fullscreen-survey-active .survey-container-wrapper {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    z-index: 99999 !important;
+    background: radial-gradient(circle at 50% 5%, #1E293B 0%, #0B1120 50%, #030712 100%) !important;
+    backdrop-filter: blur(28px) !important;
+    -webkit-backdrop-filter: blur(28px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 90px !important;
+    display: block !important;
+    animation: fullscreenModalOpen 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fullscreenModalOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.97) translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Tam Ekran Üst Bar */
+body.fullscreen-survey-active .fullscreen-topbar {
+    display: flex !important;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(15, 23, 42, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.25);
+    padding: 12px 24px;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    margin-bottom: 20px;
+}
+
+.fullscreen-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.fullscreen-flag {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.fullscreen-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.fullscreen-title {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #F8FAFC;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fullscreen-target-tag {
+    font-size: 12px;
+    font-weight: 600;
+    color: #60A5FA;
+    background: rgba(37, 99, 235, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    padding: 2px 10px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-fullscreen-close {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    color: #FCA5A5;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.btn-fullscreen-close:hover {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #EF4444;
+    color: #FFFFFF;
+    transform: scale(1.04);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.3);
+}
+
+.btn-fullscreen-close:active {
+    transform: scale(0.96);
+}
+
+/* Soru Vurgulama Animasyonu */
+.highlight-pulse {
+    animation: pulseBorder 1.2s cubic-bezier(0.4, 0, 0.2, 1) 2;
+}
+
+@keyframes pulseBorder {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+        border-color: var(--border);
+    }
+    50% {
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.35), 0 0 24px rgba(59, 130, 246, 0.4);
+        border-color: #60A5FA;
+    }
+}
+
+/* ============================================
    AYDINLATMA BİLGİLENDİRME METNİ
    ============================================ */
 .info-notice {

@@ -1339,6 +1339,16 @@ function setupAidModalEvents() {
             closeFullscreenSurvey();
         }
     });
+
+    // Klavye erişilebilirliği (Enter / Boşluk tuşu ile kart açma)
+    document.querySelectorAll('.aid-card').forEach(function(card) {
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleAidCardClick(card);
+            }
+        });
+    });
 }
 
 // ==========================================
