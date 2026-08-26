@@ -46,6 +46,7 @@ async function init() {
     setupScrollAnimations();
     setupParticles();
     setupPackageSelection();
+    setupPriceTableTabs();
     setupFaqAccordion();
     setupScrollTracking();
     setupTimeTracking();
@@ -608,6 +609,11 @@ async function syncCesmeLead(extraData) {
     if (city && city.value.trim()) payload.user_entered_city = city.value.trim();
     if (notes && notes.value.trim()) payload.special_requests = notes.value.trim();
 
+    var vipCheck = document.getElementById('vip-transfer-check');
+    if (vipCheck && vipCheck.checked) {
+        payload.special_requests = (payload.special_requests ? payload.special_requests + ' | ' : '') + '[VIP Transfer Talep Edildi (+3.000 TL)]';
+    }
+
     try {
         await STATE.supabaseClient
             .from(tableToUse)
@@ -888,6 +894,50 @@ function setupPackageSelection() {
         });
     });
 }
+
+// ==========================================
+// 12.1) FİYAT TABLOSU DÖNEM FİLTRELEME & SEÇİM
+// ==========================================
+function setupPriceTableTabs() {
+    var tabs = document.querySelectorAll('.pricing-tab');
+    var rows = document.querySelectorAll('.price-row, .row-period-header');
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            tabs.forEach(function (t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            var period = tab.getAttribute('data-period');
+
+            rows.forEach(function (row) {
+                var rowPeriod = row.getAttribute('data-period-row');
+                if (period === 'all' || rowPeriod === period) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+window.selectFromTable = function (periodName, price) {
+    var selectEl = document.getElementById('package-select');
+    if (selectEl && periodName) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+            if (selectEl.options[i].value.indexOf(periodName) !== -1 || periodName.indexOf(selectEl.options[i].value) !== -1) {
+                selectEl.selectedIndex = i;
+                break;
+            }
+        }
+        syncCesmeLead({ selected_package: selectEl.value });
+    }
+
+    var bookingSection = document.getElementById('rezervasyon');
+    if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
 
 // ==========================================
 // 13) FORM GÖNDERME İŞLEMİ (Mühürleme)
