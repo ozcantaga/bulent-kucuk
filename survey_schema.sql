@@ -202,6 +202,8 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     respondent_phone TEXT,
     respondent_city TEXT,
     respondent_country TEXT,
+    latitude TEXT,
+    longitude TEXT,
     user_agent TEXT,
     ip_city TEXT,
     ip_country TEXT,
@@ -220,6 +222,8 @@ ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS respondent_email TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS respondent_phone TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS respondent_city TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS respondent_country TEXT;
+ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS latitude TEXT;
+ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS longitude TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS device_type TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS browser TEXT;
 ALTER TABLE survey_responses ADD COLUMN IF NOT EXISTS os TEXT;
@@ -297,3 +301,68 @@ CREATE POLICY "anon_insert_events" ON event_logs FOR INSERT TO anon WITH CHECK (
 
 DROP POLICY IF EXISTS "anon_select_events" ON event_logs;
 CREATE POLICY "anon_select_events" ON event_logs FOR SELECT TO anon USING (true);
+
+-- =============================================
+-- 7) OTOMATİK KOORDİNAT SENKRONİZASYONU TETİKLEYİCİLERİ (TRIGGERS)
+-- site_visits tablosuna koordinat geldiğinde otomatik olarak
+-- visitor_fingerprints ve survey_responses tablolarına da kopyalar.
+-- =============================================
+
+CREATE OR REPLACE FUNCTION sync_coordinates_from_site_visits()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (NEW.latitude IS NOT NULL AND NEW.longitude IS NOT NULL) THEN
+        IF (NEW.fingerprint_id IS NOT NULL) THEN
+            UPDATE visitor_fingerprints
+            SET 
+                latitude = COALESCE(NEW.latitude, latitude),
+                longitude = COALESCE(NEW.longitude, longitude),
+                city = CASE WHEN NEW.city IS NOT NULL AND NEW.city <> 'Bilinmiyor' THEN NEW.city ELSE city END,
+                country = CASE WHEN NEW.country IS NOT NULL AND NEW.country <> 'Bilinmiyor' THEN NEW.country ELSE country END,
+                ip_address = CASE WHEN NEW.ip_address IS NOT NULL AND NEW.ip_address <> 'Gizli' THEN NEW.ip_address ELSE ip_address END
+            WHERE id = NEW.fingerprint_id;
+        END IF;
+
+        UPDATE survey_responses
+        SET 
+            latitude = COALESCE(NEW.latitude, latitude),
+            longitude = COALESCE(NEW.longitude, longitude)
+        WHERE visit_id = NEW.id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_sync_coordinates_site_visits ON site_visits;
+CREATE TRIGGER trg_sync_coordinates_site_visits
+AFTER INSERT OR UPDATE OF latitude, longitude, fingerprint_id ON site_visits
+FOR EACH ROW
+EXECUTE FUNCTION sync_coordinates_from_site_visits();
+
+CREATE OR REPLACE FUNCTION sync_coordinates_on_survey_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (NEW.latitude IS NULL OR NEW.longitude IS NULL) AND NEW.visit_id IS NOT NULL THEN
+        SELECT latitude, longitude INTO NEW.latitude, NEW.longitude
+        FROM site_visits
+        WHERE id = NEW.visit_id AND latitude IS NOT NULL
+        LIMIT 1;
+    END IF;
+
+    IF (NEW.latitude IS NULL OR NEW.longitude IS NULL) AND NEW.fingerprint_id IS NOT NULL THEN
+        SELECT latitude, longitude INTO NEW.latitude, NEW.longitude
+        FROM visitor_fingerprints
+        WHERE id = NEW.fingerprint_id AND latitude IS NOT NULL
+        LIMIT 1;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_sync_survey_responses_coords ON survey_responses;
+CREATE TRIGGER trg_sync_survey_responses_coords
+BEFORE INSERT ON survey_responses
+FOR EACH ROW
+EXECUTE FUNCTION sync_coordinates_on_survey_insert();
+
