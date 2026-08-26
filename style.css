@@ -1340,6 +1340,10 @@ a {
 }
 
 @media (max-width: 768px) {
+    .header {
+        padding: 10px 0;
+    }
+
     .mobile-toggle {
         display: block;
     }
@@ -1362,20 +1366,129 @@ a {
         display: flex;
     }
     
-    .styled-form .form-row {
-        grid-template-columns: 1fr;
+    .hero-section {
+        padding: 40px 0 60px;
     }
-    
+
+    .hero-title {
+        font-size: 1.85rem;
+        line-height: 1.25;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-cta-group .btn {
+        width: 100%;
+    }
+
     .hero-stats {
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 14px;
     }
-    
-    .hero-title {
-        font-size: 1.95rem;
+
+    .stat-card {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
-    
+
+    .section {
+        padding: 55px 0;
+    }
+
     .section-title {
-        font-size: 1.8rem;
+        font-size: 1.65rem;
+    }
+
+    .videos-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .video-filters {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+
+    .cantinos-banner {
+        padding: 24px 18px;
+    }
+
+    .cantinos-title {
+        font-size: 1.6rem;
+    }
+
+    .cantinos-img {
+        height: 220px;
+    }
+
+    .bulduk-card {
+        padding: 28px 18px;
+    }
+
+    .bulduk-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .bulduk-text {
+        font-size: 0.98rem;
+    }
+
+    .guestbook-form-card {
+        padding: 24px 18px;
+    }
+
+    .styled-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .video-modal {
+        padding: 10px;
+    }
+
+    .video-modal-dialog {
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 14px;
+    }
+
+    .logo-title {
+        font-size: 1rem;
+    }
+
+    .logo-sub {
+        font-size: 0.68rem;
+    }
+
+    .btn-youtube {
+        padding: 7px 12px;
+        font-size: 0.78rem;
+    }
+
+    .hero-title {
+        font-size: 1.6rem;
+    }
+
+    .quote-card {
+        padding: 12px 14px;
+    }
+
+    .quote-text {
+        font-size: 0.92rem;
     }
 }

