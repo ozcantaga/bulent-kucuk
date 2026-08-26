@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şüpheli Tespit & Çapraz Eşleştirme Paneli | Canlı Takip</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bg-body: #070a11;
+            --bg-surface: #0e1422;
+            --bg-card: #131c31;
+            --bg-card-hover: #18243e;
+            
+            --primary: #f59e0b;
+            --primary-glow: rgba(245, 158, 11, 0.35);
+            
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.4);
+            
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.3);
+            
+            --info: #3b82f6;
+            
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --border: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(245, 158, 11, 0.3);
+            
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 28px;
+        }
+
+        .header-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .radar-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #1e1b4b, #311042);
+            border: 1px solid var(--border-highlight);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            position: relative;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .radar-icon::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--danger);
+            border-radius: 50%;
+            top: 6px;
+            right: 6px;
+            box-shadow: 0 0 8px var(--danger);
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+
+        .header-sub {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.88rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #0f172a;
+        }
+        .btn-primary:hover { background: #d97706; transform: translateY(-2px); }
+
+        .btn-outline {
+            background: var(--bg-card);
+            border-color: var(--border);
+            color: #fff;
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* KPI STAT CARDS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s, border-color 0.25s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-highlight);
+        }
+
+        .kpi-card.match-alert {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, var(--bg-surface) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.15);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .kpi-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-icon {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .kpi-card.match-alert .kpi-icon { color: var(--danger); }
+
+        .kpi-value {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .kpi-sub {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+        }
+
+        /* MATCH SECTION */
+        .section-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+
+        /* MATCH HERO ALERT */
+        .match-results-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .match-card {
+            background: linear-gradient(135deg, #1f121d 0%, #151a2e 100%);
+            border: 2px solid #ef4444;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.25);
+            animation: pulseBorder 2s infinite;
+        }
+
+        @keyframes pulseBorder {
+            0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
+        }
+
+        .match-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 18px;
+        }
+
+        .match-badge {
+            background: #ef4444;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .match-phone-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .phone-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .phone-highlight {
+            font-family: var(--font-mono);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            padding: 4px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .match-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .detail-item {
+            background: rgba(0, 0, 0, 0.35);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .detail-key {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .detail-val {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            word-break: break-all;
+        }
+
+        .detail-val.mono {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: #67e8f9;
+        }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 45px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 2.5rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+        }
+
+        /* TABS */
+        .tabs-nav {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 20px;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover { color: #fff; }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* SEARCH BAR */
+        .search-box {
+            position: relative;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 14px 8px 36px;
+            color: #fff;
+            font-size: 0.88rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* DATA TABLE */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-align: left;
+        }
+
+        th {
+            background: #090d16;
+            color: var(--text-dim);
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border);
+            color: #cbd5e1;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge-pill {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .badge-fb { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .badge-wa { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+
+        .hash-code {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: #f59e0b;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* RAW JSON MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+        .modal-dialog {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+        }
+        pre {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: #38bdf8;
+            white-space: pre-wrap;
+        }
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- ÜST PANEL BAŞLIĞI -->
+        <header class="panel-header">
+            <div class="header-title-wrap">
+                <div class="radar-icon"><i class="fas fa-satellite-dish"></i></div>
+                <div>
+                    <h1>ŞÜPHELİ TESPİT & ÇAPRAZ EŞLEŞTİRME PANELİ</h1>
+                    <p class="header-sub">Bülent Küçük Blog (Facebook) ⚡ WhatsApp 700 Numara Canlı İzleme</p>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <span class="live-badge" id="liveStatus"><i class="fas fa-circle" style="font-size:8px;"></i> CANLI AKIŞ AKTİF</span>
+                <button class="btn btn-primary" onclick="loadAllData()"><i class="fas fa-sync-alt" id="refreshIcon"></i> Yenile</button>
+            </div>
+        </header>
+
+        <!-- KPI KARTLARI -->
+        <div class="kpi-grid">
+            <div class="kpi-card match-alert">
+                <div class="kpi-header">
+                    <span class="kpi-title">🚨 ŞÜPHELİ EŞLEŞMELERİ</span>
+                    <i class="fas fa-crosshairs kpi-icon"></i>
+                </div>
+                <div class="kpi-value" id="kpiMatchCount">0</div>
+                <div class="kpi-sub">Aynı Donanım & Zombie ID Eşleşmesi</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">🕵️ FACEBOOK FAKE TIKLAMALARI</span>
+                    <i class="fab fa-facebook kpi-icon"></i>
+                </div>
+                <div class="kpi-value" id="kpiFbCount">0</div>
+                <div class="kpi-sub">Bülent Küçük Bloguna Gelenler</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">📱 WHATSAPP 700 LİSTE TIKLAMASI</span>
+                    <i class="fab fa-whatsapp kpi-icon"></i>
+                </div>
+                <div class="kpi-value" id="kpiWaCount">0</div>
+                <div class="kpi-sub">Tatil Sepeti Listesinden Gelenler</div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-header">
+                    <span class="kpi-title">💻 DONANIM HASH SAYISI</span>
+                    <i class="fas fa-microchip kpi-icon"></i>
+                </div>
+                <div class="kpi-value" id="kpiGpuCount">0</div>
+                <div class="kpi-sub">Benzersiz GPU & Cihaz Profili</div>
+            </div>
+        </div>
+
+        <!-- 🚨 ŞÜPHELİ EŞLEŞME ALANI (BİNGO BÖLÜMÜ) -->
+        <section class="section-card">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-user-check" style="color:#ef4444;"></i> Otomatik Çapraz Eşleşen Şüpheli Kimlikleri (matched_suspect_identities)</h2>
+            </div>
+
+            <div id="matchResultsContainer" class="match-results-container">
+                <div class="empty-state">
+                    <div class="empty-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Henüz Eşleşen Şüpheli Bulunmadı</h3>
+                    <p>Fake Facebook hesabı blog linkine tıkladığı anda WhatsApp listesindeki gerçek numarası burada kırmızı alarm olarak belirecektir.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAYLI TABLOLAR (SEKMELİ) -->
+        <section class="section-card">
+            <div class="section-header">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" onclick="switchTab('tabFb')"><i class="fab fa-facebook"></i> Facebook Ziyaretçileri (<span id="tabFbBadge">0</span>)</button>
+                    <button class="tab-btn" onclick="switchTab('tabWa')"><i class="fab fa-whatsapp"></i> WhatsApp Listesi Kayıtları (<span id="tabWaBadge">0</span>)</button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Telefon, IP, GPU, Parmak İzi ara..." oninput="filterTable()">
+                </div>
+            </div>
+
+            <!-- TAB 1: FACEBOOK LOGS -->
+            <div id="tabFb" class="tab-content active">
+                <div class="table-responsive">
+                    <table id="tableFb">
+                        <thead>
+                            <tr>
+                                <th>Zaman</th>
+                                <th>Hedef ID</th>
+                                <th>Ekran Kartı (GPU)</th>
+                                <th>Donanım Parmak İzi</th>
+                                <th>Zombie ID</th>
+                                <th>IP / Konum</th>
+                                <th>İzlenen Video</th>
+                                <th>Yazılan Mesaj</th>
+                                <th>İncele</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyFb">
+                            <tr><td colspan="9" class="text-center" style="padding:30px;">Veriler yükleniyor...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: WHATSAPP LEADS -->
+            <div id="tabWa" class="tab-content">
+                <div class="table-responsive">
+                    <table id="tableWa">
+                        <thead>
+                            <tr>
+                                <th>Zaman</th>
+                                <th>WhatsApp Hedef No</th>
+                                <th>İsim Soyisim</th>
+                                <th>Ekran Kartı (GPU)</th>
+                                <th>Donanım Parmak İzi</th>
+                                <th>Zombie ID</th>
+                                <th>IP / Konum</th>
+                                <th>İncele</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbodyWa">
+                            <tr><td colspan="8" class="text-center" style="padding:30px;">Veriler yükleniyor...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- RAW JSON DETAY MODALI -->
+    <div class="modal" id="jsonModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>🔍 Ham Telemetri Verisi</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre id="jsonContent"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT MOTORU -->
+    <script>
+        var SUPABASE_URL = 'https://yfhglqjuskpglezvucnw.supabase.co';
+        var SUPABASE_ANON_KEY = 'sb_publishable_rjAEV3vxuSOYwYqlvjX05A_nH8VuT2d';
+        var sb = null;
+
+        var CACHE = {
+            matches: [],
+            fbLogs: [],
+            waLeads: []
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.supabase && window.supabase.createClient) {
+                sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                loadAllData();
+                // 6 saniyede bir otomatik yenile
+                setInterval(loadAllData, 6000);
+            }
+        });
+
+        async function loadAllData() {
+            if (!sb) return;
+            var refreshIcon = document.getElementById('refreshIcon');
+            if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+            try {
+                // 1) Eşleşmeleri Çek
+                var resMatch = await sb.from('matched_suspect_identities').select('*');
+                if (resMatch.data) {
+                    CACHE.matches = resMatch.data;
+                    renderMatches(resMatch.data);
+                    document.getElementById('kpiMatchCount').textContent = resMatch.data.length;
+                }
+
+                // 2) Facebook Loglarını Çek
+                var resFb = await sb.from('facebook_suspect_logs').select('*').order('created_at', { ascending: false }).limit(100);
+                if (resFb.data) {
+                    CACHE.fbLogs = resFb.data;
+                    renderFbTable(resFb.data);
+                    document.getElementById('kpiFbCount').textContent = resFb.data.length;
+                    document.getElementById('tabFbBadge').textContent = resFb.data.length;
+                }
+
+                // 3) WhatsApp Leadlerini Çek
+                var resWa = await sb.from('cesme_holiday_leads').select('*').order('created_at', { ascending: false }).limit(100);
+                if (resWa.data) {
+                    CACHE.waLeads = resWa.data;
+                    renderWaTable(resWa.data);
+                    document.getElementById('kpiWaCount').textContent = resWa.data.length;
+                    document.getElementById('tabWaBadge').textContent = resWa.data.length;
+                }
+
+                // Benzersiz GPU sayısı
+                var allGpus = new Set([
+                    ...CACHE.fbLogs.map(r => r.gpu_renderer).filter(Boolean),
+                    ...CACHE.waLeads.map(r => r.gpu_renderer).filter(Boolean)
+                ]);
+                document.getElementById('kpiGpuCount').textContent = allGpus.size;
+
+            } catch (e) {
+                console.error('Veri yükleme hatası:', e);
+            } finally {
+                if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+            }
+        }
+
+        function renderMatches(matches) {
+            var container = document.getElementById('matchResultsContainer');
+            if (!matches || matches.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Henüz Eşleşen Şüpheli Bulunmadı</h3>
+                        <p>Fake Facebook hesabı blog linkine tıkladığı anda WhatsApp listesindeki gerçek numarası burada kırmızı alarm olarak belirecektir.</p>
+                    </div>`;
+                return;
+            }
+
+            var html = '';
+            matches.forEach(function(m) {
+                html += `
+                    <div class="match-card">
+                        <div class="match-card-top">
+                            <span class="match-badge"><i class="fas fa-exclamation-triangle"></i> ${m.eslesme_derecesi || 'KESİN EŞLEŞME'}</span>
+                            <div class="match-phone-box">
+                                <span class="phone-label">🎯 ŞÜPHELİNİN GERÇEK TELEFON NUMARASI:</span>
+                                <span class="phone-highlight">${m.tespit_edilen_whatsapp_no || 'Numara Yok / Form Doldurmamış'}</span>
+                            </div>
+                        </div>
+                        <div class="match-details-grid">
+                            <div class="detail-item">
+                                <div class="detail-key">Ortak Donanım (GPU)</div>
+                                <div class="detail-val">${m.ortak_ekran_karti_gpu || 'Bilinmiyor'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-key">Cihaz & İşletim Sistemi</div>
+                                <div class="detail-val">${m.cihaz_turu || ''} - ${m.isletim_sistemi || ''} (${m.ekran_cozunurlugu || ''})</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-key">Facebook IP vs WhatsApp IP</div>
+                                <div class="detail-val">${m.facebook_ip_adresi || '-'} / ${m.whatsapp_ip_adresi || '-'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-key">Facebook Tıklama Zamanı</div>
+                                <div class="detail-val">${formatDate(m.facebook_tiklama_zamani)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-key">WhatsApp Tıklama Zamanı</div>
+                                <div class="detail-val">${formatDate(m.whatsapp_tiklama_zamani)}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-key">Blogda Yazdığı Mesaj / İzlediği Video</div>
+                                <div class="detail-val" style="color:#fbbf24;">${m.bloga_yazdigi_mesaj || m.izledigi_son_video || 'Henüz video/mesaj yok'}</div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderFbTable(rows) {
+            var tbody = document.getElementById('tbodyFb');
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="text-center" style="padding:24px;">Henüz Facebook ziyareti kaydedilmedi.</td></tr>';
+                return;
+            }
+            var html = '';
+            rows.forEach(function(r, idx) {
+                html += `
+                    <tr>
+                        <td>${formatDate(r.created_at)}</td>
+                        <td><span class="badge-pill badge-fb">${r.target_id || 'Ziyaretçi'}</span></td>
+                        <td><strong>${r.gpu_renderer || 'Bilinmiyor'}</strong></td>
+                        <td><span class="hash-code">${truncate(r.fingerprint_hash, 16)}</span></td>
+                        <td><span class="hash-code">${truncate(r.device_signature, 16)}</span></td>
+                        <td>${r.ip_address || '-'} (${r.city || '-'}, ${r.country || '-'})</td>
+                        <td>${r.last_watched_video || '-'}</td>
+                        <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${r.visitor_message || ''}">${r.visitor_message || '-'}</td>
+                        <td><button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;" onclick="viewRawJson('fb', ${idx})">Detay</button></td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderWaTable(rows) {
+            var tbody = document.getElementById('tbodyWa');
+            if (!rows || rows.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center" style="padding:24px;">Henüz WhatsApp ziyareti kaydedilmedi.</td></tr>';
+                return;
+            }
+            var html = '';
+            rows.forEach(function(r, idx) {
+                html += `
+                    <tr>
+                        <td>${formatDate(r.created_at)}</td>
+                        <td><strong style="color:#34d399;">${r.target_phone || '-'}</strong></td>
+                        <td>${r.full_name || '-'}</td>
+                        <td><strong>${r.gpu_renderer || 'Bilinmiyor'}</strong></td>
+                        <td><span class="hash-code">${truncate(r.fingerprint_hash, 16)}</span></td>
+                        <td><span class="hash-code">${truncate(r.device_signature, 16)}</span></td>
+                        <td>${r.ip_address || '-'} (${r.city || '-'})</td>
+                        <td><button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;" onclick="viewRawJson('wa', ${idx})">Detay</button></td>
+                    </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (tabId === 'tabFb') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tabFb').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tabWa').classList.add('active');
+            }
+        }
+
+        function filterTable() {
+            var query = document.getElementById('searchInput').value.toLowerCase();
+            var filteredFb = CACHE.fbLogs.filter(r => JSON.stringify(r).toLowerCase().includes(query));
+            var filteredWa = CACHE.waLeads.filter(r => JSON.stringify(r).toLowerCase().includes(query));
+            renderFbTable(filteredFb);
+            renderWaTable(filteredWa);
+        }
+
+        function viewRawJson(type, idx) {
+            var data = type === 'fb' ? CACHE.fbLogs[idx] : CACHE.waLeads[idx];
+            document.getElementById('jsonContent').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('jsonModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('jsonModal').classList.remove('active');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            var d = new Date(dateStr);
+            return d.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        function truncate(str, n) {
+            if (!str) return '-';
+            return str.length > n ? str.substr(0, n - 1) + '...' : str;
+        }
+    </script>
+</body>
+</html>

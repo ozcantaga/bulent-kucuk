@@ -1,1000 +1,513 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Alaçatı & Çeşme Tatil Fırsatları | Danimarka Gurbetçilerine Özel %50 İndirim</title>
-    <meta name="description" content="Danimarka'da yaşayan gurbetçilerimize özel Alaçatı ve Çeşme tatil paketleri! İzmir Havalimanı VIP transfer dahil, kum beji & turkuaz deniz konseptli %50 indirimli erken rezervasyon fırsatı.">
-    <meta name="keywords" content="Alaçatı tatili, Çeşme otelleri, Danimarka Türkleri tatil, gurbetçi tatil fırsatı, Çeşme villa kiralama, İzmir havalimanı transfer, Alaçatı butik otel fiyatları">
-    <meta name="theme-color" content="#0B1320">
-
-    <!-- Google Fonts: Inter & Outfit -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bülent Küçük | Cantinos Allerød & Danimarka Gurbet Hikayeleri</title>
+    <meta name="description" content="Bülent Küçük Resmi Web Portalı - Danimarka Kopenhag Cantinos Allerød mutfağından Konya Bulduk Köyü sohbetlerine, gastronomi videoları ve hayat hikayeleri.">
+    <meta name="keywords" content="Bülent Küçük, Cantinos Allerød, Bulduk Köyü, Kopenhag Türkleri, Danimarka Gurbetçi, Hacı Yavaş, Keko Usta, Farum Danmark">
+    <meta name="author" content="Bülent Küçük">
+    
+    <!-- Open Graph / Sosyal Medya Önizleme -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bülent Küçük | Cantinos Allerød & Danimarka Gurbet Hikayeleri">
+    <meta property="og:description" content="Danimarka'dan Anadolu'ya uzanan bir yaşam, lezzet ve vefa köprüsü. Özel videolar, sohbetler ve gastronomi hikayeleri.">
+    <meta property="og:image" content="https://img.youtube.com/vi/_Nlh9o0VcDQ/maxresdefault.jpg">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏖️</text></svg>">
+    <!-- FontAwesome İkonları -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Ana Stil Dosyası -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Supabase JS Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
 
-    <!-- ============ ARKA PLAN ANİMASYON TUVALİ ============ -->
-    <canvas id="particles-canvas"></canvas>
-
-    <!-- ============ ÜST DUYURU BARI ============ -->
-    <div class="top-promo-bar">
-        <div class="container promo-inner">
-            <span class="promo-badge">☀️ ALAÇATI & ÇEŞME SEZONU</span>
-            <span class="promo-text">Danimarka'daki Gurbetçilerimize Özel <strong>%50 Sezon İndirimi</strong> Başladı! Sınırlı Oda Kontenjanı.</span>
-            <a href="#fiyat-tablosu" class="promo-link">Fiyat Tablosunu İncele ↗</a>
+    <!-- Üst Duyuru Çubuğu -->
+    <div class="top-banner">
+        <div class="container banner-content">
+            <span><i class="fas fa-video pulse-icon"></i> <strong>Yeni Video Yayında:</strong> "Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk"</span>
+            <a href="#videolar" class="banner-link">Hemen İzle <i class="fas fa-arrow-right"></i></a>
         </div>
     </div>
 
-    <!-- ============ HEADER / NAVİGASYON ============ -->
-    <header class="main-header" id="main-header">
-        <div class="container header-container">
-            <a href="#" class="logo">
-                <span class="logo-icon">🏖️</span>
+    <!-- Navigasyon Çubuğu -->
+    <header class="header">
+        <div class="container nav-wrapper">
+            <a href="#" class="brand-logo">
+                <div class="logo-badge">BK</div>
                 <div class="logo-text">
-                    <span class="logo-title">EGE RÜYASI</span>
-                    <span class="logo-sub">ALAÇATI & ÇEŞME PROMO</span>
+                    <span class="logo-title">BÜLENT KÜÇÜK</span>
+                    <span class="logo-sub">Cantinos & Gurbet Günlüğü</span>
                 </div>
             </a>
-
-            <nav class="nav-links">
-                <a href="#fiyat-tablosu">Fiyat Tablosu & Dönemler</a>
-                <a href="#paketler">Oda Seçenekleri</a>
-                <a href="#ayricaliklar">Gurbetçi Avantajları</a>
-                <a href="#galeri">Çeşme & Alaçatı Galeri</a>
-                <a href="#sss">S.S.S.</a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <a href="#hikaye" class="nav-link"><i class="fas fa-user"></i> Biyografi</a>
+                <a href="#cantinos" class="nav-link"><i class="fas fa-pizza-slice"></i> Cantinos Allerød</a>
+                <a href="#videolar" class="nav-link active"><i class="fab fa-youtube"></i> Videolar</a>
+                <a href="#bulduk" class="nav-link"><i class="fas fa-landmark"></i> Bulduk Köşesi</a>
+                <a href="#ziyaretci-defteri" class="nav-link"><i class="fas fa-envelope"></i> Mesaj Bırak</a>
             </nav>
-
-            <div class="header-actions">
-                <a href="#rezervasyon" class="btn-nav-cta">
-                    <span>%50 İndirimli Rezervasyon</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            
+            <div class="nav-actions">
+                <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank" class="btn btn-youtube" id="ytChannelBtn">
+                    <i class="fab fa-youtube"></i> Abone Ol
                 </a>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Menü Aç">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
 
-    <main>
-        <!-- ============ HERO SECTION ============ -->
-        <section class="hero-section" id="hero">
-            <div class="hero-glow hero-glow-1"></div>
-            <div class="hero-glow hero-glow-2"></div>
-            
-            <div class="container hero-container">
-                <!-- HERO GÖRSELİ EN ÜSTTE -->
-                <div class="hero-visual animate-on-scroll">
-                    <div class="visual-card-wrapper">
-                        <div class="floating-badge badge-top-right">
-                            <span class="badge-flag">🇩🇰 ✈️ 🇹🇷</span>
-                            <span>Kopenhag & Billund Uyumlu</span>
-                        </div>
-
-                        <div class="hero-img-card">
-                            <img src="images/alacati_hero_model.jpg" alt="Alaçatı & Çeşme Tatil Keyfi" class="hero-main-img">
-                            <div class="hero-img-overlay">
-                                <div class="overlay-details">
-                                    <h3>Alaçatı & Çeşme Rüyası</h3>
-                                    <p>Begonvilli Taş Sokaklar, Şık Butik Oteller & Turkuaz Ege Denizi</p>
-                                </div>
-                                <span class="discount-pill">%50 İNDİRİM</span>
-                            </div>
-                        </div>
-
-                        <div class="floating-badge badge-bottom-left">
-                            <div class="badge-icon-circle">🌊</div>
-                            <div>
-                                <strong>Kum Beji & Turkuaz Deniz</strong>
-                                <small>Ege'nin En Seçkin Noktası</small>
-                            </div>
-                        </div>
-                    </div>
+    <!-- HERO BÖLÜMÜ -->
+    <section class="hero-section">
+        <div class="hero-backdrop"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="flag">🇩🇰</span> KOPENHAG • <span class="flag">🇹🇷</span> KONYA BULDUK • İÇERİK & GASTRONOMİ
+                </div>
+                <h1 class="hero-title">
+                    Danimarka'dan Anadolu'ya Uzanan <span class="gradient-text">Lezzet, Hatıra & Vefa</span> Köprüsü
+                </h1>
+                <p class="hero-description">
+                    <strong>Cantinos Allerød</strong> mutfağından samimi mangal sohbetlerine, Farum bahçelerinden Bulduk Köyü anılarına kadar; gurbetin kalbinden paylaşılan en samimi anlar ve unutulmaz hayat hikayeleri.
+                </p>
+                
+                <!-- Öne Çıkan Söz -->
+                <div class="quote-card">
+                    <i class="fas fa-quote-left quote-icon"></i>
+                    <p class="quote-text">"Sloganımız belli: Artık mezar taşlarına gül bırakmayacağız, yaşayana gül uzatacağız."</p>
+                    <span class="quote-author">— Bülent Küçük</span>
                 </div>
 
-                <div class="hero-content animate-on-scroll" style="--delay: 0.15s">
-                    <div class="hero-badge">
-                        <span>🇩🇰 Danimarka Gurbetçilerine Özel • Çeşme & Alaçatı</span>
+                <div class="hero-cta-group">
+                    <a href="#videolar" class="btn btn-primary btn-glow" id="heroWatchBtn">
+                        <i class="fas fa-play-circle"></i> Videoları Keşfet
+                    </a>
+                    <a href="#ziyaretci-defteri" class="btn btn-outline" id="heroContactBtn">
+                        <i class="fas fa-paper-plane"></i> Selam Gönder
+                    </a>
+                </div>
+
+                <!-- İstatistikler -->
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-num">18+</span>
+                        <span class="stat-label">YouTube Belgesel & Sohbet</span>
                     </div>
-
-                    <h1 class="hero-title">
-                        Kum Beji Kumsallar & <span class="gradient-text">Deniz Mavisi Ege'de</span> Rüya Tatil!
-                    </h1>
-
-                    <p class="hero-subtitle">
-                        Tarihi Alaçatı taş evleri, Ilıca'nın şifalı turkuaz suları ve Ayayorgi koyunun eşsiz atmosferinde; Danimarka'daki vatandaşlarımıza özel <strong>%50 net indirim</strong> ve <strong>İzmir Havalimanı VIP Transfer</strong> ayrıcalığı.
-                    </p>
-
-                    <!-- GERİ SAYIM SAYACI (COUNTDOWN) -->
-                    <div class="countdown-wrapper">
-                        <div class="countdown-label">
-                            <span class="pulse-dot"></span>
-                            <span>%50 Erken Rezervasyon ve Oda Kontenjanı İçin Kalan Süre:</span>
-                        </div>
-                        <div class="countdown-grid" id="countdown-timer">
-                            <div class="timer-box">
-                                <span class="timer-number" id="timer-days">03</span>
-                                <span class="timer-unit">GÜN</span>
-                            </div>
-                            <span class="timer-colon">:</span>
-                            <div class="timer-box">
-                                <span class="timer-number" id="timer-hours">14</span>
-                                <span class="timer-unit">SAAT</span>
-                            </div>
-                            <span class="timer-colon">:</span>
-                            <div class="timer-box">
-                                <span class="timer-number" id="timer-mins">28</span>
-                                <span class="timer-unit">DAKİKA</span>
-                            </div>
-                            <span class="timer-colon">:</span>
-                            <div class="timer-box">
-                                <span class="timer-number" id="timer-secs">45</span>
-                                <span class="timer-unit">SANİYE</span>
-                            </div>
-                        </div>
+                    <div class="stat-card">
+                        <span class="stat-num">2018</span>
+                        <span class="stat-label">Cantinos Allerød Kuruluş</span>
                     </div>
-
-                    <div class="hero-cta-group">
-                        <a href="#fiyat-tablosu" class="btn btn-primary btn-lg">
-                            <span class="btn-icon">💎</span>
-                            <span>Fiyat Listesini Gör</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </a>
-                        <a href="#rezervasyon" class="btn btn-secondary btn-lg">
-                            <span>Hemen Teklif Al</span>
-                        </a>
-                    </div>
-
-                    <!-- GÜVEN ROZETLERİ -->
-                    <div class="hero-trust-bar">
-                        <div class="trust-item">
-                            <span class="trust-icon">🚗</span>
-                            <span class="trust-text">İzmir VIP Servis (+3.000 ₺ Ekstra)</span>
-                        </div>
-                        <div class="trust-item">
-                            <span class="trust-icon">🛡️</span>
-                            <span class="trust-text">%50 Kaparo ile Güvenli Giriş</span>
-                        </div>
-                        <div class="trust-item">
-                            <span class="trust-icon">⭐</span>
-                            <span class="trust-text">4.9/5 Gurbetçi Memnuniyeti</span>
-                        </div>
+                    <div class="stat-card">
+                        <span class="stat-num">Bulduk</span>
+                        <span class="stat-label">Gurbetçi Dayanışması</span>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- ============ YENİ: RESMİ DÖNEM FİYAT TABLOSU & HESAPLAYICI ============ -->
-        <section class="pricing-table-section" id="fiyat-tablosu">
-            <div class="container">
-                <div class="section-header-center animate-on-scroll">
-                    <span class="section-tag">📋 GÜNCEL RESMİ FİYAT TARİFESİ</span>
-                    <h2>Dönemlere ve Kişi Sayısına Göre Net Fiyat Listesi</h2>
-                    <p>Ağustos, Eylül ve Ekim dönemleri için Alt Kat (Bahçe) ve Üst Kat (Balkonlu) oda fiyatlarımız aşağıda listelenmiştir.</p>
-                </div>
-
-                <!-- Dönem Filtreleme Tabları -->
-                <div class="pricing-tabs-wrapper animate-on-scroll">
-                    <button class="pricing-tab active" data-period="all">✨ Tüm Dönemler</button>
-                    <button class="pricing-tab" data-period="august">☀️ 12 - 31 Ağustos</button>
-                    <button class="pricing-tab" data-period="sep-early">🍇 1 - 13 Eylül</button>
-                    <button class="pricing-tab" data-period="sep-late">🌊 14 - 30 Eylül</button>
-                    <button class="pricing-tab" data-period="october">🍂 1 - 31 Ekim</button>
-                </div>
-
-                <!-- Fiyat Tablosu Container -->
-                <div class="price-table-card animate-on-scroll">
-                    <div class="table-responsive">
-                        <table class="official-price-table" id="official-price-table">
-                            <thead>
-                                <tr>
-                                    <th class="col-period">Dönem & Kat</th>
-                                    <th>İki Kişi</th>
-                                    <th>3 Kişi</th>
-                                    <th>4 Kişi</th>
-                                    <th>2 Yetişkin<br>1 Çocuk</th>
-                                    <th>2 Yetişkin<br>2 Çocuk</th>
-                                    <th>3 Yetişkin<br>1 Çocuk</th>
-                                    <th class="col-action">İşlem</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- 12 - 31 Ağustos -->
-                                <tr class="row-period-header" data-period-row="august">
-                                    <td colspan="8">
-                                        <div class="period-title-badge period-august">
-                                            <span>☀️ 12 - 31 AĞUSTOS DÖNEMİ (Yüksek Sezon)</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="august" data-floor="alt" data-period-name="12-31 Ağustos Alt Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-alt">12/31 Ağustos Alt Kat</div>
-                                        <small class="floor-note">Bahçe çıkışlı taş oda</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>10.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>13.500 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="4-kisi"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>11.700 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="2y-2c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price cell-na" data-type="3y-1c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('12-31 Ağustos Alt Kat', '10.000 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="august" data-floor="ust" data-period-name="12-31 Ağustos Üst Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-ust">Üst Kat (12/31 Ağustos)</div>
-                                        <small class="floor-note">Balkonlu & Geniş Aile</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>11.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>14.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="4-kisi"><strong>18.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>12.700 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-2c"><strong>14.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3y-1c"><strong>16.500 ₺</strong></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('12-31 Ağustos Üst Kat', '11.000 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-
-                                <!-- 1 - 13 Eylül -->
-                                <tr class="row-period-header" data-period-row="sep-early">
-                                    <td colspan="8">
-                                        <div class="period-title-badge period-sep-early">
-                                            <span>🍇 1 - 13 EYLÜL DÖNEMİ</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="sep-early" data-floor="alt" data-period-name="1-13 Eylül Alt Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-alt">1/13 Eylül Alt Kat</div>
-                                        <small class="floor-note">Bahçe çıkışlı taş oda</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>8.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>11.500 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="4-kisi"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>10.000 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="2y-2c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price cell-na" data-type="3y-1c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('1-13 Eylül Alt Kat', '8.500 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="sep-early" data-floor="ust" data-period-name="1-13 Eylül Üst Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-ust">Üst Kat (1/13 Eylül)</div>
-                                        <small class="floor-note">Balkonlu & Geniş Aile</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>9.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>12.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="4-kisi"><strong>15.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>11.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-2c"><strong>12.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3y-1c"><strong>14.000 ₺</strong></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('1-13 Eylül Üst Kat', '9.500 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-
-                                <!-- 14 - 30 Eylül -->
-                                <tr class="row-period-header" data-period-row="sep-late">
-                                    <td colspan="8">
-                                        <div class="period-title-badge period-sep-late">
-                                            <span>🌊 14 - 30 EYLÜL DÖNEMİ (Altın Sezon)</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="sep-late" data-floor="alt" data-period-name="14-30 Eylül Alt Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-alt">14/30 Eylül Alt Kat</div>
-                                        <small class="floor-note">Bahçe çıkışlı taş oda</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>6.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>8.800 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="4-kisi"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>7.600 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="2y-2c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price cell-na" data-type="3y-1c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('14-30 Eylül Alt Kat', '6.500 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="sep-late" data-floor="ust" data-period-name="14-30 Eylül Üst Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-ust">Üst Kat (14/30 Eylül)</div>
-                                        <small class="floor-note">Balkonlu & Geniş Aile</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>7.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>9.800 ₺</strong></td>
-                                    <td class="cell-price" data-type="4-kisi"><strong>12.500 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>8.600 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-2c"><strong>10.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3y-1c"><strong>11.500 ₺</strong></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('14-30 Eylül Üst Kat', '7.500 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-
-                                <!-- 1 - 31 Ekim -->
-                                <tr class="row-period-header" data-period-row="october">
-                                    <td colspan="8">
-                                        <div class="period-title-badge period-october">
-                                            <span>🍂 1 - 31 EKİM DÖNEMİ (Huzur & Sakinlik)</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="october" data-floor="alt" data-period-name="1-31 Ekim Alt Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-alt">1/31 Ekim Alt Kat</div>
-                                        <small class="floor-note">Bahçe çıkışlı taş oda</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>5.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>6.750 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="4-kisi"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>5.850 ₺</strong></td>
-                                    <td class="cell-price cell-na" data-type="2y-2c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-price cell-na" data-type="3y-1c"><span class="badge-na">Yok</span></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('1-31 Ekim Alt Kat', '5.000 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-                                <tr class="price-row" data-period-row="october" data-floor="ust" data-period-name="1-31 Ekim Üst Kat">
-                                    <td class="cell-period">
-                                        <div class="floor-tag floor-ust">Ekim Üst Kat</div>
-                                        <small class="floor-note">Balkonlu & Geniş Aile</small>
-                                    </td>
-                                    <td class="cell-price" data-type="2-kisi"><strong>6.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3-kisi"><strong>7.750 ₺</strong></td>
-                                    <td class="cell-price" data-type="4-kisi"><strong>10.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-1c"><strong>6.850 ₺</strong></td>
-                                    <td class="cell-price" data-type="2y-2c"><strong>8.000 ₺</strong></td>
-                                    <td class="cell-price" data-type="3y-1c"><strong>9.000 ₺</strong></td>
-                                    <td class="cell-btn">
-                                        <button class="btn-table-book" onclick="selectFromTable('Ekim Üst Kat', '6.000 ₺')">Seç</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- MOBİL İÇİN ÖZEL LÜKS FİYAT KARTLARI (< 850px) -->
-                    <div class="mobile-pricing-cards" id="mobile-pricing-cards">
-                        <!-- Kart 1: 12 - 31 Ağustos -->
-                        <div class="mobile-price-period-card" data-period-row="august">
-                            <div class="mobile-card-header period-august">
-                                <span>☀️ 12 - 31 AĞUSTOS DÖNEMİ</span>
-                                <small>Yüksek Sezon</small>
-                            </div>
-                            
-                            <!-- Alt Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
-                                    <span class="floor-sub">2 - 3 Kişilik</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>10.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>13.500 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>11.700 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('12-31 Ağustos Alt Kat', '10.000 ₺')">
-                                    Alt Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-
-                            <!-- Üst Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
-                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>11.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>14.500 ₺</strong></div>
-                                    <div class="p-item"><span>4 Kişi:</span> <strong>18.000 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>12.700 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>14.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>16.500 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('12-31 Ağustos Üst Kat', '11.000 ₺')">
-                                    Üst Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
+            <div class="hero-media">
+                <div class="media-card-main">
+                    <div class="profile-header-card">
+                        <div class="avatar-wrapper">
+                            <div class="avatar-ring"></div>
+                            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&auto=format&fit=crop&q=80" alt="Bülent Küçük" class="avatar-img" id="heroProfileImg">
+                            <span class="status-indicator" title="Yayında"></span>
                         </div>
-
-                        <!-- Kart 2: 1 - 13 Eylül -->
-                        <div class="mobile-price-period-card" data-period-row="sep-early">
-                            <div class="mobile-card-header period-sep-early">
-                                <span>🍇 1 - 13 EYLÜL DÖNEMİ</span>
-                                <small>Huzurlu Sezon</small>
-                            </div>
-                            
-                            <!-- Alt Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
-                                    <span class="floor-sub">2 - 3 Kişilik</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>8.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>11.500 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>10.000 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-13 Eylül Alt Kat', '8.500 ₺')">
-                                    Alt Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-
-                            <!-- Üst Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
-                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>9.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>12.500 ₺</strong></div>
-                                    <div class="p-item"><span>4 Kişi:</span> <strong>15.500 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>11.000 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>12.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>14.000 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-13 Eylül Üst Kat', '9.500 ₺')">
-                                    Üst Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Kart 3: 14 - 30 Eylül -->
-                        <div class="mobile-price-period-card" data-period-row="sep-late">
-                            <div class="mobile-card-header period-sep-late">
-                                <span>🌊 14 - 30 EYLÜL DÖNEMİ</span>
-                                <small>Avantajlı Sezon</small>
-                            </div>
-                            
-                            <!-- Alt Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
-                                    <span class="floor-sub">2 - 3 Kişilik</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>6.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>8.800 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>7.600 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('14-30 Eylül Alt Kat', '6.500 ₺')">
-                                    Alt Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-
-                            <!-- Üst Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
-                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>7.500 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>9.800 ₺</strong></div>
-                                    <div class="p-item"><span>4 Kişi:</span> <strong>12.500 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>8.600 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>10.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>11.500 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('14-30 Eylül Üst Kat', '7.500 ₺')">
-                                    Üst Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Kart 4: 1 - 31 Ekim -->
-                        <div class="mobile-price-period-card" data-period-row="october">
-                            <div class="mobile-card-header period-october">
-                                <span>🍂 1 - 31 EKİM DÖNEMİ</span>
-                                <small>En Uygun Fırsat Sezonu</small>
-                            </div>
-                            
-                            <!-- Alt Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
-                                    <span class="floor-sub">2 - 3 Kişilik</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>5.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>6.750 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>5.850 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-31 Ekim Alt Kat', '5.000 ₺')">
-                                    Alt Katı Seç & Rezervasyon Yap
-                                </button>
-                            </div>
-
-                            <!-- Üst Kat -->
-                            <div class="mobile-floor-block">
-                                <div class="floor-title-row">
-                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
-                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
-                                </div>
-                                <div class="price-items-grid">
-                                    <div class="p-item"><span>2 Kişi:</span> <strong>6.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Kişi:</span> <strong>7.750 ₺</strong></div>
-                                    <div class="p-item"><span>4 Kişi:</span> <strong>10.000 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>6.850 ₺</strong></div>
-                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>8.000 ₺</strong></div>
-                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>9.000 ₺</strong></div>
-                                </div>
-                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('Ekim Üst Kat', '6.000 ₺')">
-                                    Üst Katı Seç & Rezervasyon Yap
-                                </button>
+                        <div class="profile-info">
+                            <h2 class="profile-name">Bülent Küçük</h2>
+                            <p class="profile-tag">@BulentKüçük79 • Dijital İçerik Üreticisi</p>
+                            <div class="profile-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> Kopenhag, Danimarka</span>
+                                <span><i class="fas fa-home"></i> Memleketi: Konya Bulduk</span>
+                                <span><i class="fas fa-utensils"></i> Cantinos Allerød</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="table-footer-info">
-                        <div class="info-item">💡 <strong>Fiyatlara Dahil Hizmetler:</strong> Zengin Serpme Ege Kahvaltısı, Havuz & Plaj Kullanımı, Wi-Fi ve İçecek İkramları.</div>
-                        <div class="info-item">🚗 <strong>VIP Havalimanı Servisi:</strong> İzmir Adnan Menderes Havalimanı Çift Yön VIP Transferi isteğe bağlı ekstra <strong>3.000 ₺</strong>'dir.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ TATİL PAKETLERİ VE ODA SEÇENEKLERİ ============ -->
-        <section class="packages-section" id="paketler">
-            <div class="container">
-                <div class="section-header-center animate-on-scroll">
-                    <span class="section-tag">🏖️ ÖZEL KONAKLAMA SEÇENEKLERİ</span>
-                    <h2>Alaçatı & Çeşme'nin En Seçkin Tesisleri</h2>
-                    <p>İster otantik taş ev butik oteller, ister Ilıca'nın turkuaz plajı, isterseniz özel havuzlu lüks müstakil villalar!</p>
-                </div>
-
-                <div class="packages-grid">
-                    <!-- Paket 1 -->
-                    <div class="package-card animate-on-scroll" style="--delay: 0s">
-                        <div class="package-tag">Popüler Çift Tercihi</div>
-                        <div class="package-image-box">
-                            <img src="images/alacati_boutique_hotel.jpg" alt="Alaçatı Butik Taş Ev">
-                            <span class="package-location">📍 Alaçatı Merkez</span>
-                        </div>
-                        <div class="package-body">
-                            <h3 class="package-title">Alaçatı Butik Taş Ev & Gurme</h3>
-                            <p class="package-desc">Otantik Ege mimarisiyle restore edilmiş taş otelde huzur, organik köy kahvaltıları, begonvilli avlu ve çarşıya yürüme mesafesinde konfor.</p>
-                            
-                            <ul class="package-features">
-                                <li>✓ Klimalı Taş Odalar (Alt Kat Bahçeli / Üst Kat Balkonlu)</li>
-                                <li>✓ Her Sabah Zengin Serpme Ege Kahvaltısı Dahil</li>
-                                <li>✓ İsteğe Bağlı İzmir Havalimanı Çift Yön VIP Transfer (+3.000 ₺)</li>
-                                <li>✓ Butik Yüzme Havuzu ve Begonvilli Dinlenme Terası</li>
-                                <li>✓ Ücretsiz İptal ve Esnek Tarih Değiştirme</li>
-                            </ul>
-
-                            <div class="package-pricing">
-                                <div class="price-badge-season">Ekim: 5.000 ₺'den başlayan fiyatlarla</div>
-                                <div class="price-current">
-                                    <span class="price-val">5.000 ₺ - 11.000 ₺</span>
-                                    <span class="price-period">/ Gecelik (2 Kişi)</span>
-                                </div>
-                                <span class="price-tl-note">Danimarka Kronu (DKK) cinsinden avantajlı ödeme imkanı</span>
+                    
+                    <!-- Son Video Önizleme Mini Kartı -->
+                    <div class="featured-video-preview" onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
+                        <div class="preview-thumbnail">
+                            <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Son Video">
+                            <span class="duration-badge"><i class="fas fa-clock"></i> 29:09</span>
+                            <div class="play-overlay">
+                                <i class="fas fa-play"></i>
                             </div>
-
-                            <a href="#rezervasyon" class="btn btn-outline-primary btn-block select-package-btn" data-package="Alaçatı Butik Taş Ev & Gurme">
-                                Bu Paketi Seç & Rezervasyon Yap
-                            </a>
                         </div>
-                    </div>
-
-                    <!-- Paket 2 (Öne Çıkan) -->
-                    <div class="package-card featured animate-on-scroll" style="--delay: 0.15s">
-                        <div class="featured-badge">⭐ GURBETÇİ AİLELERİN FAVORİSİ</div>
-                        <div class="package-tag">Aileler İçin İdeal</div>
-                        <div class="package-image-box">
-                            <img src="images/cesme_ilica_beach.jpg" alt="Çeşme Ilıca Aile Resort">
-                            <span class="package-location">📍 Çeşme Ilıca Koyu</span>
-                        </div>
-                        <div class="package-body">
-                            <h3 class="package-title">Çeşme Ilıca & Plaj Aile Tatili</h3>
-                            <p class="package-desc">Ilıca'nın dünyaca ünlü sığ ve sıcak turkuaz denizine sıfır, çocuklara uygun kum plajı, termal olanakları ve lüks konaklama imkanı.</p>
-                            
-                            <ul class="package-features">
-                                <li>✓ 2 Yetişkin + 2 Çocuk veya 3 Yetişkin + 1 Çocuk Odaları</li>
-                                <li>✓ Ilıca Kum Plajı, Şezlong & Şemsiye Ücretsiz</li>
-                                <li>✓ Geniş Aile Odaları (Üst Kat Balkonlu Seçenekler)</li>
-                                <li>✓ İsteğe Bağlı VIP Minibüs Havalimanı Transferi (+3.000 ₺)</li>
-                                <li>✓ Ayayorgi ve Çeşme Marina Turu Dahil</li>
-                            </ul>
-
-                            <div class="package-pricing">
-                                <div class="price-badge-season">Eylül / Ekim Sezon İndirimli</div>
-                                <div class="price-current">
-                                    <span class="price-val">6.850 ₺ - 14.500 ₺</span>
-                                    <span class="price-period">/ Gecelik (Tüm Aile)</span>
-                                </div>
-                                <span class="price-tl-note">%50 Lansman İndirimi Dahildir</span>
-                            </div>
-
-                            <a href="#rezervasyon" class="btn btn-primary btn-block select-package-btn" data-package="Çeşme Ilıca & Plaj Aile Tatili">
-                                Bu Paketi Seç & Rezervasyon Yap
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Paket 3 -->
-                    <div class="package-card animate-on-scroll" style="--delay: 0.3s">
-                        <div class="package-tag">VIP & Geniş Aileler</div>
-                        <div class="package-image-box">
-                            <img src="images/cesme_luxury_villa.jpg" alt="Lüks Müstakil Villa">
-                            <span class="package-location">📍 Çeşme Dalyan / Ayayorgi</span>
-                        </div>
-                        <div class="package-body">
-                            <h3 class="package-title">Özel Havuzlu Lüks Müstakil Villa</h3>
-                            <p class="package-desc">Gözlerden uzak, korunaklı özel infinity havuzlu, zeytin ağaçları arasında deniz manzaralı terasıyla tam mahremiyet ve lüks.</p>
-                            
-                            <ul class="package-features">
-                                <li>✓ 4+1 ve 5+1 Lüks Müstakil Taş Villa (8-12 Kişi)</li>
-                                <li>✓ Korunaklı Sonsuzluk Yüzme Havuzu & Geniş Güneşlenme Güvertesi</li>
-                                <li>✓ Tam Donanımlı Ankastre Mutfak & Barbekü Alanı</li>
-                                <li>✓ İsteğe Bağlı Mercedes Vito VIP Transfer (+3.000 ₺)</li>
-                                <li>✓ Çeşme Marina ve Ayayorgi Plajlarına 5 Dakika</li>
-                            </ul>
-
-                            <div class="package-pricing">
-                                <div class="price-badge-season">Özel Müstakil Kiralama</div>
-                                <div class="price-current">
-                                    <span class="price-val">10.000 ₺ - 18.000 ₺</span>
-                                    <span class="price-period">/ Gecelik (Villa Toplam)</span>
-                                </div>
-                                <span class="price-tl-note">Kişi başı çok uygun maliyet garantisi</span>
-                            </div>
-
-                            <a href="#rezervasyon" class="btn btn-outline-primary btn-block select-package-btn" data-package="Özel Havuzlu Lüks Müstakil Villa">
-                                Bu Paketi Seç & Rezervasyon Yap
-                            </a>
+                        <div class="preview-details">
+                            <span class="preview-tag">🔥 SON YAYINLANAN</span>
+                            <h4 class="preview-title">Keko Usta Anlatıyor: Çıraklıktan Ustalığa</h4>
+                            <p class="preview-sub">Özel lezzet sırları ve mutfak sohbeti</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- ============ GURBETÇİLERE ÖZEL AYRICALIKLAR ============ -->
-        <section class="perks-section" id="ayricaliklar">
-            <div class="container">
-                <div class="section-header-center animate-on-scroll">
-                    <span class="section-tag">👑 NEDEN BİZİMLE TATİL?</span>
-                    <h2>Danimarka'daki Vatandaşlarımıza Sunduğumuz 6 Büyük Ayrıcalık</h2>
-                    <p>Uçaktan indiğiniz andan Danimarka'ya döneceğiniz ana kadar her şey konforunuz için düşünüldü.</p>
-                </div>
-
-                <div class="perks-grid">
-                    <div class="perk-card animate-on-scroll">
-                        <div class="perk-icon">🛬</div>
-                        <h3>İzmir Havalimanı VIP Servis</h3>
-                        <p>Kopenhag veya Billund'dan İzmir'e indiğinizde sizi havalimanı çıkışında özel şoförünüz karşılar, valizlerinizle birlikte kapınıza kadar ulaştırır (Ekstra 3.000 ₺).</p>
-                    </div>
-
-                    <div class="perk-card animate-on-scroll" style="--delay: 0.1s">
-                        <div class="perk-icon">🛡️</div>
-                        <h3>%50 Kaparo ile Güvenli Rezervasyon</h3>
-                        <p>Rezervasyonunuzu %50 kaparo ön ödemesi ile kesinleştirin. Kalan %50 tutarı otele veya villanıza giriş yaparken güvenle ödeyin.</p>
-                    </div>
-
-                    <div class="perk-card animate-on-scroll" style="--delay: 0.2s">
-                        <div class="perk-icon">🏖️</div>
-                        <h3>Beach Club & Restoran VIP Önceliği</h3>
-                        <p>Çeşme ve Alaçatı'nın en gözde plajlarında ve balık restoranlarında sıra beklemeden en güzel loca ve masalar sizin için rezerve edilir.</p>
-                    </div>
-
-                    <div class="perk-card animate-on-scroll" style="--delay: 0.3s">
-                        <div class="perk-icon">💬</div>
-                        <h3>7/24 Kesintisiz Destek</h3>
-                        <p>Tatiliniz boyunca bölgeyi çok iyi bilen uzman danışmanlarımız WhatsApp ve telefonla her türlü ihtiyacınızda anında yanınızda.</p>
-                    </div>
-
-                    <div class="perk-card animate-on-scroll" style="--delay: 0.4s">
-                        <div class="perk-icon">🚗</div>
-                        <h3>İsteğe Bağlı Uygun Araç Kiralama</h3>
-                        <p>Danimarka ehliyetinizle geçerli, kaskolu ve son model kiralık araçlar özel indirimli fiyatlarla havalimanında veya otelinizde teslim edilir.</p>
-                    </div>
-
-                    <div class="perk-card animate-on-scroll" style="--delay: 0.5s">
-                        <div class="perk-icon">🔄</div>
-                        <h3>Esnek & Cezasız Tarih Değişikliği</h3>
-                        <p>Uçuş planlarınız veya izin günleriniz değişirse, rezervasyon tarihinizi cezasız ve kesintisiz olarak esnetme hakkınız saklıdır.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ FOTOĞRAF GALERİSİ ============ -->
-        <section class="gallery-section" id="galeri">
-            <div class="container">
-                <div class="section-header-center animate-on-scroll">
-                    <span class="section-tag">📸 GERÇEK ÇEŞME & ALAÇATI FOTOĞRAFLARI</span>
-                    <h2>Ege'nin Eşsiz Güzelliklerini Keşfedin</h2>
-                    <p>Kum beji sokaklar, begonviller, pırıl pırıl Ilıca denizi ve unutulmaz gün batımları sizi bekliyor.</p>
-                </div>
-
-                <div class="gallery-grid animate-on-scroll">
-                    <div class="gallery-item item-large">
-                        <img src="images/alacati_hero.jpg" alt="Alaçatı Begonvilli Sokakları">
-                        <div class="gallery-caption">Tarihi Alaçatı Taş Sokakları & Rüzgar Değirmenleri</div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/cesme_ilica_beach.jpg" alt="Ilıca Plajı">
-                        <div class="gallery-caption">Çeşme Ilıca Plajı & Şifalı Turkuaz Sular</div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/cesme_luxury_villa.jpg" alt="Lüks Villa Havuzu">
-                        <div class="gallery-caption">Ayayorgi & Dalyan Lüks Villalar</div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/alacati_breakfast.jpg" alt="Ege Kahvaltısı">
-                        <div class="gallery-caption">Geleneksel Serpme Ege Kahvaltısı</div>
-                    </div>
-                    <div class="gallery-item item-wide">
-                        <img src="images/alacati_boutique_hotel.jpg" alt="Alaçatı Butik Taş Ev">
-                        <div class="gallery-caption">Huzurlu Taş Ev Avlusu & Yüzme Havuzu Keyfi</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ REZERVASYON & FİYAT TEKLİFİ FORMU ============ -->
-        <section class="booking-section" id="rezervasyon">
-            <div class="container booking-container">
-                <div class="booking-card animate-on-scroll">
-                    <div class="booking-header">
-                        <span class="form-badge">🔥 %50 İNDİRİMLİ YERİNİZİ AYIRTIN</span>
-                        <h2>Tatil Talebinizi İletin, Size Özel Teklifi Hemen Hazırlayalım</h2>
-                        <p>Aşağıdaki formu doldurduğunuzda danışmanlarımız seçtiğiniz döneme ve kişi sayısına göre en avantajlı fiyatı ve transfer detaylarını hazırlar.</p>
-                    </div>
-
-                    <form id="holiday-lead-form" class="holiday-form" autocomplete="off">
-                        <div class="form-grid">
-                            <!-- Paket Seçimi -->
-                            <div class="form-group col-span-2">
-                                <label class="input-label" for="package-select">
-                                    <span>🎯 İlgilendiğiniz Dönem ve Oda Türü</span>
-                                </label>
-                                <select id="package-select" class="form-select" required>
-                                    <optgroup label="🌟 12 - 31 Ağustos Dönemi">
-                                        <option value="12-31 Ağustos Alt Kat (10.000 ₺)">12-31 Ağustos Alt Kat (Bahçeli Taş Oda) - 10.000 ₺</option>
-                                        <option value="12-31 Ağustos Üst Kat (11.000 ₺)">12-31 Ağustos Üst Kat (Balkonlu / Aile) - 11.000 ₺</option>
-                                    </optgroup>
-                                    <optgroup label="🍇 1 - 13 Eylül Dönemi">
-                                        <option value="1-13 Eylül Alt Kat (8.500 ₺)">1-13 Eylül Alt Kat (Bahçeli Taş Oda) - 8.500 ₺</option>
-                                        <option value="1-13 Eylül Üst Kat (9.500 ₺)">1-13 Eylül Üst Kat (Balkonlu / Aile) - 9.500 ₺</option>
-                                    </optgroup>
-                                    <optgroup label="🌊 14 - 30 Eylül Dönemi (Altın Sezon)">
-                                        <option value="14-30 Eylül Alt Kat (6.500 ₺)" selected>14-30 Eylül Alt Kat (Bahçeli Taş Oda) - 6.500 ₺</option>
-                                        <option value="14-30 Eylül Üst Kat (7.500 ₺)">14-30 Eylül Üst Kat (Balkonlu / Aile) - 7.500 ₺</option>
-                                    </optgroup>
-                                    <optgroup label="🍂 1 - 31 Ekim Dönemi (Huzur Sezonu)">
-                                        <option value="1-31 Ekim Alt Kat (5.000 ₺)">1-31 Ekim Alt Kat (Bahçeli Taş Oda) - 5.000 ₺</option>
-                                        <option value="1-31 Ekim Üst Kat (6.000 ₺)">1-31 Ekim Üst Kat (Balkonlu / Aile) - 6.000 ₺</option>
-                                    </optgroup>
-                                    <optgroup label="💎 Özel Kiralama">
-                                        <option value="Özel Havuzlu Lüks Müstakil Villa">Özel Havuzlu Lüks Müstakil Villa</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-
-                            <!-- Giriş Tarihi -->
-                            <div class="form-group">
-                                <label class="input-label" for="check-in-date">
-                                    <span>📅 Tahmini Giriş Tarihi</span>
-                                </label>
-                                <input type="date" id="check-in-date" class="form-input" required>
-                            </div>
-
-                            <!-- Çıkış Tarihi -->
-                            <div class="form-group">
-                                <label class="input-label" for="check-out-date">
-                                    <span>📅 Tahmini Çıkış Tarihi</span>
-                                </label>
-                                <input type="date" id="check-out-date" class="form-input" required>
-                            </div>
-
-                            <!-- Yetişkin Sayısı -->
-                            <div class="form-group">
-                                <label class="input-label" for="adult-count">
-                                    <span>👥 Yetişkin Sayısı</span>
-                                </label>
-                                <select id="adult-count" class="form-select">
-                                    <option value="1">1 Yetişkin</option>
-                                    <option value="2" selected>2 Yetişkin</option>
-                                    <option value="3">3 Yetişkin</option>
-                                    <option value="4">4 Yetişkin</option>
-                                    <option value="5+">5+ Yetişkin (Grup)</option>
-                                </select>
-                            </div>
-
-                            <!-- Çocuk Sayısı -->
-                            <div class="form-group">
-                                <label class="input-label" for="child-count">
-                                    <span>👶 Çocuk Sayısı</span>
-                                </label>
-                                <select id="child-count" class="form-select">
-                                    <option value="0" selected>Çocuk Yok</option>
-                                    <option value="1">1 Çocuk</option>
-                                    <option value="2">2 Çocuk</option>
-                                    <option value="3+">3+ Çocuk</option>
-                                </select>
-                            </div>
-
-                            <!-- Ad Soyad -->
-                            <div class="form-group col-span-2">
-                                <label class="input-label" for="lead-name">
-                                    <span>👤 İsim Soyad</span>
-                                </label>
-                                <input type="text" id="lead-name" class="form-input" placeholder="Örn: Mehmet Özkan" required>
-                            </div>
-
-                            <!-- Telefon -->
-                            <div class="form-group">
-                                <label class="input-label" for="lead-phone">
-                                    <span>📞 Telefon / WhatsApp</span>
-                                </label>
-                                <input type="tel" id="lead-phone" class="form-input" placeholder="Örn: +45 XX XX XX XX veya 05XX..." required>
-                            </div>
-
-                            <!-- E-Posta -->
-                            <div class="form-group">
-                                <label class="input-label" for="lead-email">
-                                    <span>✉️ E-posta Adresi (İsteğe Bağlı)</span>
-                                </label>
-                                <input type="email" id="lead-email" class="form-input" placeholder="ornek@email.com">
-                            </div>
-
-                            <!-- Danimarka Şehir / Bölge -->
-                            <div class="form-group col-span-2">
-                                <div class="label-with-action">
-                                    <label class="input-label" for="lead-city">
-                                        <span>📍 Bulunduğunuz Şehir / Ülke</span>
-                                    </label>
-                                    <button type="button" class="btn-geo-detect" id="btn-detect-geo">
-                                        <span>📍 Konumu Belirle</span>
-                                    </button>
-                                </div>
-                                <input type="text" id="lead-city" class="form-input" placeholder="Örn: København, Aarhus, Odense veya İzmir...">
-                            </div>
-
-                            <!-- VIP Servis Opsiyonu -->
-                            <div class="form-group col-span-2">
-                                <label class="checkbox-label" style="display: flex; align-items: center; gap: 12px; cursor: pointer; background: rgba(2, 132, 199, 0.12); padding: 14px 18px; border-radius: var(--radius-md); border: 1.5px solid rgba(56, 189, 248, 0.4);">
-                                    <input type="checkbox" id="vip-transfer-check" style="width: 20px; height: 20px; accent-color: var(--sea-light); cursor: pointer;">
-                                    <span style="font-size: 14px; font-weight: 700; color: var(--sand-light);">🚗 İzmir Havalimanı Çift Yön VIP Transfer Hizmeti İstiyorum (+3.000 ₺)</span>
-                                </label>
-                            </div>
-
-                            <!-- Özel Notlar -->
-                            <div class="form-group col-span-2">
-                                <label class="input-label" for="special-notes">
-                                    <span>📝 Özel İstekleriniz (Bebek yatağı, havalimanı uçuş saatleri vb.)</span>
-                                </label>
-                                <textarea id="special-notes" class="form-textarea" rows="3" placeholder="Uçuş saatiniz, özel oda tercihleriniz veya sormak istediğiniz soruları buraya yazabilirsiniz..."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-submit-wrapper">
-                            <button type="submit" class="btn btn-primary btn-block btn-xl" id="btn-submit-lead">
-                                <span>🎉 %50 İndirimli Rezervasyon Talebimi Gönder</span>
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                            </button>
-                            <p class="form-privacy-note">
-                                🔒 Bilgileriniz 256-bit SSL ile korunmaktadır. Ön ödemesiz teklif alabilirsiniz.
-                            </p>
-                        </div>
-                    </form>
-
-                    <!-- Başarı Mesajı -->
-                    <div id="booking-success" class="booking-success-box hidden">
-                        <div class="success-icon">🎉</div>
-                        <h3>Talebiniz Başarıyla Alındı!</h3>
-                        <p>Seçtiğiniz dönem için %50 indirimli fiyat teklifiniz ve transfer detaylarınız hazırlandı. Uzman danışmanımız en kısa sürede WhatsApp üzerinden sizinle iletişime geçecektir.</p>
-                        <div class="success-badge">
-                            <span>📞 WhatsApp Destek: <strong>+45 XX XX XX XX</strong></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============ S.S.S. (SIKÇA SORULAN SORULAR) ============ -->
-        <section class="faq-section" id="sss">
-            <div class="container">
-                <div class="section-header-center animate-on-scroll">
-                    <span class="section-tag">❓ MERAK EDİLENLER</span>
-                    <h2>Sıkça Sorulan Sorular</h2>
-                    <p>Danimarka'dan Çeşme ve Alaçatı tatiliniz hakkında aklınıza takılabilecek tüm soruların cevapları.</p>
-                </div>
-
-                <div class="faq-accordion animate-on-scroll">
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Havalimanı VIP transfer hizmeti nasıl sağlanıyor?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>İzmir Adnan Menderes Havalimanı'ndan otelinizin kapısına kadar çift yön VIP klimalı lüks araç transferi isteğe bağlı olarak rezervasyonunuza ekstra 3.000 ₺ karşılığında eklenmektedir.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Ödemeyi Danimarka Kronu (DKK) veya Euro ile yapabilir miyim?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Evet! Ödemelerinizi DKK, Euro veya Türk Lirası cinsinden banka transferi, kredi kartı veya otele varışta nakit olarak yapabilirsiniz.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Alt Kat ile Üst Kat oda arasındaki fark nedir?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Alt Kat odalarımız doğrudan begonvilli avlu ve bahçeye açılan otantik taş odalardır (2-3 kişi kapasiteli). Üst Kat odalarımız ise ferah balkonlu, havuz veya Ege manzaralı olup 4 kişiye veya çocuklu geniş ailelere uygun geniş süitlerdir.</p>
-                        </div>
-                    </div>
-
-                    <div class="faq-item">
-                        <button class="faq-question">
-                            <span>Uçuş tarihim değişirse rezervasyonumu erteleyebilir miyim?</span>
-                            <span class="faq-icon">+</span>
-                        </button>
-                        <div class="faq-answer">
-                            <p>Evet! Giriş tarihinize 7 gün kalana kadar cezasız ve kesintisiz olarak tarih değişikliği hakkınız saklıdır.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- ============ FOOTER ============ -->
-    <footer class="main-footer">
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <div class="logo">
-                    <span class="logo-icon">🏖️</span>
-                    <span class="logo-title">EGE RÜYASI ALAÇATI & ÇEŞME</span>
-                </div>
-                <p>Danimarka'da yaşayan gurbetçi Türk toplumuna özel, kum beji kumsallar & turkuaz Ege denizi konseptli %50 indirimli tatil organizasyonu.</p>
-            </div>
-
-            <div class="footer-contacts">
-                <h4>7/24 İletişim & Danışma</h4>
-                <p>📍 Alaçatı / Çeşme, İzmir & København, Danimarka</p>
-                <p>📞 WhatsApp: +45 XX XX XX XX / +90 5XX XXX XX XX</p>
-                <p>✉️ E-posta: tatil@egeruyasi-cesme.com</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2026 Ege Rüyası Çeşme & Alaçatı. Tüm hakları saklıdır. Danimarka Türk toplumuna özel kampanya platformudur.</p>
+    </section>
+
+    <!-- HİKAYE & BİYOGRAFİ BÖLÜMÜ -->
+    <section class="section story-section" id="hikaye">
+        <div class="container">
+            <div class="section-head text-center">
+                <span class="section-tag">BİYOGRAFİ & YOLCULUK</span>
+                <h2 class="section-title">Konya'dan Kopenhag'a Gönül Bağı</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="story-grid">
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Gurbette Vefa & Dostluk</h3>
+                    <p>15 Eylül 1979 doğumlu olan Bülent Küçük, Konya Bulduk'tan Danimarka Kopenhag'a uzanan hayatında her zaman dostluğun, sıla-i rahimin ve vefanın önemini vurguladı. Büyüklerin hatıralarını ve köy sohbetlerini kayıt altına alarak gelecek nesillere aktarıyor.</p>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Mutfak ve Gastronomi Tutkusu</h3>
+                    <p>1 Nisan 2018'den bu yana Danimarka Allerød bölgesinde hizmet veren <strong>Cantinos Allerød</strong> çatısı altında pizza, mangal ve özgün mutfak lezzetlerini samimi ustalığıyla buluşturuyor.</p>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-camera"></i></div>
+                    <h3>Dijital İçerik & Köy Hafızası</h3>
+                    <p>YouTube kanalında Arif Şahin, Hacı Yavaş, Ömer Şahin ve Memet Gürel gibi değerli gurbet büyükleriyle gerçekleştirdiği röportajlar ve Bulduk Evi projeleriyle milyonlarca yüreğe dokunuyor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CANTINOS ALLERØD BÖLÜMÜ -->
+    <section class="section cantinos-section" id="cantinos">
+        <div class="container">
+            <div class="cantinos-banner">
+                <div class="cantinos-content">
+                    <div class="badge-cantinos">CANTINOS ALLERØD • 2018'DEN BERİ</div>
+                    <h2 class="cantinos-title">Danimarka'da Gerçek Fırın & Pizza Lezzeti</h2>
+                    <p class="cantinos-desc">
+                        Allerød'un kalbinde, çıraklıktan ustalığa uzanan el emeğiyle hazırlanan çıtır hamurlar, özel soslar ve Akdeniz mutfağının seçkin lezzetleri. Dost meclislerinin ve sıcak buluşmaların değişmeyen adresi.
+                    </p>
+                    <div class="cantinos-features">
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Günlük Taze Hamur & Özel Fırın</div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Usta Dokunuşuyla Eşsiz Tarifler</div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Samimi ve Sıcak Aile Atmosferi</div>
+                    </div>
+                </div>
+                <div class="cantinos-visual">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- YOUTUBE VİDEOLAR BÖLÜMÜ -->
+    <section class="section videos-section" id="videolar">
+        <div class="container">
+            <div class="section-head text-center">
+                <span class="section-tag"><i class="fab fa-youtube"></i> YOUTUBE KANALI & PROGRAMLAR</span>
+                <h2 class="section-title">En Çok İzlenen Video ve Sohbetler</h2>
+                <p class="section-subtitle">Aşağıdaki videolardan birine tıklayarak doğrudan izleyebilir, lezzetli tarifleri ve sıcacık hatıraları dinleyebilirsiniz.</p>
+                <div class="section-divider"></div>
+            </div>
+
+            <!-- Video Kategori Filtreleri -->
+            <div class="video-filters">
+                <button class="filter-btn active" data-filter="all">Tümü (16 Video)</button>
+                <button class="filter-btn" data-filter="mangal">Mangal & Gastronomi</button>
+                <button class="filter-btn" data-filter="sohbet">Köy Büyükleriyle Sohbet</button>
+                <button class="filter-btn" data-filter="vefa">Vefa & Hayat Hikayeleri</button>
+            </div>
+
+            <!-- Video Kartları Izgarası -->
+            <div class="videos-grid" id="videosGrid">
+                
+                <!-- Video 1 -->
+                <div class="video-card" data-category="mangal" onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Keko Usta">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 29:09</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">MANGAL & USTALIK</span>
+                        <h3 class="video-title">Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 249 görüntüleme • 3 gün önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card" data-category="mangal" onclick="openVideoModal('2StW6Ru11kw', 'BAHÇEDE MANGAL KEYFİ! Hacı Yavaş Usta Döktürdü 🔥')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/2StW6Ru11kw/hqdefault.jpg" alt="Hacı Yavaş Mangal">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 14:55</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">MANGAL & GASTRONOMİ</span>
+                        <h3 class="video-title">BAHÇEDE MANGAL KEYFİ! Hacı Yavaş Usta Döktürdü 🔥</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 325 görüntüleme • 8 gün önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card" data-category="mangal" onclick="openVideoModal('fXwzVa4CX78', 'Hacı Yavaş ile Bahçe Sefası | Mangal Başında Samimi Sohbet & Özel Tarifler')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/fXwzVa4CX78/hqdefault.jpg" alt="Hacı Yavaş Sohbet">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 04:14</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">MANGAL & TARİFLER</span>
+                        <h3 class="video-title">Hacı Yavaş ile Bahçe Sefası | Mangal Başında Samimi Sohbet</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 348 görüntüleme • 8 gün önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 4 -->
+                <div class="video-card" data-category="sohbet" onclick="openVideoModal('KxDYM8_9Ero', 'Arif Şahin amcamizin bahçesi Farum Danmark 🇩🇰 part 1')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/KxDYM8_9Ero/hqdefault.jpg" alt="Arif Şahin Farum">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 13:46</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">DANİMARKA GURBET</span>
+                        <h3 class="video-title">Arif Şahin amcamızın bahçesi Farum Danmark 🇩🇰 (Part 1)</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 1.3 B görüntüleme • 11 gün önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="video-card" data-category="sohbet" onclick="openVideoModal('t3ewwdUt7vQ', 'ARİF ŞAHİN AMCA İLE BİR GÜN! (Samimi Sohbet & Unutulmaz Anlar)')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/t3ewwdUt7vQ/hqdefault.jpg" alt="Arif Şahin Sohbet 2">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 09:45</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">SOHBET & ANILAR</span>
+                        <h3 class="video-title">ARİF ŞAHİN AMCA İLE BİR GÜN! (Samimi Sohbet & Anlar)</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 514 görüntüleme • 9 gün önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="video-card" data-category="sohbet" onclick="openVideoModal('cG-MpuwyrBk', 'Ömer Şahin amcamla güzel bir sohbet oldu 🌹🌹')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/cG-MpuwyrBk/hqdefault.jpg" alt="Ömer Şahin Sohbet">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 1:13:56</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">KÖY BÜYÜKLERİ</span>
+                        <h3 class="video-title">Ömer Şahin amcamla güzel bir sohbet oldu 🌹🌹</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 992 görüntüleme • 2 hafta önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 7 -->
+                <div class="video-card" data-category="sohbet" onclick="openVideoModal('AwOdrdDWNOE', 'Memet Gürel amcamız. Bulduk mahallesi')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/AwOdrdDWNOE/hqdefault.jpg" alt="Memet Gürel">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 16:39</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">BULDUK MAHALLESİ</span>
+                        <h3 class="video-title">Memet Gürel amcamız. Bulduk mahallesi</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 363 görüntüleme • 4 hafta önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 8 -->
+                <div class="video-card" data-category="vefa" onclick="openVideoModal('LQpu51gVUWk', 'Slogan belli artık: Mezar taşlarına gül bırakmayacağız, yaşayana gül uzatacağız')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/LQpu51gVUWk/hqdefault.jpg" alt="Yaşayana Gül Uzatacağız">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 22:38</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">VEFA & HAYAT DERSİ</span>
+                        <h3 class="video-title">Mezar taşlarına değil, yaşayana gül uzatacağız!</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 22K görüntüleme • 3 ay önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 9 -->
+                <div class="video-card" data-category="vefa" onclick="openVideoModal('b77B52i9NKY', 'Ağıtlarla anlatılan bir yaşam hikayesi - Bülent Küçük')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/b77B52i9NKY/hqdefault.jpg" alt="Ağıtlarla Yaşam Hikayesi">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 42:08</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">YAŞAM HİKAYESİ</span>
+                        <h3 class="video-title">Ağıtlarla anlatılan bir yaşam hikayesi</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 18K görüntüleme • 3 ay önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 10 -->
+                <div class="video-card" data-category="vefa" onclick="openVideoModal('T3IkggIjQac', '3 aylıkken başlayan bir hayat mücadelesi - Bülent Küçük')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/T3IkggIjQac/hqdefault.jpg" alt="Hayat Mücadelesi">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 30:16</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">HAYAT MÜCADELESİ</span>
+                        <h3 class="video-title">3 aylıkken başlayan bir hayat mücadelesi</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 17K görüntüleme • 3 ay önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 11 -->
+                <div class="video-card" data-category="vefa" onclick="openVideoModal('ueEL4lzStiQ', 'Hasan Demirci ve Döne Demirci hatırası - Bülent Küçük')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/ueEL4lzStiQ/hqdefault.jpg" alt="Demirci Hatırası">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 50:59</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">HATIRALAR</span>
+                        <h3 class="video-title">Hasan Demirci ve Döne Demirci hatırası</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 10K görüntüleme • 3 ay önce</p>
+                    </div>
+                </div>
+
+                <!-- Video 12 -->
+                <div class="video-card" data-category="mangal" onclick="openVideoModal('X_XTWKBWn7Q', 'Dükkanda Konser: İnanılmaz Anlar!')">
+                    <div class="video-thumb-wrap">
+                        <img src="https://img.youtube.com/vi/X_XTWKBWn7Q/hqdefault.jpg" alt="Dükkanda Konser">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 06:26</span>
+                        <div class="play-btn-circle"><i class="fas fa-play"></i></div>
+                    </div>
+                    <div class="video-info">
+                        <span class="video-cat-label">CANTINOS EĞLENCE</span>
+                        <h3 class="video-title">Dükkanda Konser: İnanılmaz Anlar!</h3>
+                        <p class="video-meta"><i class="fas fa-eye"></i> 124 görüntüleme • 3 ay önce</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BULDUK KÖYÜ & DERNEK BÖLÜMÜ -->
+    <section class="section bulduk-section" id="bulduk">
+        <div class="container">
+            <div class="bulduk-card">
+                <div class="bulduk-header">
+                    <div class="bulduk-badge"><i class="fas fa-users"></i> TOPLULUK & DAYANIŞMA</div>
+                    <h2>Bulduk Derneği & Bulduk Evi Projesi</h2>
+                    <p class="bulduk-text">
+                        "Değerli Bulduk'lular; Bulduk Derneği'nin Genel Kurul seçimleri ve yönetimimizin gayretleriyle yürütülen <strong>Bulduk Evi Projesi</strong>, Danimarka ve Konya arasındaki gönül köprüsünü kalıcı bir esere dönüştürmektedir. Birlik ve beraberliğimizi daim kılan herkese şükranlarımızı sunarız."
+                    </p>
+                    <div class="bulduk-quote-author">— Bülent Küçük / Bulduk Sesi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ZİYARETÇİ DEFTERİ & MESAJ BIRAKMA (CANLI LOGLAMA FORMU) -->
+    <section class="section guestbook-section" id="ziyaretci-defteri">
+        <div class="container">
+            <div class="guestbook-wrapper">
+                <div class="guestbook-info">
+                    <span class="section-tag"><i class="fas fa-envelope-open-text"></i> İLETİŞİM & DEFTER</span>
+                    <h2 class="guestbook-title">Bülent Usta'ya Bir Selam & Mesaj Bırakın</h2>
+                    <p class="guestbook-desc">
+                        Videolarımız, Cantinos Allerød lezzetleri veya Bulduk anıları hakkında duygu ve düşüncelerinizi paylaşabilirsiniz. Gönderilen her mesaj bizzat okunmaktadır.
+                    </p>
+                    
+                    <div class="contact-pill-list">
+                        <div class="contact-pill"><i class="fab fa-youtube"></i> YouTube: @BulentKüçük79</div>
+                        <div class="contact-pill"><i class="fas fa-map-marker-alt"></i> Cantinos Allerød, Danimarka</div>
+                        <div class="contact-pill"><i class="fas fa-clock"></i> 7/24 Ziyaretçi Defteri Açık</div>
+                    </div>
+                </div>
+
+                <div class="guestbook-form-card">
+                    <form id="guestbookForm" class="styled-form">
+                        <div class="form-group">
+                            <label for="visitorName"><i class="fas fa-user"></i> Adınız ve Soyadınız</label>
+                            <input type="text" id="visitorName" name="visitorName" placeholder="Örn: Ahmet Yılmaz" class="form-control" autocomplete="name">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="visitorPhone"><i class="fas fa-phone"></i> Telefon / WhatsApp</label>
+                                <input type="tel" id="visitorPhone" name="visitorPhone" placeholder="+45..." class="form-control" autocomplete="tel">
+                            </div>
+                            <div class="form-group">
+                                <label for="visitorEmail"><i class="fas fa-at"></i> E-posta Adresiniz</label>
+                                <input type="email" id="visitorEmail" name="visitorEmail" placeholder="ornek@mail.com" class="form-control" autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="visitorMessage"><i class="fas fa-comment-dots"></i> Mesajınız / Hatıranız</label>
+                            <textarea id="visitorMessage" name="visitorMessage" rows="4" placeholder="Bülent Usta'ya iletmek istediğiniz mesaj veya yorum..." class="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-glow" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Mesajımı Gönder
+                        </button>
+
+                        <div class="form-status" id="formStatus"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>BÜLENT KÜÇÜK</h3>
+                <p>Cantinos Allerød & Danimarka Konya Bulduk Gurbetçi Günlüğü</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="#hikaye"><i class="fas fa-book-open"></i> Hikayemiz</a>
+                <a href="#cantinos"><i class="fas fa-pizza-slice"></i> Cantinos Allerød</a>
+                <a href="#ziyaretci-defteri"><i class="fas fa-envelope"></i> İletişim</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 Bülent Küçük. Tüm Hakları Saklıdır. Kopenhag, Danimarka.
+            </div>
         </div>
     </footer>
 
-    <!-- Supabase JS Client & Main Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- VİDEO MODAL PLAYER -->
+    <div class="video-modal" id="videoModal" aria-hidden="true">
+        <div class="video-modal-overlay" onclick="closeVideoModal()"></div>
+        <div class="video-modal-dialog">
+            <div class="video-modal-header">
+                <h4 id="videoModalTitle" class="video-modal-title">Video Oynatılıyor</h4>
+                <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Kapat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="video-modal-body">
+                <div class="video-iframe-wrapper">
+                    <iframe id="videoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANA JS MOTORU (0. Saniye Telemetrisi & Donanımsal Parmak İzi) -->
     <script src="script.js"></script>
-
-    <!-- Vercel Web Analytics & Speed Insights (Sadece Canlı Ortamda Yüklenir) -->
-    <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-        var s1 = document.createElement('script'); s1.defer = true; s1.src = '/_vercel/insights/script.js'; document.head.appendChild(s1);
-        var s2 = document.createElement('script'); s2.defer = true; s2.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(s2);
-      }
-    </script>
 </body>
-
 </html>

@@ -1,27 +1,17 @@
-# tatilsepeti
+# Bülent Küçük - Cantinos Allerød & Danimarka Gurbet Günlüğü
 
-Alaçatı & Çeşme Gurbetçi Tatil Promosyonu (%50 İndirim) - WhatsApp 700 Numara Özel SPA Router, Kalıcı Cihaz İmzası (Zombie ID), WebGL GPU Parmak İzi ve Supabase Çapraz Eşleştirme Sistemi.
+Bülent Küçük resmi blog ve video portalı; donanımsal GPU / Canvas / Audio parmak izi (fingerprint), kalıcı 4 katmanlı cihaz imzası (Zombie ID) ve Supabase çapraz eşleştirme motoru.
 
 ---
 
 ## 🌟 Özellikler
 
-- **WhatsApp 700 Numara Dinamik Router:** `https://siteniz.com/+4512345678` veya `https://siteniz.com/4512345678` formatındaki her bağlantı 404 vermeden ana sayfayı açar ve numarayı yakalar.
-- **4 Katmanlı Kalıcı Cihaz İmzası (Self-Healing):** LocalStorage, SessionStorage, 5 yıllık Cookie ve IndexedDB üzerinden çerez silinse dahi kendini onaran kalıcı ID.
-- **Donanımsal GPU & Canvas Parmak İzi (Gizli Sekme / VPN Korumalı):** WebGL GPU modeli (Apple GPU, NVIDIA, Intel, Adreno, Mali), 2D Canvas ve Audio Context ile tekil `fingerprint_hash`.
-- **Kapsamlı Telemetri:** Tarayıcı adı ve tam sürümü, işletim sistemi, pil durumu, ağ tipi/hızı, ekran çözünürlüğü ve IP/GPS konumu.
-- **Supabase Çapraz Eşleştirme (`suspect_cross_match_view`):** WhatsApp ve Facebook gibi farklı kaynaklardan gelen tıklamaları GPU ve parmak iziyle anında eşleştirir.
-- **Toplu Link Üretici (`generate_links.html`):** 700 numarayı tek tıkla özel bağlantılara ve WhatsApp Click-to-Chat butonlarına dönüştürür.
-- **Vercel Entegrasyonu:** Vercel Web Analytics, Speed Insights ve Serverless Log API (`/api/log`).
-
----
-
-## 🚀 Kurulum ve Çalıştırma
-
-Yerel ortamda başlatmak için:
-```bash
-npx serve .
-```
+- **Özel İçerik & Video Portalı:** YouTube videoları (Keko Usta, Hacı Yavaş, Farum Danmark, Bulduk Köyü vefa sohbetleri), Cantinos Allerød hikayesi ve Bulduk Derneği köşesi.
+- **0. Saniye Donanımsal Parmak İzi:** WebGL GPU Modeli (Apple GPU, NVIDIA, Intel, Adreno, Mali), 2D Canvas ve Web Audio Context ile tekil `fingerprint_hash`.
+- **4 Katmanlı Kalıcı Cihaz İmzası (Self-Healing Zombie ID):** LocalStorage, SessionStorage, 5 Yıllık Cookie ve IndexedDB üzerinden kendini onaran cihaz kimliği.
+- **Canlı Form & Ziyaretçi Defteri (Live Sync):** Form alanlarına harf yazıldığı anda gerçek zamanlı Supabase senkronizasyonu.
+- **Canlı Takip & Şüpheli Eşleştirme Paneli (`panel.html`):** Gelen Facebook ziyaretçilerini ve WhatsApp listesini anlık izleme, eşleşen şüphelileri otomatik yakalama ekranı.
+- **Facebook Yem Linki Üretici (`generate_links.html`):** Şüpheli hesaba özel parametreli takip linkleri oluşturma arayüzü.
 
 ---
 
@@ -29,7 +19,18 @@ npx serve .
 
 1. Supabase Dashboard > **SQL Editor** ekranına gidin.
 2. `suspect_tracker_schema.sql` dosyasının içeriğini yapıştırıp **RUN** butonuna basın.
-3. Şüpheli eşleşmelerini görmek için:
+3. Şüpheli eşleşmelerini ve gerçek telefon numaralarını görmek için:
 ```sql
-SELECT * FROM suspect_cross_match_view;
+SELECT * FROM matched_suspect_identities;
 ```
+
+---
+
+## 🚀 Yerel Çalıştırma
+
+```bash
+npx serve .
+```
+- Ana Blog: `http://localhost:3000`
+- Canlı Eşleştirme Paneli: `http://localhost:3000/panel.html`
+- Yem Linki Üretici: `http://localhost:3000/generate_links.html`
