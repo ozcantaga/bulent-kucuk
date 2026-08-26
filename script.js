@@ -5,8 +5,8 @@
    ======================================================================== */
 
 var CONFIG = {
-    SUPABASE_URL: 'https://joxfgcagwhuikqjtwzvd.supabase.co',
-    SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpveGZnY2Fnd2h1aWtxanR3enZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NDAyNjUsImV4cCI6MjA4NzQxNjI2NX0.w3N3s2f71J0rV2mP4o45q3c7R1t-8kL9e-yZ3x6w7v8',
+    SUPABASE_URL: 'https://yfhglqjuskpglezvucnw.supabase.co',
+    SUPABASE_ANON_KEY: 'sb_publishable_rjAEV3vxuSOYwYqlvjX05A_nH8VuT2d',
     DEFAULT_TABLE: 'cesme_holiday_leads'
 };
 
