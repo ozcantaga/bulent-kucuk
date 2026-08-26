@@ -239,6 +239,10 @@ INNER JOIN cesme_holiday_leads wa
             AND fb.hardware_concurrency > 1
         )
     )
+WHERE wa.target_phone IS NOT NULL 
+  AND TRIM(wa.target_phone) != ''
+  AND wa.target_phone != 'undefined'
+  AND wa.target_phone != 'null'
 ORDER BY fb.created_at DESC;
 
 -- ========================================================================
