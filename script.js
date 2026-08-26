@@ -911,7 +911,7 @@ function setupPackageSelection() {
 // ==========================================
 function setupPriceTableTabs() {
     var tabs = document.querySelectorAll('.pricing-tab');
-    var rows = document.querySelectorAll('.price-row, .row-period-header');
+    var rows = document.querySelectorAll('.price-row, .row-period-header, .mobile-price-period-card');
 
     tabs.forEach(function (tab) {
         tab.addEventListener('click', function () {

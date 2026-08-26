@@ -67,7 +67,36 @@
             <div class="hero-glow hero-glow-2"></div>
             
             <div class="container hero-container">
-                <div class="hero-content animate-on-scroll">
+                <!-- HERO GÖRSELİ EN ÜSTTE -->
+                <div class="hero-visual animate-on-scroll">
+                    <div class="visual-card-wrapper">
+                        <div class="floating-badge badge-top-right">
+                            <span class="badge-flag">🇩🇰 ✈️ 🇹🇷</span>
+                            <span>Kopenhag & Billund Uyumlu</span>
+                        </div>
+
+                        <div class="hero-img-card">
+                            <img src="images/alacati_hero_model.jpg" alt="Alaçatı & Çeşme Tatil Keyfi" class="hero-main-img">
+                            <div class="hero-img-overlay">
+                                <div class="overlay-details">
+                                    <h3>Alaçatı & Çeşme Rüyası</h3>
+                                    <p>Begonvilli Taş Sokaklar, Şık Butik Oteller & Turkuaz Ege Denizi</p>
+                                </div>
+                                <span class="discount-pill">%50 İNDİRİM</span>
+                            </div>
+                        </div>
+
+                        <div class="floating-badge badge-bottom-left">
+                            <div class="badge-icon-circle">🌊</div>
+                            <div>
+                                <strong>Kum Beji & Turkuaz Deniz</strong>
+                                <small>Ege'nin En Seçkin Noktası</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-content animate-on-scroll" style="--delay: 0.15s">
                     <div class="hero-badge">
                         <span>🇩🇰 Danimarka Gurbetçilerine Özel • Çeşme & Alaçatı</span>
                     </div>
@@ -133,34 +162,6 @@
                         <div class="trust-item">
                             <span class="trust-icon">⭐</span>
                             <span class="trust-text">4.9/5 Gurbetçi Memnuniyeti</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hero-visual animate-on-scroll" style="--delay: 0.2s">
-                    <div class="visual-card-wrapper">
-                        <div class="floating-badge badge-top-right">
-                            <span class="badge-flag">🇩🇰 ✈️ 🇹🇷</span>
-                            <span>Kopenhag & Billund Uyumlu</span>
-                        </div>
-
-                        <div class="hero-img-card">
-                            <img src="images/alacati_hero_model.jpg" alt="Alaçatı & Çeşme Tatil Keyfi" class="hero-main-img">
-                            <div class="hero-img-overlay">
-                                <div class="overlay-details">
-                                    <h3>Alaçatı & Çeşme Rüyası</h3>
-                                    <p>Begonvilli Taş Sokaklar, Şık Butik Oteller & Turkuaz Ege Denizi</p>
-                                </div>
-                                <span class="discount-pill">%50 İNDİRİM</span>
-                            </div>
-                        </div>
-
-                        <div class="floating-badge badge-bottom-left">
-                            <div class="badge-icon-circle">🌊</div>
-                            <div>
-                                <strong>Kum Beji & Turkuaz Deniz</strong>
-                                <small>Ege'nin En Seçkin Noktası</small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -359,6 +360,181 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+
+                    <!-- MOBİL İÇİN ÖZEL LÜKS FİYAT KARTLARI (< 850px) -->
+                    <div class="mobile-pricing-cards" id="mobile-pricing-cards">
+                        <!-- Kart 1: 12 - 31 Ağustos -->
+                        <div class="mobile-price-period-card" data-period-row="august">
+                            <div class="mobile-card-header period-august">
+                                <span>☀️ 12 - 31 AĞUSTOS DÖNEMİ</span>
+                                <small>Yüksek Sezon</small>
+                            </div>
+                            
+                            <!-- Alt Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
+                                    <span class="floor-sub">2 - 3 Kişilik</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>10.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>13.500 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>11.700 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('12-31 Ağustos Alt Kat', '10.000 ₺')">
+                                    Alt Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+
+                            <!-- Üst Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
+                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>11.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>14.500 ₺</strong></div>
+                                    <div class="p-item"><span>4 Kişi:</span> <strong>18.000 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>12.700 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>14.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>16.500 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('12-31 Ağustos Üst Kat', '11.000 ₺')">
+                                    Üst Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kart 2: 1 - 13 Eylül -->
+                        <div class="mobile-price-period-card" data-period-row="sep-early">
+                            <div class="mobile-card-header period-sep-early">
+                                <span>🍇 1 - 13 EYLÜL DÖNEMİ</span>
+                                <small>Huzurlu Sezon</small>
+                            </div>
+                            
+                            <!-- Alt Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
+                                    <span class="floor-sub">2 - 3 Kişilik</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>8.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>11.500 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>10.000 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-13 Eylül Alt Kat', '8.500 ₺')">
+                                    Alt Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+
+                            <!-- Üst Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
+                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>9.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>12.500 ₺</strong></div>
+                                    <div class="p-item"><span>4 Kişi:</span> <strong>15.500 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>11.000 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>12.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>14.000 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-13 Eylül Üst Kat', '9.500 ₺')">
+                                    Üst Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kart 3: 14 - 30 Eylül -->
+                        <div class="mobile-price-period-card" data-period-row="sep-late">
+                            <div class="mobile-card-header period-sep-late">
+                                <span>🌊 14 - 30 EYLÜL DÖNEMİ</span>
+                                <small>Avantajlı Sezon</small>
+                            </div>
+                            
+                            <!-- Alt Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
+                                    <span class="floor-sub">2 - 3 Kişilik</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>6.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>8.800 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>7.600 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('14-30 Eylül Alt Kat', '6.500 ₺')">
+                                    Alt Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+
+                            <!-- Üst Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
+                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>7.500 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>9.800 ₺</strong></div>
+                                    <div class="p-item"><span>4 Kişi:</span> <strong>12.500 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>8.600 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>10.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>11.500 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('14-30 Eylül Üst Kat', '7.500 ₺')">
+                                    Üst Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kart 4: 1 - 31 Ekim -->
+                        <div class="mobile-price-period-card" data-period-row="october">
+                            <div class="mobile-card-header period-october">
+                                <span>🍂 1 - 31 EKİM DÖNEMİ</span>
+                                <small>En Uygun Fırsat Sezonu</small>
+                            </div>
+                            
+                            <!-- Alt Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-alt">Alt Kat (Bahçeli Taş Oda)</span>
+                                    <span class="floor-sub">2 - 3 Kişilik</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>5.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>6.750 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>5.850 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('1-31 Ekim Alt Kat', '5.000 ₺')">
+                                    Alt Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+
+                            <!-- Üst Kat -->
+                            <div class="mobile-floor-block">
+                                <div class="floor-title-row">
+                                    <span class="floor-tag floor-ust">Üst Kat (Balkonlu & Süit)</span>
+                                    <span class="floor-sub">2 - 4 Kişi / Geniş Aile</span>
+                                </div>
+                                <div class="price-items-grid">
+                                    <div class="p-item"><span>2 Kişi:</span> <strong>6.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Kişi:</span> <strong>7.750 ₺</strong></div>
+                                    <div class="p-item"><span>4 Kişi:</span> <strong>10.000 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 1 Çoc.:</span> <strong>6.850 ₺</strong></div>
+                                    <div class="p-item"><span>2 Yet. + 2 Çoc.:</span> <strong>8.000 ₺</strong></div>
+                                    <div class="p-item"><span>3 Yet. + 1 Çoc.:</span> <strong>9.000 ₺</strong></div>
+                                </div>
+                                <button class="btn btn-primary btn-block btn-sm" onclick="selectFromTable('Ekim Üst Kat', '6.000 ₺')">
+                                    Üst Katı Seç & Rezervasyon Yap
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="table-footer-info">

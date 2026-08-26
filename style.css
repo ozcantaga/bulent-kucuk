@@ -834,6 +834,100 @@ img {
 }
 
 /* ==========================================
+   MOBİL ÖZEL FİYAT KARTLARI (< 850px)
+   ========================================== */
+.mobile-pricing-cards {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mobile-price-period-card {
+    background: rgba(13, 23, 38, 0.95);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.mobile-price-period-card:hover {
+    border-color: var(--sand-warm);
+}
+
+.mobile-card-header {
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.mobile-card-header small {
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.9;
+}
+
+.mobile-floor-block {
+    padding: 18px;
+    border-top: 1px solid rgba(212, 185, 150, 0.15);
+}
+
+.mobile-floor-block:nth-child(even) {
+    background: rgba(24, 38, 61, 0.4);
+}
+
+.floor-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.floor-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.price-items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.price-items-grid .p-item {
+    background: rgba(10, 18, 30, 0.8);
+    border: 1px solid rgba(212, 185, 150, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.price-items-grid .p-item span {
+    font-size: 11px;
+    color: var(--sand-warm);
+    font-weight: 600;
+}
+
+.price-items-grid .p-item strong {
+    font-family: var(--font-heading);
+    font-size: 15px;
+    color: #F8FAFC;
+}
+
+.btn-sm {
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+/* ==========================================
    TATİL PAKETLERİ (KARTLAR)
    ========================================== */
 .packages-section {
@@ -1428,13 +1522,33 @@ img {
     }
 }
 
+@media (max-width: 850px) {
+    .table-responsive {
+        display: none !important;
+    }
+    .mobile-pricing-cards {
+        display: flex !important;
+    }
+    .price-table-card {
+        padding: 16px;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-links, .btn-nav-cta {
         display: none;
     }
     
     .hero-title {
-        font-size: 32px;
+        font-size: 30px;
+    }
+
+    .hero-main-img {
+        height: 360px;
+    }
+
+    .floating-badge {
+        display: none;
     }
     
     .form-grid {
@@ -1446,7 +1560,7 @@ img {
     }
     
     .booking-card {
-        padding: 24px;
+        padding: 20px 16px;
     }
     
     .gallery-grid {
