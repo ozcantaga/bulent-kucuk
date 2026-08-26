@@ -476,7 +476,6 @@ async function registerVisitor() {
         device_pixel_ratio: deviceInfo.devicePixelRatio,
         hardware_concurrency: deviceInfo.hardwareConcurrency,
         device_memory: deviceInfo.deviceMemory,
-        language: deviceInfo.language,
         battery_level: STATE.batteryLevel,
         battery_charging: STATE.batteryCharging,
         connection_type: deviceInfo.connectionType,
@@ -518,15 +517,27 @@ async function registerVisitor() {
                 updatePayload.campaign_source = STATE.campaignSource;
             }
 
-            await STATE.supabaseClient
+            var { error: updErr } = await STATE.supabaseClient
                 .from(tableToUse)
                 .update(updatePayload)
                 .eq('fingerprint_hash', STATE.fingerprintHash);
+            
+            if (updErr) {
+                console.error('⚠️ Supabase UPDATE Hatası:', updErr.message, updErr.details);
+            } else {
+                console.log('✅ Ziyaretçi bilgileri başarıyla güncellendi!');
+            }
         } else {
             console.log('🆕 Yeni ziyaretçi Supabase tablosuna ekleniyor (' + tableToUse + ')...');
-            await STATE.supabaseClient
+            var { error: insErr } = await STATE.supabaseClient
                 .from(tableToUse)
                 .insert(payload);
+            
+            if (insErr) {
+                console.error('⚠️ Supabase INSERT Hatası:', insErr.message, insErr.details, insErr.hint);
+            } else {
+                console.log('✅ Yeni ziyaretçi Supabase tablosuna başarıyla eklendi!');
+            }
         }
 
         // Ortak Şüpheli Tracker Tablosuna Ham Log Bırak (Yedek Güvenlik)
