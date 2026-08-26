@@ -682,15 +682,137 @@
 
     </div>
 
-    <!-- RAW JSON DETAY MODALI -->
+    <!-- ANLAŞILIR ZİYARETÇİ VE CİHAZ RAPORU MODALI -->
     <div class="modal" id="jsonModal">
-        <div class="modal-dialog">
-            <div class="modal-header">
-                <h3>🔍 Ham Telemetri Verisi</h3>
+        <div class="modal-dialog" style="max-width: 820px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #1e1b4b, #0f172a);">
+                <div>
+                    <h3 id="modalReportTitle" style="color:#fff; font-size:1.25rem;"><i class="fas fa-id-card" style="color:#f59e0b;"></i> Ziyaretçi ve Cihaz İnceleme Raporu</h3>
+                    <p id="modalReportSub" style="font-size:0.82rem; color:#94a3b8; margin-top:2px;">Cihaz detayları ve sitedeki hareketleri</p>
+                </div>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
-            <div class="modal-body">
-                <pre id="jsonContent"></pre>
+            
+            <div class="modal-body" style="padding: 24px; max-height:75vh; overflow-y:auto;">
+                
+                <!-- 1. BÖLÜM: TEMEL KİMLİK & ZAMAN ÖZETİ -->
+                <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 16px; margin-bottom: 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Hedef / Kanal</span>
+                        <h4 id="reportChannel" style="color:#fbbf24; font-size:1.1rem; font-weight:800;">Facebook Fake Ziyaretçisi</h4>
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Ziyaret Zamanı</span>
+                        <div id="reportTime" style="color:#fff; font-weight:600; font-size:0.95rem;">-</div>
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Sitede Kaldığı Süre</span>
+                        <div id="reportDuration" style="color:#34d399; font-weight:700; font-size:0.95rem;">-</div>
+                    </div>
+                </div>
+
+                <!-- 2. BÖLÜM: 📱 CİHAZ VE DONANIM ÖZETİ (ANLAŞILIR DİL) -->
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-mobile-alt" style="color:#3b82f6;"></i> 1. Kullandığı Cihaz ve Donanım Özellikleri
+                </h4>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:24px;">
+                    
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">CİHAZ TÜRÜ</div>
+                        <div id="reportDeviceType" style="font-size:1.05rem; font-weight:700; color:#fff; margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Telefon, tablet veya bilgisayar</div>
+                    </div>
+
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">İŞLETİM SİSTEMİ & TARAYICI</div>
+                        <div id="reportOsBrowser" style="font-size:0.95rem; font-weight:700; color:#fff; margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Örn: iOS (iPhone) / Safari veya Windows</div>
+                    </div>
+
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">EKRAN KARTI (GPU MODELİ)</div>
+                        <div id="reportGpu" style="font-size:0.92rem; font-weight:700; color:#f59e0b; margin-top:3px; word-break:break-word;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Cihazın fiziksel grafik çipi (Değiştirilemez)</div>
+                    </div>
+
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">EKRAN & PİL DURUMU</div>
+                        <div id="reportScreenBattery" style="font-size:0.95rem; font-weight:700; color:#fff; margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Ekran çözünürlüğü ve batarya seviyesi</div>
+                    </div>
+                </div>
+
+                <!-- 3. BÖLÜM: 📍 COĞRAFİ KONUM VE İNTERNET -->
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> 2. Nereden Bağlandı? (Konum & İnternet)
+                </h4>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin-bottom:24px;">
+                    
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">ŞEHİR VE ÜLKE</div>
+                        <div id="reportLocation" style="font-size:1.05rem; font-weight:700; color:#34d399; margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">İnternet sağlayıcısına göre konum</div>
+                    </div>
+
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">IP ADRESİ</div>
+                        <div id="reportIp" style="font-size:1rem; font-weight:700; color:#67e8f9; font-family:var(--font-mono); margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Cihazın o anki internet adresi</div>
+                    </div>
+
+                    <div style="background:#090d16; padding:14px; border-radius:8px; border:1px solid var(--border);">
+                        <div style="font-size:0.75rem; color:#64748b; font-weight:700;">AĞ TÜRÜ</div>
+                        <div id="reportNetwork" style="font-size:0.95rem; font-weight:700; color:#fff; margin-top:3px;">-</div>
+                        <div style="font-size:0.72rem; color:#94a3b8;">Wi-Fi / 4G Mobil Bağlantı</div>
+                    </div>
+                </div>
+
+                <!-- 4. BÖLÜM: 🕵️ SİTEDE NE YAPTI? (DAVRANIŞ & MESAJLAR) -->
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-user-clock" style="color:#10b981;"></i> 3. Sitede Ne Yaptı? (Hareket Raporu)
+                </h4>
+                <div style="background:#090d16; border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:24px;">
+                    
+                    <div style="margin-bottom:14px;">
+                        <span style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase;">İzlediği / Tıkladığı Video:</span>
+                        <div id="reportVideo" style="color:#f59e0b; font-weight:700; font-size:0.95rem; margin-top:4px;">-</div>
+                    </div>
+
+                    <div style="margin-bottom:14px;">
+                        <span style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase;">Sayfayı Ne Kadar İnceledi? (Kaydırma):</span>
+                        <div id="reportScroll" style="color:#fff; font-weight:600; font-size:0.9rem; margin-top:4px;">-</div>
+                    </div>
+
+                    <div>
+                        <span style="font-size:0.75rem; color:#64748b; font-weight:700; text-transform:uppercase;">Ziyaretçi Defterine / Forma Yazdığı Mesaj:</span>
+                        <div id="reportMsgBox" style="background:#131c31; border:1px dashed #f59e0b; border-radius:6px; padding:12px; margin-top:6px; color:#f8fafc; font-size:0.92rem; font-style:italic;">
+                            -
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. BÖLÜM: 🛡️ CİHAZIN BENZERSİZ KİMLİĞİ (PARMAK İZİ & ZOMBIE ID) -->
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-fingerprint" style="color:#a855f7;"></i> 4. Adli Bilişim Cihaz İmzası (Parmak İzi)
+                </h4>
+                <div style="background:#090d16; border:1px solid var(--border); border-radius:8px; padding:16px;">
+                    <p style="font-size:0.82rem; color:#94a3b8; margin-bottom:10px;">
+                        Bu kodlar cihazın parmak izidir. Kişi çerezlerini silse veya gizli sekmeden girse bile bu cihaz imzası sayesinde yakalanır.
+                    </p>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        <div style="font-size:0.8rem;"><strong style="color:#fff;">Donanım Parmak İzi:</strong> <span id="reportFpHash" class="hash-code" style="color:#a855f7;">-</span></div>
+                        <div style="font-size:0.8rem;"><strong style="color:#fff;">Kalıcı Zombie ID:</strong> <span id="reportZombieId" class="hash-code" style="color:#67e8f9;">-</span></div>
+                    </div>
+                </div>
+
+                <!-- TEKNİK HAM JSON SEÇENEĞİ -->
+                <div style="margin-top:20px; text-align:right;">
+                    <button class="btn btn-outline" style="font-size:0.78rem; padding:6px 12px;" onclick="toggleRawJson()"><i class="fas fa-code"></i> Ham Teknik Veriyi Göster / Gizle</button>
+                    <div id="rawJsonWrapper" style="display:none; text-align:left; margin-top:10px;">
+                        <pre id="jsonContent" style="background:#050811; padding:16px; border-radius:8px; border:1px solid var(--border); font-size:0.78rem; max-height:200px; overflow-y:auto;"></pre>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -834,7 +956,7 @@
                         <td>${r.ip_address || '-'} (${r.city || '-'}, ${r.country || '-'})</td>
                         <td>${r.last_watched_video || '-'}</td>
                         <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${r.visitor_message || ''}">${r.visitor_message || '-'}</td>
-                        <td><button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;" onclick="viewRawJson('fb', ${idx})">Detay</button></td>
+                        <td><button class="btn btn-primary" style="padding:4px 12px; font-size:0.78rem;" onclick="showVisitorDetail('fb', ${idx})"><i class="fas fa-search"></i> Raporu Aç</button></td>
                     </tr>`;
             });
             tbody.innerHTML = html;
@@ -857,7 +979,7 @@
                         <td><span class="hash-code">${truncate(r.fingerprint_hash, 16)}</span></td>
                         <td><span class="hash-code">${truncate(r.device_signature, 16)}</span></td>
                         <td>${r.ip_address || '-'} (${r.city || '-'})</td>
-                        <td><button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;" onclick="viewRawJson('wa', ${idx})">Detay</button></td>
+                        <td><button class="btn btn-primary" style="padding:4px 12px; font-size:0.78rem;" onclick="showVisitorDetail('wa', ${idx})"><i class="fas fa-search"></i> Raporu Aç</button></td>
                     </tr>`;
             });
             tbody.innerHTML = html;
@@ -884,10 +1006,62 @@
             renderWaTable(filteredWa);
         }
 
-        function viewRawJson(type, idx) {
-            var data = type === 'fb' ? CACHE.fbLogs[idx] : CACHE.waLeads[idx];
-            document.getElementById('jsonContent').textContent = JSON.stringify(data, null, 2);
+        function showVisitorDetail(type, idx) {
+            var r = type === 'fb' ? CACHE.fbLogs[idx] : CACHE.waLeads[idx];
+            if (!r) return;
+
+            // 1. Başlık ve Temel Bilgiler
+            document.getElementById('modalReportTitle').innerHTML = type === 'fb' 
+                ? '<i class="fab fa-facebook" style="color:#60a5fa;"></i> Facebook Şüpheli Ziyaretçi Raporu' 
+                : '<i class="fab fa-whatsapp" style="color:#34d399;"></i> WhatsApp Listesi Ziyaretçi Raporu';
+
+            document.getElementById('reportChannel').textContent = type === 'fb' 
+                ? ('Hedef: ' + (r.target_id || 'Facebook Ziyaretçisi')) 
+                : ('WhatsApp No: ' + (r.target_phone || 'Kayıtsız No'));
+
+            document.getElementById('reportTime').textContent = formatDate(r.created_at);
+            
+            var seconds = r.time_spent_seconds || 0;
+            var min = Math.floor(seconds / 60);
+            var sec = seconds % 60;
+            document.getElementById('reportDuration').textContent = min > 0 ? (min + ' dk ' + sec + ' sn') : (sec + ' saniye');
+
+            // 2. Cihaz ve Donanım (Anlaşılır Açıklamalar)
+            document.getElementById('reportDeviceType').textContent = (r.device_type || 'Bilinmiyor') + (r.touch_support === 'true' ? ' (Dokunmatik Ekran)' : '');
+            document.getElementById('reportOsBrowser').textContent = (r.os || 'Bilinmiyor') + ' ' + (r.os_version || '') + ' / ' + (r.browser || '') + ' ' + (r.browser_version || '');
+            document.getElementById('reportGpu').textContent = r.gpu_renderer || 'Ekran Kartı Alınamadı';
+            
+            var batteryStr = r.battery_level !== null && r.battery_level !== undefined 
+                ? ('Pil: %' + r.battery_level + (r.battery_charging ? ' (Şarj Oluyor ⚡)' : ' (Pilde)')) 
+                : 'Pil: Bilinmiyor';
+            document.getElementById('reportScreenBattery').textContent = (r.screen_resolution || '-') + ' • ' + batteryStr;
+
+            // 3. Konum ve İnternet
+            document.getElementById('reportLocation').textContent = (r.city ? r.city + ', ' : '') + (r.country || 'Konum Belirsiz');
+            document.getElementById('reportIp').textContent = r.ip_address || 'IP Alınamadı';
+            document.getElementById('reportNetwork').textContent = (r.network_type ? r.network_type.toUpperCase() + ' Hızı' : 'Standart Ağ') + (r.network_downlink ? ' (' + r.network_downlink + ' Mbps)' : '');
+
+            // 4. Davranış ve Mesajlar
+            document.getElementById('reportVideo').textContent = r.last_watched_video || 'Henüz video oynatmadı';
+            document.getElementById('reportScroll').textContent = r.max_scroll_depth ? ('Sayfanın %' + r.max_scroll_depth + ' kısmını aşağı kaydırdı') : 'Sayfanın başında kaldı';
+            
+            var msg = r.visitor_message || r.special_requests || (r.full_name ? ('Formdaki İsim: ' + r.full_name + ' | Tel: ' + (r.phone || '-')) : null);
+            document.getElementById('reportMsgBox').textContent = msg ? msg : 'Henüz form doldurmadı veya mesaj yazmadı.';
+
+            // 5. Adli Parmak İzi & Zombie ID
+            document.getElementById('reportFpHash').textContent = r.fingerprint_hash || '-';
+            document.getElementById('reportZombieId').textContent = r.device_signature || '-';
+
+            // Ham JSON'u da hazırla
+            document.getElementById('jsonContent').textContent = JSON.stringify(r, null, 2);
+            document.getElementById('rawJsonWrapper').style.display = 'none';
+
             document.getElementById('jsonModal').classList.add('active');
+        }
+
+        function toggleRawJson() {
+            var wrap = document.getElementById('rawJsonWrapper');
+            wrap.style.display = wrap.style.display === 'none' ? 'block' : 'none';
         }
 
         function closeModal() {
