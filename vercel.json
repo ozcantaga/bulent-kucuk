@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!api/|_vercel/).*)", "destination": "/index.html" }
+    { "source": "/((?!panel|dashboard|generate_links|api/|_vercel/|.*\\..*).*)", "destination": "/index.html" }
   ]
 }
