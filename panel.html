@@ -337,9 +337,50 @@
 
         .detail-item {
             background: rgba(0, 0, 0, 0.35);
-            padding: 12px 16px;
+            padding: 14px 16px;
             border-radius: 8px;
             border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* 🟢 YEŞİL YANIP SÖNEN EŞLEŞME KUTUSU */
+        .detail-item.match-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, rgba(6, 78, 59, 0.3) 100%) !important;
+            border: 2px solid #10b981 !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            animation: pulseGreenGlow 1.8s infinite ease-in-out;
+        }
+
+        @keyframes pulseGreenGlow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(16, 185, 129, 0.35), inset 0 0 6px rgba(16, 185, 129, 0.2);
+                border-color: #10b981;
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.8), inset 0 0 14px rgba(16, 185, 129, 0.4);
+                border-color: #34d399;
+            }
+        }
+
+        .match-tag-success {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.25);
+            color: #34d399;
+            border: 1px solid #10b981;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            margin-top: 6px;
+            animation: pulseTag 1.8s infinite;
+        }
+
+        @keyframes pulseTag {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(0.98); }
         }
 
         .detail-key {
@@ -560,6 +601,9 @@
 
             <div class="header-controls">
                 <span class="live-badge" id="liveStatus"><i class="fas fa-circle" style="font-size:8px;"></i> CANLI AKIŞ AKTİF</span>
+                <a href="generate_links.html" target="_blank" class="btn btn-outline" style="background:#1e293b; color:#fbbf24; border-color:rgba(245, 158, 11, 0.4); text-decoration:none;">
+                    <i class="fas fa-link"></i> 🔗 Yem Linki Üretici
+                </a>
                 <button class="btn btn-primary" onclick="loadAllData()"><i class="fas fa-sync-alt" id="refreshIcon"></i> Yenile</button>
             </div>
         </header>
@@ -898,40 +942,61 @@
 
             var html = '';
             matches.forEach(function(m) {
+                var isIpExactMatch = m.facebook_ip_adresi && m.whatsapp_ip_adresi && (m.facebook_ip_adresi === m.whatsapp_ip_adresi);
+                var isGpuMatch = Boolean(m.ortak_ekran_karti_gpu && m.ortak_ekran_karti_gpu !== 'Bilinmiyor');
+                var isOsMatch = Boolean(m.isletim_sistemi && m.ekran_cozunurlugu);
+
                 html += `
                     <div class="match-card">
                         <div class="match-card-top">
-                            <span class="match-badge"><i class="fas fa-exclamation-triangle"></i> ${m.eslesme_derecesi || 'KESİN EŞLEŞME'}</span>
+                            <span class="match-badge"><i class="fas fa-exclamation-triangle"></i> ${m.eslesme_derecesi || '🔥 KESİN EŞLEŞME'}</span>
                             <div class="match-phone-box">
                                 <span class="phone-label">🎯 ŞÜPHELİNİN GERÇEK TELEFON NUMARASI:</span>
-                                <span class="phone-highlight">${m.tespit_edilen_whatsapp_no || 'Numara Yok / Form Doldurmamış'}</span>
+                                <span class="phone-highlight">${m.tespit_edilen_whatsapp_no || 'Kayıtsız Numara'}</span>
                             </div>
                         </div>
                         <div class="match-details-grid">
-                            <div class="detail-item">
+                            
+                            <!-- 1. GPU / EKRAN KARTI KUTUSU (EŞLEŞEN) -->
+                            <div class="detail-item ${isGpuMatch ? 'match-success' : ''}">
                                 <div class="detail-key">Ortak Donanım (GPU)</div>
-                                <div class="detail-val">${m.ortak_ekran_karti_gpu || 'Bilinmiyor'}</div>
+                                <div class="detail-val" style="color:#f59e0b;">${m.ortak_ekran_karti_gpu || 'Bilinmiyor'}</div>
+                                ${isGpuMatch ? '<div class="match-tag-success"><i class="fas fa-check-circle"></i> BİREBİR AYNI EKRAN KARTI</div>' : ''}
                             </div>
-                            <div class="detail-item">
+
+                            <!-- 2. CİHAZ & İŞLETİM SİSTEMİ KUTUSU (EŞLEŞEN) -->
+                            <div class="detail-item ${isOsMatch ? 'match-success' : ''}">
                                 <div class="detail-key">Cihaz & İşletim Sistemi</div>
-                                <div class="detail-val">${m.cihaz_turu || ''} - ${m.isletim_sistemi || ''} (${m.ekran_cozunurlugu || ''})</div>
+                                <div class="detail-val">${m.cihaz_turu || 'Cihaz'} - ${m.isletim_sistemi || ''} (${m.ekran_cozunurlugu || ''})</div>
+                                ${isOsMatch ? '<div class="match-tag-success"><i class="fas fa-check-circle"></i> AYNI İŞLETİM SİSTEMİ & ÇÖZÜNÜRLÜK</div>' : ''}
                             </div>
-                            <div class="detail-item">
+
+                            <!-- 3. IP ADRESİ KUTUSU (AYNI İSE YEŞİL YANIP SÖNER) -->
+                            <div class="detail-item ${isIpExactMatch ? 'match-success' : ''}">
                                 <div class="detail-key">Facebook IP vs WhatsApp IP</div>
-                                <div class="detail-val">${m.facebook_ip_adresi || '-'} / ${m.whatsapp_ip_adresi || '-'}</div>
+                                <div class="detail-val" style="${isIpExactMatch ? 'color:#34d399; font-weight:800;' : ''}">${m.facebook_ip_adresi || '-'} / ${m.whatsapp_ip_adresi || '-'}</div>
+                                ${isIpExactMatch ? '<div class="match-tag-success"><i class="fas fa-network-wired"></i> BİREBİR AYNI IP ADRESİ (EŞLEŞTİ)</div>' : '<div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">Farklı ağ (Wi-Fi / 4G)</div>'}
                             </div>
+
+                            <!-- 4. ZAMANLAR -->
                             <div class="detail-item">
                                 <div class="detail-key">Facebook Tıklama Zamanı</div>
                                 <div class="detail-val">${formatDate(m.facebook_tiklama_zamani)}</div>
+                                <div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">Fake hesaba girdiği an</div>
                             </div>
+
                             <div class="detail-item">
                                 <div class="detail-key">WhatsApp Tıklama Zamanı</div>
                                 <div class="detail-val">${formatDate(m.whatsapp_tiklama_zamani)}</div>
+                                <div style="font-size:0.72rem; color:#94a3b8; margin-top:4px;">Tatil linkine girdiği an</div>
                             </div>
+
+                            <!-- 5. MESAJ / VİDEO -->
                             <div class="detail-item">
                                 <div class="detail-key">Blogda Yazdığı Mesaj / İzlediği Video</div>
                                 <div class="detail-val" style="color:#fbbf24;">${m.bloga_yazdigi_mesaj || m.izledigi_son_video || 'Henüz video/mesaj yok'}</div>
                             </div>
+
                         </div>
                     </div>`;
             });
