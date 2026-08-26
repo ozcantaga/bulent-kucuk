@@ -1,24 +1,32 @@
 {
-  "name": "danish-turkish-survey",
-  "version": "2.0.0",
-  "description": "Danimarka'daki Türk Diasporası: İletişim, Sosyal İlişkiler ve Yerleşim Eğilimleri Anketi. Akademik araştırma amaçlı web anketi.",
+  "name": "tatilsepeti",
+  "version": "1.0.0",
+  "description": "Alaçatı & Çeşme Gurbetçi Tatil Promosyonu, WhatsApp 700 Numara SPA Router, Kalıcı Cihaz İmzası ve Supabase Analitik Takip Platformu.",
   "main": "script.js",
   "scripts": {
+    "start": "serve .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ozcantaga/Dansk-Livs--og-Socialst-tteunders-gelse.git"
+    "url": "git+https://github.com/ozcantaga/tatilsepeti.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "tatilsepeti",
+    "cesme",
+    "alacati",
+    "supabase",
+    "analytics",
+    "router"
+  ],
+  "author": "ozcantaga",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/ozcantaga/Dansk-Livs--og-Socialst-tteunders-gelse/issues"
+    "url": "https://github.com/ozcantaga/tatilsepeti/issues"
   },
-  "homepage": "https://github.com/ozcantaga/Dansk-Livs--og-Socialst-tteunders-gelse#readme",
+  "homepage": "https://github.com/ozcantaga/tatilsepeti#readme",
   "dependencies": {
-    "@vercel/analytics": "^2.0.1"
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0"
   }
 }

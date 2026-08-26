@@ -4,1139 +4,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Danimarka'daki Türk Diasporası Anketi | İletişim, Sosyal İlişkiler ve Yerleşim</title>
-    <meta name="description"
-        content="Danimarka'da yaşayan Türk toplumunun sosyal bağlarını, iletişim alışkanlıklarını ve coğrafi tercihlerini anlamak amacıyla hazırlanmış akademik anket.">
-    <meta name="keywords" content="Danimarka, Türk diasporası, anket, göç, entegrasyon, sosyal ilişkiler">
-    <meta name="theme-color" content="#0B1120">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Alaçatı & Çeşme Tatil Fırsatları | Danimarka Gurbetçilerine Özel %50 İndirim</title>
+    <meta name="description" content="Danimarka'da yaşayan gurbetçilerimize özel Alaçatı ve Çeşme tatil paketleri! İzmir Havalimanı VIP transfer dahil, %50 indirimli erken rezervasyon fırsatını kaçırmayın.">
+    <meta name="keywords" content="Alaçatı tatili, Çeşme otelleri, Danimarka Türkleri tatil, gurbetçi tatil fırsatı, Çeşme villa kiralama, İzmir havalimanı transfer">
+    <meta name="theme-color" content="#0B132B">
+
+    <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇩🇰</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏖️</text></svg>">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ============ ARKA PLAN PARTİKÜLLERİ ============ -->
-    <canvas id="particles-canvas" class="particles-canvas"></canvas>
+    <!-- ============ ARKA PLAN ANİMASYON TUVALİ ============ -->
+    <canvas id="particles-canvas"></canvas>
 
-    <!-- ============ DİL SEÇİM BUTONU ============ -->
-    <div class="lang-switcher-wrapper">
-        <button type="button" class="btn-lang-toggle" id="lang-toggle-btn" onclick="LANG.toggle()"
-            title="Skift til dansk / Türkçe'ye geç" aria-label="Dil Değiştir / Skift Sprog">
-            <span class="lang-flag">🇩🇰</span>
-            <span class="lang-code">DA</span>
-        </button>
+    <!-- ============ ÜST DUYURU BARI ============ -->
+    <div class="top-promo-bar">
+        <div class="container promo-inner">
+            <span class="promo-badge">🔥 ERKEN REZERVASYON</span>
+            <span class="promo-text">Danimarka'daki Gurbetçilerimize Özel <strong>%50 Lansman İndirimi</strong> Başladı! Sınırlı Kontenjan.</span>
+            <a href="#rezervasyon" class="promo-link">Teklif Al ↗</a>
+        </div>
     </div>
 
-    <!-- ============ HERO / GİRİŞ BÖLÜMÜ ============ -->
-    <header class="survey-hero" id="survey-hero">
-        <div class="hero-glow"></div>
-        <div class="hero-content">
-            <div class="hero-badge">📋 Akademik Araştırma</div>
-            <h1>Danimarka'daki Türk Diasporası</h1>
-            <p class="hero-subtitle">İletişim, Sosyal İlişkiler ve Yerleşim Eğilimleri Anketi</p>
-            <div class="hero-meta">
-                <span>🇩🇰 Danimarka</span>
-                <span>🇹🇷 Türk Toplumu</span>
-                <span>🔒 Anonim</span>
+    <!-- ============ HEADER / NAVİGASYON ============ -->
+    <header class="main-header" id="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">☀️</span>
+                <div class="logo-text">
+                    <span class="logo-title">EGE RÜYASI</span>
+                    <span class="logo-sub">ALAÇATI & ÇEŞME PROMO</span>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="#paketler">Tatil Paketleri</a>
+                <a href="#ayricaliklar">Gurbetçi Avantajları</a>
+                <a href="#galeri">Keşfet</a>
+                <a href="#yorumlar">Misafir Yorumları</a>
+                <a href="#sss">S.S.S.</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#rezervasyon" class="btn-nav-cta">
+                    <span>%50 İndirimli Fiyat Al</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- ============ ANA İÇERİK ============ -->
-    <main id="main-content">
-
-        <!-- ============ DANİMARKA GÖÇMEN YARDIMLARI ============ -->
-        <section class="aid-section animate-on-scroll" id="aid-section">
-            <div class="aid-header">
-                <div class="aid-badge">🇩🇰 Resmi Destek & Hizmet Rehberi</div>
-                <h2 class="section-title">
-                    <span class="title-flag">🇩🇰</span>
-                    Danimarka'nın Göçmenlere Yönelik Yardımları
-                </h2>
-                <p class="aid-subtitle">Danimarka'da yaşayan göçmenler ve Türk toplumu için sunulan temel sosyal, mali
-                    ve kurumsal destek programları</p>
-            </div>
-
-            <!-- DİNAMİK DURUM VE YÖNLENDİRME BİLGİLENDİRMESİ -->
-            <div class="aid-status-banner locked" id="aid-status-banner">
-                <div class="banner-icon-col">
-                    <span class="banner-icon" id="banner-icon">🔒</span>
-                </div>
-                <div class="banner-text-col">
-                    <h3 id="banner-title">Resmi Kurum Yönlendirmeleri ve Başvuru Bağlantıları</h3>
-                    <p id="banner-desc">Aşağıdaki resmi Danimarka devlet yardımları ve kurum başvuru sayfalarına
-                        doğrudan erişmek için lütfen aşağıdaki 2 dakikalık araştırmamızı tamamlayınız.</p>
-                </div>
-                <button type="button" class="btn-banner-action" id="btn-banner-action" onclick="scrollToSurvey()">
-                    <span class="btn-text">Anketi Doldur</span>
-                    <span class="btn-icon">↓</span>
-                </button>
-            </div>
-
-            <div class="aid-cards-grid">
-                <div class="aid-card animate-on-scroll" style="--delay: 0s" role="button" tabindex="0"
-                    data-title="Ücretsiz Danca Dil Kursları" data-agency="Ny i Danmark & De Danske Sprogcentre"
-                    data-url="https://www.nyidanmark.dk/en-GB/You-want-to-apply/Integration/Danish-education"
-                    onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">🗣️</div>
-                        <span class="aid-agency-badge">Ny i Danmark</span>
+    <main>
+        <!-- ============ HERO SECTION ============ -->
+        <section class="hero-section" id="hero">
+            <div class="hero-glow hero-glow-1"></div>
+            <div class="hero-glow hero-glow-2"></div>
+            
+            <div class="container hero-container">
+                <div class="hero-content animate-on-scroll">
+                    <div class="hero-badge">
+                        <span>🇩🇰 Danimarka Gurbetçilerine Özel • İzmir / Çeşme</span>
                     </div>
-                    <h3>Ücretsiz Danca Dil Kursları</h3>
-                    <p>Belediyeler aracılığıyla 3 seviyeli (DU 1-2-3) dil eğitimi sunulmaktadır. CPR numarası alan her
-                        göçmen, yerel dil merkezlerine yönlendirilir. Kurslar <strong>5 yıla kadar ücretsiz</strong>
-                        olup, gündüz, akşam ve online seçenekler mevcuttur.</p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Eğitim</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="aid-card animate-on-scroll" style="--delay: 0.1s" role="button" tabindex="0"
-                    data-title="Mali Destek ve Sosyal Yardımlar" data-agency="Borger.dk & Beskæftigelsesministeriet"
-                    data-url="https://www.borger.dk/oekonomi-skat-su/ydelser-folkepension-tilskud/kontanthjaelp"
-                    onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">💰</div>
-                        <span class="aid-agency-badge">Borger.dk</span>
-                    </div>
-                    <h3>Mali Destek ve Sosyal Yardımlar</h3>
-                    <p>2025 itibarıyla sosyal yardım sistemi üç kademeye ayrılmıştır: <strong>minimum, temel ve
-                            artırılmış</strong> oran. İkamet süresi (10 yılda 9 yıl) ve çalışma süresi (2.5 yıl tam
-                        zamanlı) koşullarına göre belirlenir.</p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Finansal</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
-                        </div>
-                    </div>
-                </div>
+                    <h1 class="hero-title">
+                        Ege'nin İncisi <span class="gradient-text">Alaçatı & Çeşme'de</span> Rüya Gibi Bir Tatil!
+                    </h1>
 
-                <div class="aid-card animate-on-scroll" style="--delay: 0.2s" role="button" tabindex="0"
-                    data-title="İş Piyasası Entegrasyonu" data-agency="Jobnet.dk & Kommunale Jobcentre"
-                    data-url="https://jobnet.dk" onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">💼</div>
-                        <span class="aid-agency-badge">Jobnet.dk</span>
-                    </div>
-                    <h3>İş Piyasası Entegrasyonu</h3>
-                    <p><strong>Jobcenter</strong> aracılığıyla staj programları, mesleki eğitimler ve iş bulma desteği
-                        sağlanmaktadır. Haftada 37 saate kadar iş etkinlikleri veya dil eğitimi programları mevcuttur.
+                    <p class="hero-subtitle">
+                        Danimarka'da yaşayan vatandaşlarımızın bütçesine özel hazırlanan her şey dahil konaklama, taş ev butik oteller ve özel havuzlu lüks villalarda <strong>%50 lansman indirimi</strong> ve <strong>İzmir Havalimanı VIP Transfer</strong> ayrıcalığı.
                     </p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Kariyer</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
+
+                    <!-- GERİ SAYIM SAYACI (COUNTDOWN) -->
+                    <div class="countdown-wrapper">
+                        <div class="countdown-label">
+                            <span class="pulse-dot"></span>
+                            <span>%50 Erken Rezervasyon İndiriminin Bitmesine Kalan Süre:</span>
+                        </div>
+                        <div class="countdown-grid" id="countdown-timer">
+                            <div class="timer-box">
+                                <span class="timer-number" id="timer-days">03</span>
+                                <span class="timer-unit">GÜN</span>
+                            </div>
+                            <span class="timer-colon">:</span>
+                            <div class="timer-box">
+                                <span class="timer-number" id="timer-hours">14</span>
+                                <span class="timer-unit">SAAT</span>
+                            </div>
+                            <span class="timer-colon">:</span>
+                            <div class="timer-box">
+                                <span class="timer-number" id="timer-mins">28</span>
+                                <span class="timer-unit">DAKİKA</span>
+                            </div>
+                            <span class="timer-colon">:</span>
+                            <div class="timer-box">
+                                <span class="timer-number" id="timer-secs">45</span>
+                                <span class="timer-unit">SANİYE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-cta-group">
+                        <a href="#rezervasyon" class="btn btn-primary btn-lg">
+                            <span class="btn-icon">✨</span>
+                            <span>%50 İndirimli Teklifimi Al</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#paketler" class="btn btn-secondary btn-lg">
+                            <span>Paketleri ve Fiyatları Gör</span>
+                        </a>
+                    </div>
+
+                    <!-- GÜVEN ROZETLERİ -->
+                    <div class="hero-trust-bar">
+                        <div class="trust-item">
+                            <span class="trust-icon">🚗</span>
+                            <span class="trust-text">İzmir Havalimanı VIP Transfer</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">🛡️</span>
+                            <span class="trust-text">%10 Ön Ödeme ile Sıfır Risk</span>
+                        </div>
+                        <div class="trust-item">
+                            <span class="trust-icon">⭐</span>
+                            <span class="trust-text">4.9/5 Gurbetçi Memnuniyeti</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="aid-card animate-on-scroll" style="--delay: 0.3s" role="button" tabindex="0"
-                    data-title="Barınma ve Kira Desteği" data-agency="Borger.dk & Udbetaling Danmark"
-                    data-url="https://www.borger.dk/bolig-og-flytning/boligstoette-oversigt"
-                    onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">🏠</div>
-                        <span class="aid-agency-badge">Udbetaling DK</span>
-                    </div>
-                    <h3>Barınma Desteği (Boligstøtte)</h3>
-                    <p>Belediyeler ve Udbetaling Danmark koordinasyonunda entegrasyon konut programları ve kira desteği
-                        mevcuttur. Göçmenlerin uygun konut seçeneklerine erişimi ve barınma yardımı hedeflenir.</p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Konut</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
+                <div class="hero-visual animate-on-scroll" style="--delay: 0.2s">
+                    <div class="visual-card-wrapper">
+                        <div class="floating-badge badge-top-right">
+                            <span class="badge-flag">🇩🇰 ➡️ 🇹🇷</span>
+                            <span>Danimarka - İzmir Direkt Uyumlu</span>
                         </div>
-                    </div>
-                </div>
 
-                <div class="aid-card animate-on-scroll" style="--delay: 0.4s" role="button" tabindex="0"
-                    data-title="Entegrasyon Sözleşmesi ve Programı" data-agency="Udlændinge- og Integrationsministeriet"
-                    data-url="https://uim.dk/arbejdsomraader/integration/integrationsprogrammet/"
-                    onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">📋</div>
-                        <span class="aid-agency-badge">UIM.dk</span>
-                    </div>
-                    <h3>Entegrasyon Sözleşmesi</h3>
-                    <p>Her göçmen, belediye ile kişisel bir entegrasyon planı oluşturur. Bu plan; <strong>dil öğrenimi,
-                            iş bulma ve topluma katılım</strong> hedeflerini içerir ve düzenli takip edilir.</p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Program</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
+                        <div class="hero-img-card">
+                            <img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=900&q=80" alt="Alaçatı Çeşme Tatili" class="hero-main-img">
+                            <div class="hero-img-overlay">
+                                <div class="overlay-details">
+                                    <h3>Alaçatı & Ilıca Koyu</h3>
+                                    <p>Turkuaz Ege Denizi, Rüzgar Gülleri & Tarihi Taş Sokaklar</p>
+                                </div>
+                                <span class="discount-pill">%50 İNDİRİM</span>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="aid-card animate-on-scroll" style="--delay: 0.5s" role="button" tabindex="0"
-                    data-title="Resmi Göç ve Vatandaşlık Portalı" data-agency="SIRI & Ny i Danmark"
-                    data-url="https://www.nyidanmark.dk" onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">🌐</div>
-                        <span class="aid-agency-badge">Ny i Danmark / SIRI</span>
-                    </div>
-                    <h3>Resmi Kaynaklar ve Kurumlar</h3>
-                    <p><strong>nyidanmark.dk</strong> — Resmi göç portalı<br>
-                        <strong>SIRI</strong> — Uluslararası İşe Alım ve Entegrasyon Ajansı<br>
-                        <strong>DRC</strong> — Danimarka Mülteciler Konseyi<br>
-                        <strong>Borgerservice</strong> — Yerel vatandaş hizmetleri
-                    </p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Kaynaklar</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="aid-card animate-on-scroll" style="--delay: 0.6s" role="button" tabindex="0"
-                    data-title="Eğitim ve Çocuk Destekleri" data-agency="SU.dk & Børne- og Undervisningsministeriet"
-                    data-url="https://www.su.dk" onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">🎓</div>
-                        <span class="aid-agency-badge">SU.dk</span>
-                    </div>
-                    <h3>Eğitim ve Çocuk Desteği</h3>
-                    <p>Göçmen çocukları için <strong>ücretsiz eğitim</strong> sistemi (folkeskole). SU (Statens
-                        Uddannelsesstøtte) ile yükseköğretim bursları. Çocuk bakım yardımı ve aile destekleri mevcuttur.
-                    </p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Eğitim</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="aid-card animate-on-scroll" style="--delay: 0.7s" role="button" tabindex="0"
-                    data-title="Sağlık Hizmetleri ve Sigorta" data-agency="Sundhed.dk & Danske Regioner"
-                    data-url="https://www.sundhed.dk" onclick="handleAidCardClick(this)">
-                    <div class="aid-card-top">
-                        <div class="aid-card-icon">🏥</div>
-                        <span class="aid-agency-badge">Sundhed.dk</span>
-                    </div>
-                    <h3>Sağlık Hizmetleri</h3>
-                    <p>CPR numarası olan herkes <strong>ücretsiz sağlık hizmeti</strong> alır. Aile hekimi
-                        (praktiserende læge) sistemi, hastane tedavileri ve acil müdahale hizmetleri kapsanır.
-                        Psikolojik destek de dahildir.</p>
-                    <div class="aid-card-footer">
-                        <div class="aid-tag">Sağlık</div>
-                        <div class="aid-action-btn locked">
-                            <span class="action-icon">🔒</span>
-                            <span class="action-label">Anketi Doldurun</span>
+                        <div class="floating-badge badge-bottom-left">
+                            <div class="badge-icon-circle">💎</div>
+                            <div>
+                                <strong>Danimarka Kronu (DKK)</strong>
+                                <small>Avantajlı Fiyat Garantisi</small>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ============ ANKET ALANI (TAM EKRAN DESTEKLİ) ============ -->
-        <div class="survey-container-wrapper" id="survey-container-wrapper">
-            <!-- TAM EKRAN ÜST BAŞLIK ÇUBUĞU -->
-            <div class="fullscreen-topbar" id="fullscreen-topbar">
-                <div class="fullscreen-topbar-left">
-                    <span class="fullscreen-flag">🇩🇰</span>
-                    <div class="fullscreen-header-text">
-                        <span class="fullscreen-title">Danimarka Türk Diasporası Araştırması</span>
-                        <span class="fullscreen-target-tag" id="fullscreen-target-tag">📌 Resmi Destek & Kurum
-                            Yönlendirmesi</span>
+        <!-- ============ TATİL PAKETLERİ VE FİYATLANDIRMA ============ -->
+        <section class="packages-section" id="paketler">
+            <div class="container">
+                <div class="section-header-center animate-on-scroll">
+                    <span class="section-tag">🏖️ KAMPANYALI SEÇENEKLER</span>
+                    <h2>Danimarka Bütçenize Uygun Tatil Paketleri</h2>
+                    <p>İster romantik butik taş otel, ister ailenizle her şey dahil resort, isterseniz özel havuzlu müstakil villa!</p>
+                </div>
+
+                <div class="packages-grid">
+                    <!-- Paket 1 -->
+                    <div class="package-card animate-on-scroll" style="--delay: 0s">
+                        <div class="package-tag">Popüler Çift Tercihi</div>
+                        <div class="package-image-box">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=700&q=80" alt="Alaçatı Butik Taş Ev">
+                            <span class="package-location">📍 Alaçatı Merkez</span>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="package-title">Alaçatı Butik Taş Ev & Gurme</h3>
+                            <p class="package-desc">Otantik Ege mimarisiyle restore edilmiş taş otelde huzur, organik köy kahvaltıları ve çarşıya yürüme mesafesinde konfor.</p>
+                            
+                            <ul class="package-features">
+                                <li>✓ 7 Gece / 8 Gün Çift Kişilik Konaklama</li>
+                                <li>✓ Her Sabah Zengin Serpme Ege Kahvaltısı</li>
+                                <li>✓ İzmir Adnan Menderes Havalimanı Çift Yön Transfer</li>
+                                <li>✓ Alaçatı Rüzgar Sörfü ve Çarşı Rehberliği</li>
+                                <li>✓ Ücretsiz İptal ve Tarih Değiştirme</li>
+                            </ul>
+
+                            <div class="package-pricing">
+                                <div class="price-old">8.500 DKK <small>(42.500 TL)</small></div>
+                                <div class="price-current">
+                                    <span class="price-val">4.250 DKK</span>
+                                    <span class="price-period">/ 7 Gece (2 Kişi)</span>
+                                </div>
+                                <span class="price-tl-note">Yaklaşık 21.250 TL • %50 İndirim</span>
+                            </div>
+
+                            <a href="#rezervasyon" class="btn btn-outline-primary btn-block select-package-btn" data-package="Alaçatı Butik Taş Ev & Gurme">
+                                Bu Paketi Seç & Fiyat Teklifi Al
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Paket 2 (Öne Çıkan) -->
+                    <div class="package-card featured animate-on-scroll" style="--delay: 0.15s">
+                        <div class="featured-badge">⭐ EN ÇOK TERCİH EDİLEN</div>
+                        <div class="package-tag">Aileler İçin İdeal</div>
+                        <div class="package-image-box">
+                            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=700&q=80" alt="Çeşme Ilıca Aile Resort">
+                            <span class="package-location">📍 Çeşme Ilıca / Ayayorgi</span>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="package-title">Çeşme Ilıca & Resort Aile Tatili</h3>
+                            <p class="package-desc">Denize sıfır 5 yıldızlı tesis, termal havuzlar, çocuk kulübü ve zengin açık büfesiyle gurbetçi ailelerin favorisi.</p>
+                            
+                            <ul class="package-features">
+                                <li>✓ 7 Gece Her Şey Dahil (Tam Pansiyon Plus)</li>
+                                <li>✓ 2 Yetişkin + 2 Çocuk (12 yaş altı ücretsiz)</li>
+                                <li>✓ Özel Plaj, Ilıca Termal & Açık Yüzme Havuzları</li>
+                                <li>✓ Aileye Özel Klimalı VIP Minibüs Havalimanı Transferi</li>
+                                <li>✓ Ayayorgi ve Çeşme Kalesi Turu Dahil</li>
+                            </ul>
+
+                            <div class="package-pricing">
+                                <div class="price-old">14.000 DKK <small>(70.000 TL)</small></div>
+                                <div class="price-current">
+                                    <span class="price-val">6.990 DKK</span>
+                                    <span class="price-period">/ 7 Gece (Tüm Aile)</span>
+                                </div>
+                                <span class="price-tl-note">Yaklaşık 34.950 TL • %50 İndirim</span>
+                            </div>
+
+                            <a href="#rezervasyon" class="btn btn-primary btn-block select-package-btn" data-package="Çeşme Ilıca & Resort Aile Tatili">
+                                Bu Paketi Seç & Fiyat Teklifi Al
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Paket 3 -->
+                    <div class="package-card animate-on-scroll" style="--delay: 0.3s">
+                        <div class="package-tag">VIP & Kalabalık Gruplar</div>
+                        <div class="package-image-box">
+                            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=700&q=80" alt="Lüks Müstakil Villa">
+                            <span class="package-location">📍 Çeşme Dalyan / Ovacık</span>
+                        </div>
+                        <div class="package-body">
+                            <h3 class="package-title">Özel Havuzlu Lüks Müstakil Villa</h3>
+                            <p class="package-desc">Gözlerden uzak, korunaklı özel havuzlu, geniş bahçeli ve barbekülü lüks villada aileniz ve sevdiklerinizle tam mahremiyet.</p>
+                            
+                            <ul class="package-features">
+                                <li>✓ 4+1 Lüks Müstakil Villa (8-10 Kişi Kapasiteli)</li>
+                                <li>✓ Korunaklı Özel Yüzme Havuzu & Geniş Güneşlenme Terası</li>
+                                <li>✓ Tam Donanımlı Lüks Mutfak & Barbekü Alanı</li>
+                                <li>✓ İzmir Havalimanı Lüks Vito VIP Çift Yön Transfer</li>
+                                <li>✓ Çeşme Marina ve Plajlara 5 Dakika Mesafe</li>
+                            </ul>
+
+                            <div class="package-pricing">
+                                <div class="price-old">22.000 DKK <small>(110.000 TL)</small></div>
+                                <div class="price-current">
+                                    <span class="price-val">10.900 DKK</span>
+                                    <span class="price-period">/ 7 Gece (Villa Toplam)</span>
+                                </div>
+                                <span class="price-tl-note">Yaklaşık 54.500 TL • %50 İndirim</span>
+                            </div>
+
+                            <a href="#rezervasyon" class="btn btn-outline-primary btn-block select-package-btn" data-package="Özel Havuzlu Lüks Müstakil Villa">
+                                Bu Paketi Seç & Fiyat Teklifi Al
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <button type="button" class="btn-fullscreen-close" onclick="closeFullscreenSurvey()" title="Kapat">
-                    <span>✕ Kapat</span>
-                </button>
             </div>
+        </section>
 
-            <!-- AYDINLATMA METNİ -->
-            <section class="info-notice animate-on-scroll" id="info-notice">
-                <div class="notice-icon">ℹ️</div>
-                <div class="notice-content">
-                    <h2>Aydınlatma Metni</h2>
-                    <p>Merhaba, bu anket Danimarka'da yaşayan Türk toplumunun sosyal bağlarını, iletişim
-                        alışkanlıklarını ve coğrafi tercihlerini anlamak amacıyla tamamen <strong>akademik/kişisel bir
-                            çalışma</strong> olarak hazırlanmıştır. Katılımınız tamamen gönüllülük esasına dayanmakta
-                        olup, toplanan veriler <strong>anonim</strong> olarak işlenecektir. Katkınız için teşekkür
-                        ederiz.</p>
+        <!-- ============ GURBETÇİLERE ÖZEL AYRICALIKLAR ============ -->
+        <section class="perks-section" id="ayricaliklar">
+            <div class="container">
+                <div class="section-header-center animate-on-scroll">
+                    <span class="section-tag">👑 NEDEN BİZİMLE TATİL?</span>
+                    <h2>Danimarka'daki Vatandaşlarımıza Sunduğumuz 6 Büyük Ayrıcalık</h2>
+                    <p>Uçaktan indiğiniz andan Danimarka'ya döneceğiniz ana kadar her şey konforunuz için düşünüldü.</p>
                 </div>
-            </section>
 
-            <!-- İLERLEME ÇUBUĞU -->
-            <div class="progress-container animate-on-scroll" id="progress-container">
-                <div class="progress-steps">
-                    <div class="step active" data-step="1">
-                        <div class="step-circle">1</div>
-                        <span>Demografik</span>
+                <div class="perks-grid">
+                    <div class="perk-card animate-on-scroll">
+                        <div class="perk-icon">🛬</div>
+                        <h3>İzmir Havalimanı VIP Karşılama</h3>
+                        <p>Kopenhag veya Billund'dan İzmir'e indiğinizde sizi havalimanı çıkışında özel şoförünüz karşılar, valizlerinizle birlikte kapınıza kadar ulaştırır.</p>
                     </div>
-                    <div class="step-line">
-                        <div class="step-line-fill" id="line-1"></div>
+
+                    <div class="perk-card animate-on-scroll" style="--delay: 0.1s">
+                        <div class="perk-icon">🛡️</div>
+                        <h3>%10 Kaparo ile Sıfır Risk</h3>
+                        <p>Rezervasyonunuzu sadece %10 küçük bir ön ödeme ile kesinleştirin. Kalan tutarı otele veya villanıza giriş yaparken güvenle ödeyin.</p>
                     </div>
-                    <div class="step" data-step="2">
-                        <div class="step-circle">2</div>
-                        <span>Coğrafi</span>
+
+                    <div class="perk-card animate-on-scroll" style="--delay: 0.2s">
+                        <div class="perk-icon">🏖️</div>
+                        <h3>Beach Club & Restoran VIP Önceliği</h3>
+                        <p>Çeşme ve Alaçatı'nın en gözde plajlarında ve balık restoranlarında sıra beklemeden en güzel loca ve masalar sizin için rezerve edilir.</p>
                     </div>
-                    <div class="step-line">
-                        <div class="step-line-fill" id="line-2"></div>
+
+                    <div class="perk-card animate-on-scroll" style="--delay: 0.3s">
+                        <div class="perk-icon">💬</div>
+                        <h3>7/24 Kesintisiz Türkçe Destek</h3>
+                        <p>Tatiliniz boyunca bölgeyi çok iyi bilen uzman danışmanlarımız WhatsApp ve telefonla her türlü ihtiyacınızda anında yanınızda.</p>
                     </div>
-                    <div class="step" data-step="3">
-                        <div class="step-circle">3</div>
-                        <span>Sosyal</span>
+
+                    <div class="perk-card animate-on-scroll" style="--delay: 0.4s">
+                        <div class="perk-icon">🚗</div>
+                        <h3>İsteğe Bağlı Uygun Araç Kiralama</h3>
+                        <p>Danimarka ehliyetinizle geçerli, kaskolu ve son model kiralık araçlar özel indirimli fiyatlarla havalimanında veya otelinizde teslim edilir.</p>
                     </div>
-                    <div class="step-line">
-                        <div class="step-line-fill" id="line-3"></div>
-                    </div>
-                    <div class="step" data-step="4">
-                        <div class="step-circle">4</div>
-                        <span>Haberleşme</span>
-                    </div>
-                    <div class="step-line">
-                        <div class="step-line-fill" id="line-4"></div>
-                    </div>
-                    <div class="step" data-step="5">
-                        <div class="step-circle">5</div>
-                        <span>İletişim</span>
+
+                    <div class="perk-card animate-on-scroll" style="--delay: 0.5s">
+                        <div class="perk-icon">🔄</div>
+                        <h3>Esnek & Cezasız Tarih Değişikliği</h3>
+                        <p>Uçuş planlarınız veya izin günleriniz değişirse, rezervasyon tarihinizi cezasız ve kesintisiz olarak esnetme hakkınız saklıdır.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- ============ ANKET FORMU ============ -->
-            <form id="survey-form" class="survey-form" autocomplete="off">
+        <!-- ============ FOTOĞRAF GALERİSİ ============ -->
+        <section class="gallery-section" id="galeri">
+            <div class="container">
+                <div class="section-header-center animate-on-scroll">
+                    <span class="section-tag">📸 EGE'Yİ KEŞFEDİN</span>
+                    <h2>Alaçatı & Çeşme'nin Eşsiz Güzellikleri</h2>
+                    <p>Taş sokaklar, begonviller, pırıl pırıl koylar ve unutulmaz gün batımları sizi bekliyor.</p>
+                </div>
 
-                <!-- BÖLÜM 1: DEMOGRAFİK BİLGİLER -->
-                <section class="survey-section active" id="section-1">
-                    <div class="section-header">
-                        <div class="section-number">01</div>
-                        <div>
-                            <h2>Demografik Bilgiler</h2>
-                            <p>Katılımcı profilini analiz etmek için gerekli bilgiler.</p>
-                        </div>
+                <div class="gallery-grid animate-on-scroll">
+                    <div class="gallery-item item-large">
+                        <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80" alt="Alaçatı Sokakları">
+                        <div class="gallery-caption">Tarihi Alaçatı Taş Sokakları</div>
                     </div>
-
-                    <!-- Soru 1 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">1</span>
-                            Danimarka'da hangi kuşak (nesil) olarak bulunuyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="generation" value="1. Kuşak" required>
-                                <div class="option-card">
-                                    <div class="option-icon">👷</div>
-                                    <div class="option-text">
-                                        <strong>1. Kuşak</strong>
-                                        <small>Çalışmak için Türkiye'den göç edenler</small>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="generation" value="2. Kuşak">
-                                <div class="option-card">
-                                    <div class="option-icon">🏠</div>
-                                    <div class="option-text">
-                                        <strong>2. Kuşak</strong>
-                                        <small>Danimarka'da doğup büyüyenler veya çocuk yaşta gelenler</small>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="generation" value="3. Kuşak">
-                                <div class="option-card">
-                                    <div class="option-icon">🌱</div>
-                                    <div class="option-text">
-                                        <strong>3. Kuşak ve sonrası</strong>
-                                        <small>Danimarka doğumlu gençler</small>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="generation" value="Sonradan gelenler">
-                                <div class="option-card">
-                                    <div class="option-icon">✈️</div>
-                                    <div class="option-text">
-                                        <strong>Sonradan gelenler</strong>
-                                        <small>Evlilik, eğitim veya profesyonel çalışma amacıyla gelenler</small>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Ilıca Plajı">
+                        <div class="gallery-caption">Çeşme Ilıca Plajı & Şifalı Sular</div>
                     </div>
-
-                    <!-- Soru 2 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">2</span>
-                            Danimarka'da ne kadar süredir yaşıyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="years_in_denmark" value="5 yıldan az" required>
-                                <div class="option-card">
-                                    <div class="option-icon">📅</div>
-                                    <div class="option-text"><strong>5 yıldan az</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="years_in_denmark" value="5-15 yıl arası">
-                                <div class="option-card">
-                                    <div class="option-icon">📆</div>
-                                    <div class="option-text"><strong>5 – 15 yıl arası</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="years_in_denmark" value="15 yıldan uzun">
-                                <div class="option-card">
-                                    <div class="option-icon">🏡</div>
-                                    <div class="option-text"><strong>15 yıldan uzun / Doğma büyüme</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80" alt="Lüks Villa Havuzu">
+                        <div class="gallery-caption">Özel Havuzlu Villalar</div>
                     </div>
-
-                    <div class="section-actions">
-                        <div></div>
-                        <button type="button" class="btn btn-next" onclick="navigateStep(1)">
-                            Devam Et
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
+                    <div class="gallery-item">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Ege Kahvaltısı">
+                        <div class="gallery-caption">Geleneksel Serpme Ege Kahvaltısı</div>
                     </div>
-                </section>
-
-                <!-- BÖLÜM 2: COĞRAFİ TERCİHLER -->
-                <section class="survey-section" id="section-2">
-                    <div class="section-header">
-                        <div class="section-number">02</div>
-                        <div>
-                            <h2>Coğrafi Tercihler ve Yaşanılan Bölgeler</h2>
-                            <p>Hangi bölgelerin neden tercih edildiğini anlamaya yönelik sorular.</p>
-                        </div>
-                    </div>
-
-                    <!-- Soru 3 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">3</span>
-                            Danimarka'da hangi şehirde/bölgede ikamet ediyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="city_region" value="Kopenhag" required>
-                                <div class="option-card">
-                                    <div class="option-icon">🏙️</div>
-                                    <div class="option-text"><strong>Kopenhag ve
-                                            çevresi</strong><small>Hovedstaden</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="city_region" value="Aarhus">
-                                <div class="option-card">
-                                    <div class="option-icon">🌊</div>
-                                    <div class="option-text"><strong>Aarhus</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="city_region" value="Odense">
-                                <div class="option-card">
-                                    <div class="option-icon">🌷</div>
-                                    <div class="option-text"><strong>Odense</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="city_region" value="Aalborg">
-                                <div class="option-card">
-                                    <div class="option-icon">⚓</div>
-                                    <div class="option-text"><strong>Aalborg</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="city_region" value="Diğer" id="city-other-radio">
-                                <div class="option-card">
-                                    <div class="option-icon">📍</div>
-                                    <div class="option-text"><strong>Diğer</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="other-input-wrapper hidden" id="city-other-wrapper">
-                            <input type="text" class="text-input" id="city-other-input"
-                                placeholder="Lütfen şehrinizi belirtin...">
-                        </div>
-                    </div>
-
-                    <!-- Soru 4 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">4</span>
-                            Bu bölgeyi/şehri yaşamak için tercih etmenizin en önemli sebebi nedir?
-                            <span class="q-hint">(Birden fazla seçebilirsiniz)</span>
-                        </h3>
-                        <div class="options-grid">
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="location_reasons" value="İş veya eğitim olanakları">
-                                <div class="option-card">
-                                    <div class="option-icon">💼</div>
-                                    <div class="option-text"><strong>İş veya eğitim olanakları</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="location_reasons" value="Aile veya akraba yakınlığı">
-                                <div class="option-card">
-                                    <div class="option-icon">👨‍👩‍👧‍👦</div>
-                                    <div class="option-text"><strong>Aile veya akraba yakınlığı</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="location_reasons" value="Türk toplumunun yoğun olması">
-                                <div class="option-card">
-                                    <div class="option-icon">🕌</div>
-                                    <div class="option-text"><strong>Türk toplumunun yoğun
-                                            olması</strong><small>Marketler, dernekler, camiler vb.</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="location_reasons"
-                                    value="Konut fiyatları ve kiralama koşulları">
-                                <div class="option-card">
-                                    <div class="option-icon">🏘️</div>
-                                    <div class="option-text"><strong>Konut fiyatları ve kiralama koşulları</strong>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="location_reasons" value="Diğer" id="reason-other-check">
-                                <div class="option-card">
-                                    <div class="option-icon">✏️</div>
-                                    <div class="option-text"><strong>Diğer</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="other-input-wrapper hidden" id="reason-other-wrapper">
-                            <input type="text" class="text-input" id="reason-other-input"
-                                placeholder="Lütfen belirtin...">
-                        </div>
-                    </div>
-
-                    <!-- Soru 5 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">5</span>
-                            Türk nüfusunun yoğun olduğu mahalleleri tercih etme eğiliminiz nedir?
-                            <span class="q-hint">(Örn: Ishøj, Gellerup, Vollsmose vb.)</span>
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="turkish_neighborhood"
-                                    value="Yoğun Türk mahallelerini tercih ediyorum" required>
-                                <div class="option-card">
-                                    <div class="option-icon">🇹🇷</div>
-                                    <div class="option-text"><strong>Yoğun Türk mahallelerinde yaşamayı tercih
-                                            ediyorum</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="turkish_neighborhood"
-                                    value="Türklerin az olduğu bölgeleri tercih ediyorum">
-                                <div class="option-card">
-                                    <div class="option-icon">🇩🇰</div>
-                                    <div class="option-text"><strong>Türklerin az olduğu, Danimarkalıların veya diğer
-                                            milletlerin ağırlıkta olduğu bölgeleri tercih ediyorum</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="turkish_neighborhood" value="Önemli değil, imkanlar önemli">
-                                <div class="option-card">
-                                    <div class="option-icon">⚖️</div>
-                                    <div class="option-text"><strong>Türk nüfusu benim için önemli değil, imkanlar
-                                            önemlidir</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="section-actions">
-                        <button type="button" class="btn btn-back" onclick="navigateStep(-1)">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M19 12H5M12 19l-7-7 7-7" />
-                            </svg>
-                            Geri
-                        </button>
-                        <button type="button" class="btn btn-next" onclick="navigateStep(1)">
-                            Devam Et
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </section>
-
-                <!-- BÖLÜM 3: SOSYAL İLİŞKİLER -->
-                <section class="survey-section" id="section-3">
-                    <div class="section-header">
-                        <div class="section-number">03</div>
-                        <div>
-                            <h2>Kendi Aralarındaki İlişkiler ve Sosyal Ağlar</h2>
-                            <p>Toplumun kendi içindeki dayanışma ve bağlarını inceleyen sorular.</p>
-                        </div>
-                    </div>
-
-                    <!-- Soru 6 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">6</span>
-                            Danimarka'daki diğer Türklerle sosyal ilişkileriniz genellikle hangi düzeydedir?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="social_closeness" value="Çok yakın sosyal çevre" required>
-                                <div class="option-card">
-                                    <div class="option-icon">🤝</div>
-                                    <div class="option-text"><strong>Çok yakın bir sosyal çevreye ve sıkı bağlara
-                                            sahibim</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="social_closeness" value="Selamlaşma ve komşuluk düzeyi">
-                                <div class="option-card">
-                                    <div class="option-icon">👋</div>
-                                    <div class="option-text"><strong>Çoğunlukla selamlaşma ve komşuluk/iş ilişkisi
-                                            düzeyindedir</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="social_closeness" value="Fazla iletişim kurmuyorum">
-                                <div class="option-card">
-                                    <div class="option-icon">🌍</div>
-                                    <div class="option-text"><strong>Türk toplumuyla çok fazla iletişim kurmuyorum,
-                                            çevrem daha uluslararası veya Danimarkalı</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Soru 7 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">7</span>
-                            Danimarka'daki Türk toplumu içindeki yardımlaşma ve dayanışmayı nasıl buluyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="solidarity_level" value="Çok güçlü" required>
-                                <div class="option-card">
-                                    <div class="option-icon">💪</div>
-                                    <div class="option-text"><strong>Çok güçlü</strong><small>Cenaze, düğün, zor
-                                            günlerde hemen kenetleniyorlar</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="solidarity_level" value="Orta düzeyde">
-                                <div class="option-card">
-                                    <div class="option-icon">🤷</div>
-                                    <div class="option-text"><strong>Orta düzeyde</strong><small>Sadece dar aile çevresi
-                                            veya çok yakın arkadaşlar arasında var</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="solidarity_level" value="Zayıf">
-                                <div class="option-card">
-                                    <div class="option-icon">🚶</div>
-                                    <div class="option-text"><strong>Zayıf</strong><small>Herkes kendi bireysel hayatını
-                                            yaşıyor</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Soru 8 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">8</span>
-                            Danimarka'daki Türkler arasında en çok hangi sosyal ortamlarda bir araya gelinmektedir?
-                            <span class="q-hint">(En fazla 2 seçenek)</span>
-                        </h3>
-                        <div class="options-grid">
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="social_gathering" value="Aile ziyaretleri ve ev oturmaları"
-                                    data-max="2">
-                                <div class="option-card">
-                                    <div class="option-icon">🏡</div>
-                                    <div class="option-text"><strong>Aile ziyaretleri ve ev oturmaları</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="social_gathering"
-                                    value="Düğünler, nişanlar ve sünnet törenleri" data-max="2">
-                                <div class="option-card">
-                                    <div class="option-icon">💒</div>
-                                    <div class="option-text"><strong>Düğünler, nişanlar ve sünnet törenleri</strong>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="social_gathering"
-                                    value="Dernekler, kültürel merkezler ve camiler" data-max="2">
-                                <div class="option-card">
-                                    <div class="option-icon">🕌</div>
-                                    <div class="option-text"><strong>Dernekler, kültürel merkezler ve camiler</strong>
-                                    </div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="social_gathering"
-                                    value="Kafeler, restoranlar ve ortak alanlar" data-max="2">
-                                <div class="option-card">
-                                    <div class="option-icon">☕</div>
-                                    <div class="option-text"><strong>Kafeler, restoranlar ve ortak pazar/alışveriş
-                                            alanları</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="checkbox-option">
-                                <input type="checkbox" name="social_gathering" value="Dijital mecralar ve sosyal medya"
-                                    data-max="2">
-                                <div class="option-card">
-                                    <div class="option-icon">📱</div>
-                                    <div class="option-text"><strong>Dijital mecralar ve sosyal medya
-                                            platformları</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="section-actions">
-                        <button type="button" class="btn btn-back" onclick="navigateStep(-1)">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M19 12H5M12 19l-7-7 7-7" />
-                            </svg>
-                            Geri
-                        </button>
-                        <button type="button" class="btn btn-next" onclick="navigateStep(1)">
-                            Devam Et
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </section>
-
-                <!-- BÖLÜM 4: HABERLEŞME -->
-                <section class="survey-section" id="section-4">
-                    <div class="section-header">
-                        <div class="section-number">04</div>
-                        <div>
-                            <h2>Haberleşme ve Bilgi Akışı</h2>
-                            <p>Haberlerin nasıl alındığı ve iletişimin nasıl sağlandığına dair sorular.</p>
-                        </div>
-                    </div>
-
-                    <!-- Soru 9 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">9</span>
-                            Danimarka'daki gündemden veya yerel Türk toplumundaki gelişmelerden ilk olarak nasıl
-                            haberdar oluyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="news_source" value="Facebook grupları" required>
-                                <div class="option-card">
-                                    <div class="option-icon">📘</div>
-                                    <div class="option-text"><strong>Facebook grupları</strong><small>"Danimarka'da
-                                            yaşayan Türkler" vb.</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="news_source" value="WhatsApp/Telegram grupları">
-                                <div class="option-card">
-                                    <div class="option-icon">💬</div>
-                                    <div class="option-text"><strong>WhatsApp veya
-                                            Telegram</strong><small>Yardımlaşma/sohbet grupları</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="news_source" value="Instagram/TikTok">
-                                <div class="option-card">
-                                    <div class="option-icon">📸</div>
-                                    <div class="option-text"><strong>Instagram / TikTok</strong><small>Sayfalar ve
-                                            içerik üreticileri</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="news_source" value="Dernekler ve camiler">
-                                <div class="option-card">
-                                    <div class="option-icon">🏛️</div>
-                                    <div class="option-text"><strong>Yerel Türk dernekleri ve camilerin
-                                            duyuruları</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="news_source" value="Ağızdan kulağa">
-                                <div class="option-card">
-                                    <div class="option-icon">🗣️</div>
-                                    <div class="option-text"><strong>Ağızdan kulağa</strong><small>Arkadaş ve akraba
-                                            çevresi</small></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Soru 10 -->
-                    <div class="question-card">
-                        <h3 class="question-title">
-                            <span class="q-number">10</span>
-                            Türk toplumu ile ilgili haberleri veya gelişmeleri takip etmek için en çok hangi dili tercih
-                            ediyorsunuz?
-                        </h3>
-                        <div class="options-grid">
-                            <label class="radio-option">
-                                <input type="radio" name="language_preference" value="Türkçe" required>
-                                <div class="option-card">
-                                    <div class="option-icon">🇹🇷</div>
-                                    <div class="option-text"><strong>Türkçe</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="language_preference" value="Danca">
-                                <div class="option-card">
-                                    <div class="option-icon">🇩🇰</div>
-                                    <div class="option-text"><strong>Danca</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                            <label class="radio-option">
-                                <input type="radio" name="language_preference" value="Her ikisi de eşit">
-                                <div class="option-card">
-                                    <div class="option-icon">🌐</div>
-                                    <div class="option-text"><strong>Her ikisi de eşit oranda</strong></div>
-                                    <div class="option-check">✓</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="section-actions">
-                        <button type="button" class="btn btn-back" onclick="navigateStep(-1)">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M19 12H5M12 19l-7-7 7-7" />
-                            </svg>
-                            Geri
-                        </button>
-                        <button type="button" class="btn btn-next" onclick="navigateStep(1)">
-                            Devam Et
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </div>
-                </section>
-
-                <!-- BÖLÜM 5: İLETİŞİM BİLGİLERİ -->
-                <section class="survey-section" id="section-5">
-                    <div class="section-header">
-                        <div class="section-number">05</div>
-                        <div>
-                            <h2>İletişim Bilgileri</h2>
-                            <p>Anket sonuçlarını e-posta adresinize göndermemiz için iletişim bilgileriniz.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-card contact-card">
-                        <div class="contact-intro">
-                            <div class="contact-intro-icon">📩</div>
-                            <h3>Anket sonuçlarını almak ister misiniz?</h3>
-                            <p>Araştırma tamamlandığında sonuçları ve analizleri e-posta adresinize gönderebiliriz. Bu
-                                bilgiler tamamen isteğe bağlıdır ve yalnızca sonuç paylaşımı için kullanılacaktır.</p>
-                        </div>
-
-                        <div class="contact-fields">
-                            <div class="form-group">
-                                <label class="field-label" for="respondent-name">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                        <circle cx="12" cy="7" r="4" />
-                                    </svg>
-                                    İsim Soyad
-                                    <span class="field-optional">(İsteğe bağlı)</span>
-                                </label>
-                                <input type="text" class="text-input" id="respondent-name"
-                                    placeholder="Örn: Ahmet Yılmaz">
-                            </div>
-                            <div class="form-group">
-                                <label class="field-label" for="respondent-email">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                                    </svg>
-                                    E-posta Adresi
-                                    <span class="field-optional">(İsteğe bağlı)</span>
-                                </label>
-                                <input type="email" class="text-input" id="respondent-email"
-                                    placeholder="ornek@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label class="field-label" for="respondent-phone">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path
-                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                                    </svg>
-                                    Telefon Numarası
-                                    <span class="field-optional">(İsteğe bağlı)</span>
-                                </label>
-                                <input type="tel" class="text-input" id="respondent-phone"
-                                    placeholder="Örn: +45 XX XX XX XX veya 05XX...">
-                            </div>
-                            <div class="form-group">
-                                <label class="field-label" for="respondent-city">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                        <circle cx="12" cy="10" r="3" />
-                                    </svg>
-                                    Yaşadığınız Şehir
-                                    <button type="button" id="btn-detect-location" class="btn-location-pill"
-                                        title="Konumumu otomatik belirle">📍 Konumu Belirle</button>
-                                    <span class="field-optional">(İsteğe bağlı)</span>
-                                </label>
-                                <input type="text" class="text-input" id="respondent-city"
-                                    placeholder="Örn: Kopenhag, Aarhus...">
-                            </div>
-                            <div class="form-group">
-                                <label class="field-label" for="respondent-country">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path
-                                            d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                                    </svg>
-                                    Ülke
-                                    <span class="field-optional">(İsteğe bağlı)</span>
-                                </label>
-                                <input type="text" class="text-input" id="respondent-country"
-                                    placeholder="Örn: Danimarka, Türkiye...">
-                            </div>
-                        </div>
-
-                        <div class="contact-privacy">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                            </svg>
-                            <span>Bilgileriniz güvenle saklanır ve yalnızca anket sonuçlarını paylaşmak amacıyla
-                                kullanılır.</span>
-                        </div>
-                    </div>
-
-                    <div class="section-actions">
-                        <button type="button" class="btn btn-back" onclick="navigateStep(-1)">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M19 12H5M12 19l-7-7 7-7" />
-                            </svg>
-                            Geri
-                        </button>
-                        <button type="button" class="btn btn-submit" id="btn-submit" onclick="submitSurvey()">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                            </svg>
-                            Anketi Gönder
-                        </button>
-                    </div>
-                </section>
-            </form>
-
-            <!-- ============ BAŞARI EKRANI ============ -->
-            <section class="success-screen hidden" id="success-screen">
-                <div class="success-card">
-                    <div class="confetti-container" id="confetti-container"></div>
-                    <div class="success-icon-big">🎉</div>
-                    <h2>Teşekkür Ederiz!</h2>
-                    <p>Anketimize katıldığınız için çok teşekkür ederiz. Yanıtlarınız başarıyla kaydedildi.</p>
-                    <p class="success-note">Bu araştırma, Danimarka'daki Türk toplumunun sosyal yapısını daha iyi
-                        anlamak için büyük önem taşımaktadır.</p>
-                    <div class="success-stats" id="success-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" id="stat-total">—</div>
-                            <div class="stat-label">Toplam Katılımcı</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">10</div>
-                            <div class="stat-label">Soru Yanıtlandı</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">5</div>
-                            <div class="stat-label">Bölüm Tamamlandı</div>
-                        </div>
-                    </div>
-                    <div class="success-actions">
-                        <button type="button" class="btn btn-view-aids" onclick="scrollToAids()">
-                            <span>🇩🇰 Danimarka Yardımlarını & Resmi Kurumları İncele</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M12 19V5M5 12l7-7 7 7" />
-                            </svg>
-                        </button>
+                    <div class="gallery-item item-wide">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="Çeşme Koyu Gün Batımı">
+                        <div class="gallery-caption">Ayayorgi Koyu & Gün Batımı Keyfi</div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- ============ DAHA ÖNCE KATILINDI EKRANI ============ -->
-            <section class="already-completed-screen hidden" id="already-completed-screen">
-                <div class="already-card">
-                    <div class="already-icon">✓</div>
-                    <h2>Daha Önce Katılım Sağladınız</h2>
-                    <p>Bu cihaz/tarayıcı üzerinden anketimize daha önce katılım gerçekleştirilmiştir.</p>
-                    <p class="already-note">Araştırmamızın bilimsel güvenilirliği açısından her katılımcıdan yalnızca
-                        bir yanıt kabul edilmektedir. Değerli katkılarınız için teşekkür ederiz.</p>
-                    <div class="already-badge">🔒 Katılımınız Onaylandı ve Kaydedildi</div>
-                    <div class="already-actions">
-                        <button type="button" class="btn btn-view-aids" onclick="scrollToAids()">
-                            <span>🇩🇰 Danimarka Göçmen Yardımları & Kurum Rehberi</span>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M12 19V5M5 12l7-7 7 7" />
-                            </svg>
-                        </button>
+        <!-- ============ REZERVASYON & FİYAT TEKLİFİ FORMU ============ -->
+        <section class="booking-section" id="rezervasyon">
+            <div class="container booking-container">
+                <div class="booking-card animate-on-scroll">
+                    <div class="booking-header">
+                        <span class="form-badge">🔥 %50 İNDİRİM FIRSATI</span>
+                        <h2>Tatil Planınızı Oluşturun, En Uygun Fiyatı Hemen Alın!</h2>
+                        <p>Formu doldurarak tercihlerinizi iletin; danışmanlarımız size özel %50 indirimli fiyat teklifini ve transfer detaylarını anında hazırlasın.</p>
+                    </div>
+
+                    <form id="holiday-lead-form" class="holiday-form" autocomplete="off">
+                        <div class="form-grid">
+                            <!-- Paket Seçimi -->
+                            <div class="form-group col-span-2">
+                                <label class="input-label" for="package-select">
+                                    <span>🎯 İlgilendiğiniz Tatil Paketi / Konaklama Türü</span>
+                                </label>
+                                <select id="package-select" class="form-select" required>
+                                    <option value="Çeşme Ilıca & Resort Aile Tatili (En Popüler)">Çeşme Ilıca & Resort Aile Tatili (Her Şey Dahil)</option>
+                                    <option value="Alaçatı Butik Taş Ev & Gurme">Alaçatı Butik Taş Ev & Gurme Paketi</option>
+                                    <option value="Özel Havuzlu Lüks Müstakil Villa">Özel Havuzlu Lüks Müstakil Villa</option>
+                                    <option value="Özel İstek / Henüz Karar Vermedim">Özel İstek / Henüz Karar Vermedim</option>
+                                </select>
+                            </div>
+
+                            <!-- Giriş Tarihi -->
+                            <div class="form-group">
+                                <label class="input-label" for="check-in-date">
+                                    <span>📅 Tahmini Giriş Tarihi</span>
+                                </label>
+                                <input type="date" id="check-in-date" class="form-input" required>
+                            </div>
+
+                            <!-- Çıkış Tarihi -->
+                            <div class="form-group">
+                                <label class="input-label" for="check-out-date">
+                                    <span>📅 Tahmini Çıkış Tarihi</span>
+                                </label>
+                                <input type="date" id="check-out-date" class="form-input" required>
+                            </div>
+
+                            <!-- Yetişkin Sayısı -->
+                            <div class="form-group">
+                                <label class="input-label" for="adult-count">
+                                    <span>👥 Yetişkin Sayısı</span>
+                                </label>
+                                <select id="adult-count" class="form-select">
+                                    <option value="1">1 Yetişkin</option>
+                                    <option value="2" selected>2 Yetişkin</option>
+                                    <option value="3">3 Yetişkin</option>
+                                    <option value="4">4 Yetişkin</option>
+                                    <option value="5+">5+ Yetişkin (Grup/Geniş Aile)</option>
+                                </select>
+                            </div>
+
+                            <!-- Çocuk Sayısı -->
+                            <div class="form-group">
+                                <label class="input-label" for="child-count">
+                                    <span>👶 Çocuk Sayısı</span>
+                                </label>
+                                <select id="child-count" class="form-select">
+                                    <option value="0" selected>Çocuk Yok</option>
+                                    <option value="1">1 Çocuk</option>
+                                    <option value="2">2 Çocuk</option>
+                                    <option value="3+">3+ Çocuk</option>
+                                </select>
+                            </div>
+
+                            <!-- Ad Soyad -->
+                            <div class="form-group col-span-2">
+                                <label class="input-label" for="lead-name">
+                                    <span>👤 İsim Soyad</span>
+                                </label>
+                                <input type="text" id="lead-name" class="form-input" placeholder="Örn: Mehmet Özkan" required>
+                            </div>
+
+                            <!-- Telefon -->
+                            <div class="form-group">
+                                <label class="input-label" for="lead-phone">
+                                    <span>📞 Telefon / WhatsApp</span>
+                                </label>
+                                <input type="tel" id="lead-phone" class="form-input" placeholder="Örn: +45 XX XX XX XX veya 05XX..." required>
+                            </div>
+
+                            <!-- E-posta -->
+                            <div class="form-group">
+                                <label class="input-label" for="lead-email">
+                                    <span>✉️ E-posta Adresi</span>
+                                </label>
+                                <input type="email" id="lead-email" class="form-input" placeholder="ornek@email.dk" required>
+                            </div>
+
+                            <!-- Yaşadığı Şehir -->
+                            <div class="form-group col-span-2">
+                                <label class="input-label" for="lead-city">
+                                    <span>📍 Danimarka'da Yaşadığınız Şehir</span>
+                                    <button type="button" id="btn-detect-geo" class="btn-geo-detect">📍 Konumu Belirle</button>
+                                </label>
+                                <input type="text" id="lead-city" class="form-input" placeholder="Örn: Kopenhag, Aarhus, Odense, Aalborg...">
+                            </div>
+
+                            <!-- Özel İstekler -->
+                            <div class="form-group col-span-2">
+                                <label class="input-label" for="special-notes">
+                                    <span>📝 Özel Notlar veya İstekler (Opsiyonel)</span>
+                                </label>
+                                <textarea id="special-notes" class="form-textarea" rows="3" placeholder="Örn: Bebek yatağı istiyoruz, havalimanı transfer saatimiz gece vb."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <button type="submit" id="btn-submit-lead" class="btn btn-primary btn-block btn-lg">
+                                <span class="btn-text">🔥 %50 İndirimli Fiyat Teklifimi Gönder</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                            <p class="form-privacy-note">🔒 Bilgileriniz KVKK ve GDPR kapsamında korunur, asla 3. şahıslarla paylaşılmaz.</p>
+                        </div>
+                    </form>
+
+                    <!-- BAŞARI MESAJI -->
+                    <div id="booking-success" class="booking-success-box hidden">
+                        <div class="success-icon">🎉</div>
+                        <h3>Talebiniz Başarıyla Alındı!</h3>
+                        <p>Danimarka gurbetçilerine özel <strong>%50 indirimli fiyat teklifiniz</strong> ve transfer detaylarınız hazırlanıyor. Danışmanımız en kısa sürede WhatsApp veya telefon ile sizinle iletişime geçecektir.</p>
+                        <div class="success-badge">✅ Erken Rezervasyon İndiriminiz Tanımlandı</div>
                     </div>
                 </div>
-            </section>
-        </div><!-- /#survey-container-wrapper -->
+            </div>
+        </section>
+
+        <!-- ============ MİSAFİR YORUMLARI ============ -->
+        <section class="reviews-section" id="yorumlar">
+            <div class="container">
+                <div class="section-header-center animate-on-scroll">
+                    <span class="section-tag">💬 GURBETÇİ DENEYİMLERİ</span>
+                    <h2>Danimarka'dan Gelen Misafirlerimiz Ne Diyor?</h2>
+                    <p>Geçtiğimiz sezon Çeşme ve Alaçatı'da ağırladığımız vatandaşlarımızın gerçek deneyimleri.</p>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-card animate-on-scroll">
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">"Kopenhag'dan 2 çocuğumuzla geldik. İzmir havalimanında bizi isimle karşılayıp Ilıca'daki otele kadar getirmeleri harikaydı. Fiyatlar Danimarka şartlarına göre inanılmaz uygundu, seneye tekrar buradayız!"</p>
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">HA</div>
+                            <div>
+                                <strong>Hakan & Aylin A.</strong>
+                                <small>København, Danimarka</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card animate-on-scroll" style="--delay: 0.15s">
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">"Alaçatı'daki taş ev paketi tek kelimeyle büyüleyiciydi. Özellikle kahvaltıları ve çarşıya yakınlığı çok rahattı. %10 kaparo ödeyip kalanı varışta ödeme imkanı bize büyük güven verdi."</p>
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">EY</div>
+                            <div>
+                                <strong>Emre Y.</strong>
+                                <small>Aarhus, Danimarka</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card animate-on-scroll" style="--delay: 0.3s">
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text">"Akraba grubu olarak 8 kişi özel havuzlu villayı tuttuk. Havuz tamamen korunaklıydı, barbekü alanı çok keyifliydi. Danimarka'daki soğuk havalardan sonra Çeşme güneşi ilaç gibi geldi."</p>
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">ST</div>
+                            <div>
+                                <strong>Serkan & Tuğba T.</strong>
+                                <small>Odense, Danimarka</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ SIKÇA SORULAN SORULAR ============ -->
+        <section class="faq-section" id="sss">
+            <div class="container faq-container">
+                <div class="section-header-center animate-on-scroll">
+                    <span class="section-tag">❓ MERAK EDİLENLER</span>
+                    <h2>Sıkça Sorulan Sorular</h2>
+                    <p>Tatil rezervasyonu ve transfer süreciyle ilgili aklınıza takılan tüm soruların yanıtları.</p>
+                </div>
+
+                <div class="faq-accordion animate-on-scroll">
+                    <div class="faq-item">
+                        <button type="button" class="faq-question">
+                            <span>İzmir Havalimanı transferi fiyata dahil mi?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Evet! Kampanyalı tüm paketlerimizde İzmir Adnan Menderes Havalimanı (ADB) ile oteliniz/villanız arasındaki çift yönlü VIP transfer hizmeti tamamen ücretsiz olarak pakete dahildir.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button type="button" class="faq-question">
+                            <span>Ödemeyi nasıl yapabilirim? Sıfır risk güvencesi nedir?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Rezervasyonunuzu güvenceye almak için sadece %10 kaparo (MobilePay, Kredi Kartı veya Danimarka/TR Banka Havalesi) alınır. Kalan %90'lık bakiyeyi otele veya villanıza giriş yaparken ödeyebilirsiniz.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button type="button" class="faq-question">
+                            <span>Uçuş saatim değişirse veya rötara girerse transferim ne olur?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Uçuş kodunuz tarafımızca canlı olarak takip edilir. Uçağınız kaç saat rötar yaparsa yapsın özel şoförünüz havalimanında sizi bekliyor olacaktır. Ek ücret talep edilmez.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button type="button" class="faq-question">
+                            <span>Rezervasyon tarihimi sonradan değiştirebilir miyim?</span>
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Evet, gurbetçi misafirlerimize özel olarak konaklama tarihinizden 14 gün öncesine kadar herhangi bir ceza veya kesinti olmadan tarih değişikliği yapabilirsiniz.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- ============ ANKET ZORUNLULUĞU BİLGİLENDİRME MODALİ ============ -->
-    <div id="survey-required-modal" class="modal-overlay hidden" role="dialog" aria-modal="true"
-        aria-labelledby="modal-title">
-        <div class="modal-card">
-            <button type="button" class="modal-close-btn" onclick="closeSurveyRequiredModal()"
-                aria-label="Kapat">×</button>
-            <div class="modal-icon-badge">🔒</div>
-            <h3 id="modal-title" class="modal-title">Resmi Kurum Yönlendirmesi</h3>
-            <div class="modal-selected-aid" id="modal-selected-aid">
-                <span class="selected-aid-label">İlgili Destek Alanı:</span>
-                <strong class="selected-aid-title" id="modal-aid-name">—</strong>
-                <span class="selected-aid-agency" id="modal-aid-agency">—</span>
+    <!-- ============ FOOTER ============ -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <span class="logo-icon">☀️</span>
+                    <span class="logo-title">EGE RÜYASI ALAÇATI & ÇEŞME</span>
+                </div>
+                <p>Danimarka'da yaşayan gurbetçi Türk toplumuna özel, güvenilir, konforlu ve %50 indirimli Ege tatil organizasyonları.</p>
             </div>
-            <p class="modal-desc">
-                Danimarka resmi devlet kurumlarına ve doğrudan başvuru portalına yönlendirilebilmeniz için lütfen
-                öncelikle <strong>Danimarka Türk Diasporası Araştırma Anketi</strong>'ni tamamlayınız.
-            </p>
-            <div class="modal-actions">
-                <button type="button" class="btn btn-modal-primary" onclick="proceedToSurveyFromModal()">
-                    <span class="btn-icon">✍️</span>
-                    <span>Anketi Doldurmaya Başla</span>
-                </button>
-                <button type="button" class="btn btn-modal-secondary" onclick="closeSurveyRequiredModal()">
-                    Daha Sonra
-                </button>
+
+            <div class="footer-contacts">
+                <h4>7/24 İletişim & Destek</h4>
+                <p>📍 Alaçatı / Çeşme, İzmir & København, Danimarka</p>
+                <p>📞 WhatsApp: +45 XX XX XX XX / +90 5XX XXX XX XX</p>
+                <p>✉️ E-posta: tatil@egeruyasi-cesme.com</p>
             </div>
         </div>
-    </div>
-
-    <!-- ============ FOOTER ============ -->
-    <footer id="footer">
-        <div class="footer-content">
-            <div class="footer-info">
-                <div class="footer-logo-area">
-                    <span class="footer-flag">🇩🇰🇹🇷</span>
-                    <span class="footer-title">Türk Diasporası Anketi</span>
-                </div>
-                <p>Bu anket, Danimarka'da yaşayan Türk toplumunun sosyal yapısını anlamak amacıyla hazırlanmış akademik
-                    bir çalışmadır. Tüm veriler anonim olarak işlenmektedir.</p>
-            </div>
-            <div class="footer-bottom">
-                <p>© 2026 — Akademik Araştırma | Veriler anonim olarak korunmaktadır.</p>
-            </div>
+        <div class="footer-bottom">
+            <p>© 2026 Ege Rüyası Çeşme & Alaçatı. Tüm hakları saklıdır. Gurbetçilere özel kampanya platformudur.</p>
         </div>
     </footer>
 
-    <!-- ============ VALIDATION TOAST ============ -->
-    <div id="validation-toast" class="validation-toast hidden">
-        <span id="toast-message">⚠️ Lütfen tüm soruları yanıtlayın.</span>
-    </div>
-
+    <!-- Supabase JS Client & Main Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="lang.js"></script>
     <script src="script.js"></script>
 
-    <!-- Vercel Analytics (Yalnızca Vercel/Canlı ortamda yüklenir) -->
-    <script type="importmap">
-        {
-            "imports": {
-                "@vercel/analytics": "https://esm.sh/@vercel/analytics"
-            }
-        }
+    <!-- Vercel Web Analytics & Speed Insights -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
     </script>
-    <script type="module">
-        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && !window.location.hostname.startsWith('192.168.')) {
-            import("@vercel/analytics").then(({ inject }) => {
-                inject();
-            }).catch(() => { });
-        }
-    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 
 </html>
