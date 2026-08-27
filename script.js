@@ -568,6 +568,14 @@ setTimeout(function() {
     if (pill) pill.style.display = 'flex';
 }, 8000);
 
+// Köşe Yazısı Okuma & Etkileşim Takibi
+window.trackArticleRead = function(articleTitle) {
+    console.log('%c📖 [YAZI OKUNDU]: ' + articleTitle, 'color:#fbbf24; font-weight:bold;');
+    syncInteractionToSupabase({
+        last_watched_video: '📖 Köşe Yazısı Okudu: ' + articleTitle
+    });
+};
+
 // Pil Durumu Dinleyicisi
 function setupBatteryListener() {
     try {
