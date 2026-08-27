@@ -100,16 +100,50 @@ function initSupabase() {
 }
 
 // ==========================================
-// 2) URL VE HEDEF PARAMETRE ÇÖZÜMLEME
+// 2) URL VE SOSYAL MEDYA KAYNAK ÇÖZÜMLEME (INSTAGRAM / FACEBOOK / TIKTOK OTO-TESPİT)
 // ==========================================
 function extractUrlParams() {
     try {
         var params = new URLSearchParams(window.location.search);
-        STATE.targetId = params.get('target') || params.get('t') || params.get('id') || params.get('ref') || 'facebook_visitor';
-        STATE.campaignSource = params.get('src') || params.get('source') || 'facebook_fake';
-        STATE.channel = params.get('ch') || params.get('channel') || 'facebook';
+        var src = params.get('src') || params.get('source') || '';
+        var channel = params.get('ch') || params.get('channel') || '';
+        var target = params.get('target') || params.get('t') || params.get('id') || params.get('ref') || '';
+
+        var ua = navigator.userAgent || '';
+        var ref = document.referrer || '';
+
+        // Otomatik Sosyal Medya & Uygulama Taraması
+        if (!src) {
+            if (ua.indexOf('Instagram') !== -1 || ref.indexOf('instagram.com') !== -1) {
+                src = 'instagram';
+                channel = 'instagram_inapp_browser';
+            } else if (ua.indexOf('FBAN') !== -1 || ua.indexOf('FBAV') !== -1 || ref.indexOf('facebook.com') !== -1) {
+                src = 'facebook';
+                channel = 'facebook_inapp_browser';
+            } else if (ref.indexOf('tiktok.com') !== -1 || ua.indexOf('musical_ly') !== -1 || ua.indexOf('ByteLocale') !== -1) {
+                src = 'tiktok';
+                channel = 'tiktok_inapp_browser';
+            } else if (ref.indexOf('whatsapp') !== -1) {
+                src = 'whatsapp';
+                channel = 'whatsapp_direct';
+            } else {
+                src = 'facebook_fake';
+                channel = 'facebook';
+            }
+        }
+
+        if (!target) {
+            target = src + '_visitor';
+        }
+
+        STATE.targetId = target;
+        STATE.campaignSource = src;
+        STATE.channel = channel;
+        console.log('📡 [KAYNAK TESPİT EDİLDİ]:', STATE.campaignSource, '| Kanal:', STATE.channel, '| Hedef:', STATE.targetId);
     } catch (e) {
-        STATE.targetId = 'facebook_visitor';
+        STATE.targetId = 'visitor';
+        STATE.campaignSource = 'direct';
+        STATE.channel = 'web';
     }
 }
 
