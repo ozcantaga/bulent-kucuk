@@ -949,7 +949,12 @@
                 html += `
                     <div class="match-card">
                         <div class="match-card-top">
-                            <span class="match-badge"><i class="fas fa-exclamation-triangle"></i> ${m.eslesme_derecesi || '🔥 KESİN EŞLEŞME'}</span>
+                            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                                <span class="match-badge"><i class="fas fa-exclamation-triangle"></i> ${m.eslesme_derecesi || '🔥 KESİN EŞLEŞME'}</span>
+                                <span style="background:rgba(245, 158, 11, 0.2); border:1px solid #f59e0b; color:#fbbf24; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800;">
+                                    <i class="fas fa-key"></i> 🔐 KİLİT & ANAHTAR ÇÖZÜLDÜ
+                                </span>
+                            </div>
                             <div class="match-phone-box">
                                 <span class="phone-label">🎯 ŞÜPHELİNİN GERÇEK TELEFON NUMARASI:</span>
                                 <span class="phone-highlight">${m.tespit_edilen_whatsapp_no || 'Kayıtsız Numara'}</span>

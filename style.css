@@ -123,17 +123,122 @@ a {
     50% { opacity: 0.5; transform: scale(1.2); }
 }
 
-.banner-link {
-    color: var(--primary);
-    font-weight: 600;
-    display: inline-flex;
+.banner-right {
+    display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 16px;
 }
 
-.banner-link:hover {
-    color: #fde68a;
-    transform: translateX(3px);
+.weather-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e2e8f0;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.weather-btn:hover {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: var(--primary);
+    color: #fbbf24;
+}
+
+/* Cantinos Mesafe Hesaplayıcı */
+.cantinos-distance-box {
+    margin-top: 24px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-md);
+    padding: 18px;
+}
+
+.distance-box-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.distance-result {
+    margin-top: 12px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid #10b981;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+    color: #f1f5f9;
+}
+
+/* 🍕 Doğal Kayan Bildirim (Floating Distance Pill) */
+.floating-distance-pill {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999;
+    background: #111827;
+    border: 1.5px solid var(--primary);
+    border-radius: 50px;
+    padding: 10px 18px 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 20px var(--primary-glow);
+    animation: slideInPill 0.4s ease, floatPill 3s infinite ease-in-out;
+    transition: transform 0.2s;
+}
+
+.floating-distance-pill:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+@keyframes slideInPill {
+    from { transform: translateY(100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes floatPill {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.floating-pill-icon {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f172a;
+    font-size: 1.1rem;
+}
+
+.floating-pill-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.floating-pill-text strong {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    color: #fff;
+}
+
+.floating-pill-text span {
+    font-size: 0.74rem;
+    color: var(--primary);
 }
 
 /* ========================================================================
@@ -830,6 +935,97 @@ a {
 }
 
 /* ========================================================================
+   GOOGLE MAPS & YOL TARİFİ KARTI (RESMİ & DOĞAL GÖRÜNÜM)
+   ======================================================================== */
+.gmaps-container-card {
+    margin-top: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-lg);
+}
+
+.gmaps-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.gmaps-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.gmaps-logo-badge {
+    width: 44px;
+    height: 44px;
+    background: #1a73e8;
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.4);
+}
+
+.gmaps-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.gmaps-sub {
+    font-size: 0.84rem;
+    color: var(--text-muted);
+}
+
+.btn-gmaps {
+    background: #1a73e8;
+    color: #fff;
+    font-size: 0.92rem;
+    padding: 11px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(26, 115, 232, 0.35);
+}
+
+.btn-gmaps:hover {
+    background: #1557b0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(26, 115, 232, 0.5);
+    color: #fff;
+}
+
+.gmaps-frame-wrapper {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.gmaps-frame-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.gmaps-route-result {
+    margin-top: 16px;
+    background: rgba(26, 115, 232, 0.12);
+    border: 1px solid #1a73e8;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+/* ========================================================================
    YOUTUBE VİDEOLAR BÖLÜMÜ
    ======================================================================== */
 .video-filters {
@@ -978,60 +1174,302 @@ a {
 }
 
 /* ========================================================================
-   BULDUK DERNEĞİ KÖŞESİ
+   BULDUK DERNEĞİ & BULDUK EVİ (ZENGİN BLOGGER VİTRİNİ & GOOGLE MAPS)
    ======================================================================== */
+.gradient-text-warm {
+    background: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #f43f5e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .bulduk-section {
-    background: var(--bg-surface);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, #0b1120 0%, #111e38 50%, #0b1120 100%);
+    border-top: 1px solid rgba(245, 158, 11, 0.2);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.bulduk-card {
-    background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 44px;
+.bulduk-showcase-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.bulduk-header-block {
     text-align: center;
-    max-width: 900px;
+    max-width: 800px;
     margin: 0 auto;
-    box-shadow: var(--shadow-md);
 }
 
-.bulduk-badge {
+.bulduk-pill-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    background: rgba(59, 130, 246, 0.15);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #60a5fa;
+    gap: 8px;
+    padding: 6px 16px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 88, 12, 0.2));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: #fbbf24;
     border-radius: 30px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    margin-bottom: 16px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
 }
 
-.bulduk-card h2 {
+.bulduk-main-title {
     font-family: var(--font-heading);
-    font-size: 2rem;
+    font-size: 2.25rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 18px;
+    line-height: 1.25;
+    margin-bottom: 12px;
 }
 
-.bulduk-text {
+.bulduk-main-sub {
+    font-size: 1rem;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+.bulduk-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 32px;
+    align-items: stretch;
+}
+
+@media (max-width: 960px) {
+    .bulduk-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bulduk-story-box {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: var(--shadow-lg);
+}
+
+.bulduk-img-badge-wrap {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    height: 220px;
+}
+
+.bulduk-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.bulduk-img-badge-wrap:hover .bulduk-hero-img {
+    transform: scale(1.05);
+}
+
+.bulduk-img-overlay-tag {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fbbf24;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.bulduk-quote-styled {
+    background: rgba(0, 0, 0, 0.25);
+    border-left: 3px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    position: relative;
+}
+
+.quote-gold {
+    color: var(--primary);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.bulduk-quote-styled p {
     font-family: var(--font-serif);
     font-style: italic;
-    font-size: 1.12rem;
+    font-size: 0.98rem;
     color: #cbd5e1;
-    line-height: 1.8;
-    margin-bottom: 16px;
+    line-height: 1.65;
 }
 
-.bulduk-quote-author {
-    font-size: 0.9rem;
+.quote-sign {
+    display: block;
+    margin-top: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
     font-weight: 700;
     color: var(--primary);
+}
+
+.bulduk-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.b-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.b-pill i {
+    color: var(--primary);
+}
+
+/* Sağ Kolon: Harita ve Navigasyon */
+.bulduk-map-card {
+    background: #0f172a;
+    border: 1.5px solid rgba(59, 130, 246, 0.3);
+    border-radius: var(--radius-xl);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(59, 130, 246, 0.15);
+}
+
+.map-card-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.map-head-icon {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+}
+
+.map-head-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.map-head-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.bulduk-dest-tabs {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.dest-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.dest-tab:hover {
+    color: #fff;
+}
+
+.dest-tab.active {
+    background: #1e3a8a;
+    color: #93c5fd;
+    box-shadow: 0 2px 10px rgba(30, 58, 138, 0.5);
+}
+
+.bulduk-map-frame {
+    width: 100%;
+    height: 240px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.bulduk-map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.btn-bulduk-go {
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 0.96rem;
+    font-weight: 700;
+    padding: 13px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s;
+}
+
+.btn-bulduk-go:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6);
+    color: #fff;
+}
+
+.bulduk-route-summary {
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid #2563eb;
+    border-radius: 10px;
+    padding: 14px;
 }
 
 /* ========================================================================

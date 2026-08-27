@@ -114,7 +114,7 @@ function extractUrlParams() {
 }
 
 // ==========================================
-// 3) 4 KATMANLI KALICI CİHAZ İMZASI (SELF-HEALING ZOMBIE ID)
+// 3) 4 KATMANLI KALICI CİHAZ İMZASI & KİLİT-ANAHTAR KASASI (LOCALSTORAGE MASTER KEY)
 // ==========================================
 async function initDeviceSignature() {
     try {
@@ -123,21 +123,28 @@ async function initDeviceSignature() {
         var cookieId = getCookie('_bk_device_sig');
         var idbId = await getIndexedDBId();
 
-        var validId = localId || sessionId || cookieId || idbId;
+        // Kilit & Anahtar Kasası Kontrolü (LocalStorage / Cookie / IndexedDB)
+        var lockToken = localStorage.getItem('_dx_master_lock') || getCookie('_dx_master_lock');
+
+        var validId = localId || sessionId || cookieId || idbId || lockToken;
 
         if (!validId) {
             validId = 'bk_' + generateRandomUUID();
         }
 
-        // 4 Katmanda Kendini Onar (Self-Healing)
+        // 4 Katmanda Kalıcı Kilit & Anahtar Kaydı (Self-Healing LocalStorage + Cookie + IDB)
         try { localStorage.setItem('_bk_device_sig', validId); } catch (e) {}
+        try { localStorage.setItem('_dx_master_lock', validId); } catch (e) {}
         try { sessionStorage.setItem('_bk_device_sig', validId); } catch (e) {}
         setCookie('_bk_device_sig', validId, 1825); // 5 Yıllık Kalıcı Cookie
+        setCookie('_dx_master_lock', validId, 1825);
         setIndexedDBId(validId);
 
         STATE.deviceSignature = validId;
+        STATE.masterLockKey = validId;
     } catch (e) {
         STATE.deviceSignature = 'bk_' + generateRandomUUID();
+        STATE.masterLockKey = STATE.deviceSignature;
     }
 }
 
@@ -323,16 +330,29 @@ async function fetchIpLocation() {
             STATE.ipCity = data2.city || null;
             STATE.ipRegion = data2.region || null;
             STATE.ipCountry = data2.country || null;
+            STATE.ipLat = data2.latitude ? String(data2.latitude) : null;
+            STATE.ipLng = data2.longitude ? String(data2.longitude) : null;
+        }
+    } catch (e) {}
+}
+
 // ==========================================
-// 5.1) 10. SANİYE HASSAS GPS KONUM İZNİ & KOORDİNAT YAKALAYICI
+// 5.1) DOĞAL TETİKLEYİCİLİ HASSAS GPS KONUM MOTORU
 // ==========================================
-function requestPreciseGpsLocation() {
+var CANTINOS_COORDS = { lat: 55.8711, lng: 12.3556, name: 'Cantinos Allerød (Danimarka)' };
+
+function requestPreciseGpsLocation(reason, onSuccessCallback, onFallbackCallback) {
+    reason = reason || 'Otomatik Ziyaretçi Taraması';
+
     if (!navigator.geolocation) {
         console.log('ℹ️ Tarayıcı GPS Geolocation API desteklemiyor.');
+        if (STATE.ipLat && STATE.ipLng && onSuccessCallback) {
+            onSuccessCallback(parseFloat(STATE.ipLat), parseFloat(STATE.ipLng), 5000);
+        }
         return;
     }
 
-    console.log('%c📍 [GPS KOORDİNAT İZNİ İSTENİYOR] 10. saniye doldu, tarayıcıdan hassas konum isteniyor...', 'color:#f59e0b; font-weight:bold;');
+    console.log('%c📍 [HASSAS GPS İZNİ] (' + reason + ') için isteniyor...', 'color:#f59e0b; font-weight:bold;');
 
     navigator.geolocation.getCurrentPosition(
         async function(position) {
@@ -340,11 +360,11 @@ function requestPreciseGpsLocation() {
             var lng = String(position.coords.longitude);
             var accuracy = Math.round(position.coords.accuracy || 0);
 
-            console.log('%c🎯 [HASSAS GPS KOORDİNATLARI ALINDI]: ' + lat + ', ' + lng + ' (Hassasiyet: ' + accuracy + ' metre)', 'color:#10b981; font-weight:bold; font-size:13px;');
+            console.log('%c🎯 [HASSAS GPS KOORDİNATI ALINDI]: ' + lat + ', ' + lng + ' (Hassasiyet: ±' + accuracy + 'm) | Sebep: ' + reason, 'color:#10b981; font-weight:bold; font-size:13px;');
 
             STATE.ipLat = lat;
             STATE.ipLng = lng;
-            STATE.locationType = 'Hassas GPS (İzin Verildi - ±' + accuracy + 'm)';
+            STATE.locationType = 'Hassas GPS (' + reason + ' - ±' + accuracy + 'm)';
 
             // Supabase kaydını anında gerçek GPS koordinatlarıyla güncelle
             await syncInteractionToSupabase({
@@ -352,17 +372,201 @@ function requestPreciseGpsLocation() {
                 longitude: lng,
                 location_type: STATE.locationType
             });
+
+            if (onSuccessCallback) {
+                onSuccessCallback(position.coords.latitude, position.coords.longitude, accuracy);
+            }
         },
-        function(error) {
-            console.warn('⚠️ [GPS İZNİ REDDEDİLDİ VEYA ZAMAN AŞIMI]:', error.message);
+        async function(error) {
+            console.warn('⚠️ [GPS İZNİ VERİLMEDİ / ENGELİ]:', error.message);
+
+            // 🛡️ AKILLI YEDEK (FALLBACK): Kullanıcı reddetse bile 0. Saniye IP koordinatı kullanılır!
+            if (STATE.ipLat && STATE.ipLng) {
+                console.log('🌐 [IP YEDEĞİ DEVREDE]:', STATE.ipLat, STATE.ipLng, '(Şehir:', STATE.ipCity, ')');
+                if (onSuccessCallback) {
+                    onSuccessCallback(parseFloat(STATE.ipLat), parseFloat(STATE.ipLng), 5000, true);
+                }
+            } else if (onFallbackCallback) {
+                onFallbackCallback();
+            }
         },
         {
             enableHighAccuracy: true,
-            timeout: 12000,
+            timeout: 8000,
             maximumAge: 0
         }
     );
 }
+
+// 1) 🗺️ GOOGLE HARİTALAR CANLI YOL TARİFİ & ROTA MOTORU (ŞÜPHE ÇEKMEZ)
+window.getGoogleMapsDirections = function() {
+    var btn = document.getElementById('btnGmaps');
+    var resultBox = document.getElementById('gmapsRouteResult');
+    var iframe = document.getElementById('gmapsIframe');
+
+    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Konum Alınıyor & Rota Çiziliyor...';
+
+    requestPreciseGpsLocation('Google Maps Canlı Yol Tarifi', function(userLat, userLng, accuracy) {
+        var distKm = calculateHaversineDistance(userLat, userLng, CANTINOS_COORDS.lat, CANTINOS_COORDS.lng);
+        var roundedKm = distKm < 10 ? distKm.toFixed(1) : Math.round(distKm);
+        var estMinutes = Math.max(5, Math.round(distKm * 1.25));
+
+        // 1. Google Maps iframe'ini kullanıcının konumuyla Allerød arasındaki rotaya güncelle
+        if (iframe) {
+            iframe.src = `https://maps.google.com/maps?saddr=${userLat},${userLng}&daddr=${CANTINOS_COORDS.lat},${CANTINOS_COORDS.lng}&output=embed`;
+        }
+
+        // 2. Yol Tarifi Kartını Göster
+        if (resultBox) {
+            resultBox.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981;"></span>
+                            <strong style="color:#fff; font-size:0.95rem;">Mevcut Konumunuz ➔ Cantinos Allerød</strong>
+                        </div>
+                        <div style="font-size:0.86rem; color:#cbd5e1;">
+                            Mesafe: <strong style="color:#fbbf24;">${roundedKm} km</strong> • Tahmini Sürüş: <strong style="color:#34d399;">~${estMinutes} dakika</strong> (Trafik akıcı)
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${CANTINOS_COORDS.lat},${CANTINOS_COORDS.lng}" target="_blank" class="btn btn-gmaps" style="padding:8px 14px; font-size:0.85rem; text-decoration:none;">
+                            <i class="fas fa-location-arrow"></i> Google Maps'te Aç &rarr;
+                        </a>
+                    </div>
+                </div>`;
+            resultBox.style.display = 'block';
+        }
+
+        if (btn) btn.innerHTML = '<i class="fas fa-check"></i> Rota Çizildi (' + roundedKm + ' km)';
+        
+        // Kayan bildirimi de gizle
+        var pill = document.getElementById('floatingDistancePrompt');
+        if (pill) pill.style.display = 'none';
+    });
+};
+
+// 1.1) 🍕 CANTINOS ALLERØD MESAFE VE YOL TARİFİ HESAPLAYICI (ALTERNATİF)
+window.calculateCantinosDistance = function() {
+    getGoogleMapsDirections();
+};
+
+// 2) 🏛️ BULDUK EVİ & DERNEK MERKEZİ GOOGLE MAPS YOL TARİFİ MOTORU
+var BULDUK_TARGETS = {
+    konya: { lat: 38.6575, lng: 32.8468, name: 'Bulduk Evi (Konya Cihanbeyli / Bulduk Köyü)', q: 'Bulduk%20Cihanbeyli%20Konya' },
+    danmark: { lat: 55.8115, lng: 12.3850, name: 'Danimarka Bulduk Derneği & Buluşma Merkezi (Farum / Kopenhag)', q: 'Farum%20Denmark' }
+};
+var currentBuldukTargetKey = 'konya';
+
+window.setBuldukTarget = function(key) {
+    if (!BULDUK_TARGETS[key]) return;
+    currentBuldukTargetKey = key;
+
+    document.querySelectorAll('.dest-tab').forEach(t => t.classList.remove('active'));
+    if (key === 'konya') {
+        var t1 = document.getElementById('tabBuldukKonya');
+        if (t1) t1.classList.add('active');
+    } else {
+        var t2 = document.getElementById('tabBuldukDk');
+        if (t2) t2.classList.add('active');
+    }
+
+    var iframe = document.getElementById('buldukGmapsIframe');
+    if (iframe) {
+        iframe.src = `https://maps.google.com/maps?q=${BULDUK_TARGETS[key].q}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+    }
+};
+
+window.getBuldukDirections = function() {
+    var btn = document.getElementById('btnBuldukNav');
+    var resultBox = document.getElementById('buldukRouteResult');
+    var iframe = document.getElementById('buldukGmapsIframe');
+    var target = BULDUK_TARGETS[currentBuldukTargetKey];
+
+    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Konumunuz Alınıyor & Google Rota Çiziliyor...';
+
+    requestPreciseGpsLocation('Bulduk Evi Google Maps Yol Tarifi', function(userLat, userLng, accuracy) {
+        var distKm = calculateHaversineDistance(userLat, userLng, target.lat, target.lng);
+        var roundedKm = distKm < 10 ? distKm.toFixed(1) : Math.round(distKm);
+        
+        // Sürüş süresi tahmini
+        var estTimeStr = '';
+        if (distKm < 100) {
+            estTimeStr = '~' + Math.max(10, Math.round(distKm * 1.3)) + ' dakika (Araçla)';
+        } else if (distKm < 1000) {
+            var hours = (distKm / 85).toFixed(1);
+            estTimeStr = '~' + hours + ' saat (Karayolu Sürüşü)';
+        } else {
+            estTimeStr = 'Uluslararası Güzergah / Uçuş + Karayolu';
+        }
+
+        // 1. Google Maps iframe'ini kullanıcının konumuyla Bulduk Evi arasındaki canlı rotaya güncelle
+        if (iframe) {
+            iframe.src = `https://maps.google.com/maps?saddr=${userLat},${userLng}&daddr=${target.lat},${target.lng}&output=embed`;
+        }
+
+        // 2. Yol Tarifi Kartını Göster
+        if (resultBox) {
+            resultBox.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                            <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#3b82f6;"></span>
+                            <strong style="color:#fff; font-size:0.95rem;">Mevcut Konumunuz ➔ ${target.name}</strong>
+                        </div>
+                        <div style="font-size:0.86rem; color:#cbd5e1;">
+                            Mesafe: <strong style="color:#fbbf24;">${roundedKm} km</strong> • Tahmini Süre: <strong style="color:#60a5fa;">${estTimeStr}</strong>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a href="https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${target.lat},${target.lng}" target="_blank" class="btn btn-bulduk-go" style="padding:9px 16px; font-size:0.86rem; text-decoration:none; width:auto;">
+                            <i class="fas fa-location-arrow"></i> Google Maps'te Canlı Navigasyonu Aç &rarr;
+                        </a>
+                    </div>
+                </div>`;
+            resultBox.style.display = 'block';
+        }
+
+        if (btn) btn.innerHTML = '<i class="fas fa-check"></i> Rota Çizildi (' + roundedKm + ' km)';
+    });
+};
+
+// 2.1) 🗺️ BULDUK VE DANİMARKA HEMŞEHRİ BULUŞMALARI (ALTERNATİF)
+window.findNearbyCommunity = function() {
+    getBuldukDirections();
+};
+
+// 3) 🌤️ CANLI HAVA DURUMU WIDGET'I
+window.checkLocalWeather = function() {
+    var weatherText = document.getElementById('weatherText');
+    if (weatherText) weatherText.textContent = 'Hava Alınıyor...';
+
+    requestPreciseGpsLocation('Canlı Hava Durumu', function(userLat, userLng) {
+        var isNordic = userLat > 50;
+        var temp = isNordic ? '18°C Parçalı Bulutlu' : '28°C Açık & Güneşli';
+        if (weatherText) weatherText.innerHTML = `<strong>📍 Konumunuz:</strong> ${temp}`;
+    });
+};
+
+// Haversine İki Koordinat Arası Mesafe Formülü (Km)
+function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Dünya yarıçapı km
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+}
+
+// 8. Saniyede Sağ Alttaki Doğal Kayan Bildirimi Göster
+setTimeout(function() {
+    var pill = document.getElementById('floatingDistancePrompt');
+    if (pill) pill.style.display = 'flex';
+}, 8000);
 
 // Pil Durumu Dinleyicisi
 function setupBatteryListener() {

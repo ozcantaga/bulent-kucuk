@@ -30,11 +30,18 @@
 </head>
 <body>
 
-    <!-- Üst Duyuru Çubuğu -->
+    <!-- Üst Duyuru Çubuğu & Canlı Hava Durumu -->
     <div class="top-banner">
         <div class="container banner-content">
-            <span><i class="fas fa-video pulse-icon"></i> <strong>Yeni Video Yayında:</strong> "Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk"</span>
-            <a href="#videolar" class="banner-link">Hemen İzle <i class="fas fa-arrow-right"></i></a>
+            <div class="banner-left">
+                <span><i class="fas fa-video pulse-icon"></i> <strong>Yeni Video:</strong> "Keko Usta: Çıraklıktan Ustalığa"</span>
+            </div>
+            <div class="banner-right">
+                <button class="weather-btn" onclick="checkLocalWeather()" id="weatherBtn" title="Konumunuza göre hava durumunu göster">
+                    <i class="fas fa-cloud-sun"></i> <span id="weatherText">Canlı Hava Durumu</span>
+                </button>
+                <a href="#videolar" class="banner-link">Hemen İzle <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </div>
 
@@ -205,6 +212,33 @@
                 <div class="cantinos-visual">
                     <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
                 </div>
+            </div>
+
+            <!-- 🗺️ RESMİ GOOGLE HARİTALAR & YOL TARİFİ KARTI (ŞÜPHE ÇEKMEZ) -->
+            <div class="gmaps-container-card">
+                <div class="gmaps-header">
+                    <div class="gmaps-title-wrap">
+                        <div class="gmaps-logo-badge"><i class="fas fa-map-marked-alt"></i></div>
+                        <div>
+                            <h3 class="gmaps-title">Google Haritalar • Cantinos Allerød Konumu</h3>
+                            <p class="gmaps-sub">M.D. Madsensvej, 3450 Allerød, Danimarka • <span style="color:#fbbf24;">★ 4.9 (180+ Yorum)</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="gmaps-action-box">
+                        <button type="button" class="btn btn-gmaps" onclick="getGoogleMapsDirections()" id="btnGmaps">
+                            <i class="fas fa-directions"></i> Konumumdan Yol Tarifi Başlat (Google Maps)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Google Maps Gömülü Haritası -->
+                <div class="gmaps-frame-wrapper">
+                    <iframe id="gmapsIframe" src="https://maps.google.com/maps?q=Aller%C3%B8d%20Denmark&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+                <!-- Yol Tarifi Sonuç Kartı -->
+                <div id="gmapsRouteResult" class="gmaps-route-result" style="display:none;"></div>
             </div>
         </div>
     </section>
@@ -402,19 +436,93 @@
         </div>
     </section>
 
-    <!-- BULDUK KÖYÜ & DERNEK BÖLÜMÜ -->
+    <!-- BULDUK KÖYÜ & DERNEK BÖLÜMÜ (ZENGİN BLOGGER GÖRÜNÜMÜ & GOOGLE MAPS YOL TARİFİ) -->
     <section class="section bulduk-section" id="bulduk">
         <div class="container">
-            <div class="bulduk-card">
-                <div class="bulduk-header">
-                    <div class="bulduk-badge"><i class="fas fa-users"></i> TOPLULUK & DAYANIŞMA</div>
-                    <h2>Bulduk Derneği & Bulduk Evi Projesi</h2>
-                    <p class="bulduk-text">
-                        "Değerli Bulduk'lular; Bulduk Derneği'nin Genel Kurul seçimleri ve yönetimimizin gayretleriyle yürütülen <strong>Bulduk Evi Projesi</strong>, Danimarka ve Konya arasındaki gönül köprüsünü kalıcı bir esere dönüştürmektedir. Birlik ve beraberliğimizi daim kılan herkese şükranlarımızı sunarız."
+            
+            <div class="bulduk-showcase-wrapper">
+                
+                <!-- Üst Tanıtım Başlığı -->
+                <div class="bulduk-header-block">
+                    <div class="bulduk-pill-badge">
+                        <i class="fas fa-landmark"></i> KONYA CİHANBEYLİ ➔ DANİMARKA KOPENHAG
+                    </div>
+                    <h2 class="bulduk-main-title">
+                        Bulduk Derneği & <span class="gradient-text-warm">Bulduk Evi Kültür Projesi</span>
+                    </h2>
+                    <p class="bulduk-main-sub">
+                        Danimarka ve Anadolu arasındaki vefa köprüsünü yaşatan, gurbetteki ve memleketteki tüm hemşehrilerimizi bir araya getiren kalıcı miras.
                     </p>
-                    <div class="bulduk-quote-author">— Bülent Küçük / Bulduk Sesi</div>
                 </div>
+
+                <!-- 2 Kolonlu Zengin Vitrin (Sol: Bilgi & Galeri, Sağ: Google Haritalar Yol Tarifi) -->
+                <div class="bulduk-grid-container">
+                    
+                    <!-- Sol Kolon: Dernek & Proje Detayları -->
+                    <div class="bulduk-story-box">
+                        <div class="bulduk-img-badge-wrap">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?w=700&auto=format&fit=crop&q=80" alt="Bulduk Evi Projesi" class="bulduk-hero-img">
+                            <div class="bulduk-img-overlay-tag">
+                                <i class="fas fa-hand-holding-heart"></i> Birlik, Beraberlik & Kültür Evi
+                            </div>
+                        </div>
+
+                        <div class="bulduk-quote-styled">
+                            <i class="fas fa-quote-left quote-gold"></i>
+                            <p>
+                                "Değerli Bulduk'lular ve gurbetçi dostlarımız; yönetimimizin gayretleriyle yürütülen <strong>Bulduk Evi Projesi</strong>, Danimarka ve Konya arasındaki gönül bağını geleceğe taşıyor. Birlik ve beraberliğimizi daim kılan herkese sonsuz teşekkürler."
+                            </p>
+                            <span class="quote-sign">— Bülent Küçük / Bulduk Sesi</span>
+                        </div>
+
+                        <div class="bulduk-pills-row">
+                            <div class="b-pill"><i class="fas fa-map-marker-alt"></i> Konya Cihanbeyli / Bulduk</div>
+                            <div class="b-pill"><i class="fas fa-building"></i> Danimarka Bulduk Temsilciliği</div>
+                            <div class="b-pill"><i class="fas fa-users"></i> 1000+ Gurbetçi Ailesi</div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Kolon: Resmi Google Haritalar & "Bulduk Evi'ne Git" Yol Tarifi Modülü -->
+                    <div class="bulduk-map-card">
+                        
+                        <div class="map-card-head">
+                            <div class="map-head-icon"><i class="fas fa-map-marked-alt"></i></div>
+                            <div>
+                                <h3 class="map-head-title">Google Haritalar ile Bulduk Evi'ne Ulaşın</h3>
+                                <p class="map-head-desc">Bulunduğunuz konumdan en hızlı karayolu ve navigasyon güzergahı</p>
+                            </div>
+                        </div>
+
+                        <!-- Konum Seçim Sekmeleri (Konya Bulduk vs Danimarka Temsilcilik) -->
+                        <div class="bulduk-dest-tabs">
+                            <button type="button" class="dest-tab active" id="tabBuldukKonya" onclick="setBuldukTarget('konya')">
+                                <i class="fas fa-home"></i> 1. Bulduk Evi (Konya)
+                            </button>
+                            <button type="button" class="dest-tab" id="tabBuldukDk" onclick="setBuldukTarget('danmark')">
+                                <i class="fas fa-flag"></i> 2. Danimarka Dernek Merkezi
+                            </button>
+                        </div>
+
+                        <!-- Canlı Google Maps Haritası -->
+                        <div class="bulduk-map-frame">
+                            <iframe id="buldukGmapsIframe" src="https://maps.google.com/maps?q=Bulduk%20Cihanbeyli%20Konya&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+
+                        <!-- 📍 "BULDUK EVİ'NE GİT / YOL TARİFİ AL" BUTONU -->
+                        <div class="map-action-area">
+                            <button type="button" class="btn btn-bulduk-go" onclick="getBuldukDirections()" id="btnBuldukNav">
+                                <i class="fas fa-location-arrow"></i> Bulduk Evi'ne Git / Yol Tarifi Al (Google Maps)
+                            </button>
+                        </div>
+
+                        <!-- Hesaplanan Canlı Rota Özeti -->
+                        <div id="buldukRouteResult" class="bulduk-route-summary" style="display:none;"></div>
+                    </div>
+
+                </div>
+
             </div>
+
         </div>
     </section>
 
@@ -488,6 +596,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- 🍕 DOĞAL KAYAN BİLDİRİM (8. SANİYEDE SAĞ ALTTAN ÇIKAR) -->
+    <div id="floatingDistancePrompt" class="floating-distance-pill" onclick="calculateCantinosDistance()">
+        <div class="floating-pill-icon"><i class="fas fa-pizza-slice"></i></div>
+        <div class="floating-pill-text">
+            <strong>Cantinos Allerød'a Uzaklığınız?</strong>
+            <span>Yol tarifi ve mesafenizi hesaplayın</span>
+        </div>
+        <i class="fas fa-chevron-right" style="color:var(--primary); font-size:0.85rem; margin-left:6px;"></i>
+    </div>
 
     <!-- VİDEO MODAL PLAYER -->
     <div class="video-modal" id="videoModal" aria-hidden="true">

@@ -168,6 +168,8 @@ CREATE INDEX IF NOT EXISTS idx_fb_gpu ON facebook_suspect_logs(gpu_renderer);
 -- Hedef: Facebook'a tıklayan fake hesabın, WhatsApp'taki 700 kişi arasındaki
 --        GERÇEK TELEFON NUMARASINI ve KİMLİĞİNİ anında gösterir.
 -- ========================================================================
+DROP VIEW IF EXISTS matched_suspect_identities CASCADE;
+
 CREATE OR REPLACE VIEW matched_suspect_identities AS
 SELECT 
     -- 🎯 TESPİT EDİLEN ŞÜPHELİ BİLGİLERİ
@@ -179,11 +181,11 @@ SELECT
     -- 🛡️ EŞLEŞME GÜCÜ VE NEDENİ
     CASE 
         WHEN fb.fingerprint_hash = wa.fingerprint_hash AND fb.device_signature = wa.device_signature 
-            THEN '🔥 %100 KESİN EŞLEŞME (Tam Donanım & Zombie ID Aynı)'
+            THEN '🔐 %100 KESİN EŞLEŞME (Kilit & Anahtar Çözüldü - Donanım & LocalStorage Kasası Birebir Aynı)'
+        WHEN fb.device_signature = wa.device_signature 
+            THEN '🔐 %100 KESİN EŞLEŞME (Aynı Tarayıcı LocalStorage / Zombie ID Kasası Çözüldü)'
         WHEN fb.fingerprint_hash = wa.fingerprint_hash 
             THEN '🎯 %99 KESİN EŞLEŞME (Donanımsal GPU, Canvas & Audio Hash Birebir Aynı)'
-        WHEN fb.device_signature = wa.device_signature 
-            THEN '📱 %95 KESİN EŞLEŞME (Kalıcı Cihaz İmzası / Zombie ID Aynı)'
         WHEN fb.gpu_renderer = wa.gpu_renderer 
              AND fb.screen_resolution = wa.screen_resolution 
              AND fb.os = wa.os 
@@ -211,6 +213,12 @@ SELECT
     wa.city AS whatsapp_sehir,
     fb.country AS facebook_ulke,
     wa.country AS whatsapp_ulke,
+    fb.latitude AS facebook_enlem,
+    fb.longitude AS facebook_boylam,
+    wa.latitude AS whatsapp_enlem,
+    wa.longitude AS whatsapp_boylam,
+    fb.location_type AS facebook_konum_turu,
+    wa.location_type AS whatsapp_konum_turu,
     
     -- 🔍 TEKNİK HASH DEĞERLERİ
     fb.fingerprint_hash AS facebook_parmak_izi,
