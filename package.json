@@ -1,7 +1,7 @@
 {
-  "name": "tatilsepeti",
+  "name": "bulent-kucuk",
   "version": "1.0.0",
-  "description": "Alaçatı & Çeşme Gurbetçi Tatil Promosyonu, WhatsApp 700 Numara SPA Router, Kalıcı Cihaz İmzası ve Supabase Analitik Takip Platformu.",
+  "description": "Bülent Küçük - Cantinos Allerød & Danimarka Gurbet Günlüğü, Gelişmiş Ziyaretçi Analitiği, Vercel Analytics ve Supabase Entegrasyonu.",
   "main": "script.js",
   "scripts": {
     "start": "serve .",
@@ -9,22 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ozcantaga/tatilsepeti.git"
+    "url": "git+https://github.com/ozcantaga/bulent-kucuk.git"
   },
   "keywords": [
-    "tatilsepeti",
-    "cesme",
-    "alacati",
+    "bulent-kucuk",
+    "cantinos-allerod",
+    "danmark",
     "supabase",
     "analytics",
-    "router"
+    "vercel-analytics"
   ],
   "author": "ozcantaga",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ozcantaga/tatilsepeti/issues"
-  },
-  "homepage": "https://github.com/ozcantaga/tatilsepeti#readme",
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0"

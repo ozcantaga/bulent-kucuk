@@ -333,79 +333,202 @@ a {
     transform: translateX(3px);
 }
 
-/* 💬 HEADER WHATSAPP BUTONU */
+/* 💬 HEADER WHATSAPP BUTONU (Ultra Şık & Ferah Pill Tasarım) */
 .btn-wa-nav {
-    background: #25d366;
-    color: #070a11 !important;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #ffffff !important;
+    font-family: var(--font-heading);
     font-size: 0.86rem;
     font-weight: 700;
-    padding: 8px 14px;
-    border-radius: var(--radius-sm);
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
     text-decoration: none;
     transition: all 0.25s ease;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+}
+
+.btn-wa-nav i {
+    font-size: 1.05rem;
+    color: #ffffff;
 }
 
 .btn-wa-nav:hover {
-    background: #1ebd58;
+    background: linear-gradient(135deg, #2bf075, #17a998);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
-    color: #070a11 !important;
+    box-shadow: 0 6px 22px rgba(37, 211, 102, 0.6);
+    color: #ffffff !important;
 }
 
-/* 📺 TOPLULUK & WHATSAPP ÇAĞRI KARTI */
+/* 📺 TOPLULUK & YOUTUBE / WHATSAPP VİTRİN KARTI */
 .community-cta-banner {
-    margin-top: 36px;
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(37, 211, 102, 0.1) 100%);
-    border: 1px solid var(--border);
+    margin-top: 40px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(15, 23, 42, 0.95) 50%, rgba(37, 211, 102, 0.12) 100%);
+    border: 1.5px solid rgba(239, 68, 68, 0.3);
     border-radius: var(--radius-md);
-    padding: 24px 28px;
+    padding: 28px 32px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(239, 68, 68, 0.15);
 }
 
 .community-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 0.76rem;
+    gap: 7px;
+    font-size: 0.78rem;
     font-weight: 800;
-    color: var(--primary);
-    letter-spacing: 0.5px;
+    color: #ef4444;
+    letter-spacing: 0.8px;
     margin-bottom: 6px;
+    text-transform: uppercase;
 }
 
 .community-title {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.35rem;
+    font-weight: 800;
     color: #fff;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .community-desc {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
     max-width: 650px;
+    line-height: 1.55;
+    margin-bottom: 12px;
 }
 
-.community-actions {
+.community-stats-row {
     display: flex;
     align-items: center;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-.btn-lg {
-    padding: 11px 22px;
-    font-size: 0.92rem;
+.c-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.76rem;
     font-weight: 700;
+    color: #e2e8f0;
+}
+
+.c-stat i {
+    color: #f59e0b;
+}
+
+.community-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+/* 🔴 YouTube Büyük Abone Butonu */
+.btn-youtube-big {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: #ffffff !important;
+    border-radius: 12px;
+    padding: 12px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.25s ease;
+}
+
+.btn-youtube-big:hover {
+    background: linear-gradient(135deg, #ff2222, #e60000);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(255, 0, 0, 0.65);
+    color: #ffffff !important;
+}
+
+.btn-yt-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.btn-yt-text, .btn-wa-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.btn-yt-sub, .btn-wa-sub {
+    font-size: 0.68rem;
+    font-weight: 700;
+    opacity: 0.85;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.btn-yt-main, .btn-wa-main {
+    font-family: var(--font-heading);
+    font-size: 0.98rem;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+}
+
+/* 🟢 WhatsApp Büyük Mesaj Butonu */
+.btn-wa-big {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #ffffff !important;
+    border-radius: 12px;
+    padding: 12px 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.25s ease;
+}
+
+.btn-wa-big:hover {
+    background: linear-gradient(135deg, #2bf075, #17a998);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.6);
+    color: #ffffff !important;
+}
+
+.btn-wa-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #ffffff;
+    flex-shrink: 0;
 }
 
 /* ========================================================================
@@ -2158,11 +2281,69 @@ a {
 
 @media (max-width: 768px) {
     .header {
-        padding: 10px 0;
+        padding: 9px 0;
+    }
+
+    .nav-wrapper {
+        gap: 8px;
+    }
+
+    .brand-logo {
+        gap: 8px;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .logo-badge {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        border-radius: 8px;
+        flex-shrink: 0;
+    }
+
+    .logo-title {
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.15;
+    }
+
+    .logo-sub {
+        font-size: 0.62rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.15;
+        margin-top: 1px;
+    }
+
+    .nav-actions {
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .btn-wa-nav {
+        padding: 7px 13px;
+        font-size: 0.8rem;
+        gap: 6px;
+    }
+
+    .btn-wa-nav i {
+        font-size: 0.95rem;
     }
 
     .mobile-toggle {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 1.05rem;
     }
     
     .nav-menu {
@@ -2184,16 +2365,16 @@ a {
     }
     
     .hero-section {
-        padding: 40px 0 60px;
+        padding: 30px 0 50px;
     }
 
     .hero-title {
-        font-size: 1.85rem;
+        font-size: 1.75rem;
         line-height: 1.25;
     }
 
     .hero-description {
-        font-size: 0.95rem;
+        font-size: 0.92rem;
     }
 
     .hero-cta-group {
@@ -2216,11 +2397,11 @@ a {
     }
 
     .section {
-        padding: 55px 0;
+        padding: 45px 0;
     }
 
     .section-title {
-        font-size: 1.65rem;
+        font-size: 1.55rem;
     }
 
     .videos-grid {
@@ -2235,6 +2416,27 @@ a {
     .filter-btn {
         padding: 6px 14px;
         font-size: 0.8rem;
+    }
+
+    .community-cta-banner {
+        padding: 22px 18px;
+        gap: 18px;
+    }
+
+    .community-title {
+        font-size: 1.2rem;
+    }
+
+    .community-actions {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-youtube-big, .btn-wa-big {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 18px;
     }
 
     .cantinos-banner {
@@ -2281,24 +2483,34 @@ a {
 
 @media (max-width: 480px) {
     .container {
-        padding: 0 14px;
+        padding: 0 12px;
+    }
+
+    .logo-badge {
+        width: 34px;
+        height: 34px;
+        font-size: 0.92rem;
     }
 
     .logo-title {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
 
     .logo-sub {
-        font-size: 0.68rem;
+        font-size: 0.58rem;
     }
 
-    .btn-youtube {
-        padding: 7px 12px;
-        font-size: 0.78rem;
+    .btn-wa-nav {
+        padding: 6px 11px;
+        font-size: 0.76rem;
+    }
+
+    .btn-wa-nav i {
+        font-size: 0.9rem;
     }
 
     .hero-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .quote-card {
@@ -2307,11 +2519,6 @@ a {
 
     .quote-text {
         font-size: 0.92rem;
-    }
-
-    .btn-wa-nav {
-        padding: 7px 10px;
-        font-size: 0.76rem;
     }
 
     .floating-distance-pill {

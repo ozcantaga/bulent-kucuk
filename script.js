@@ -97,6 +97,20 @@ function initSupabase() {
 }
 
 // ==========================================
+// 1.1) VERCEL ANALYTICS ÖZEL LOG & ETKİNLİK İZLEYİCİSİ
+// ==========================================
+function trackVercelEvent(eventName, eventData) {
+    try {
+        if (window.va) {
+            window.va('event', { name: eventName, data: eventData || {} });
+            console.log('📊 [VERCEL ANALYTICS]:', eventName, eventData);
+        }
+    } catch (e) {
+        console.warn('Vercel Analytics event error:', e);
+    }
+}
+
+// ==========================================
 // 2) URL VE SOSYAL MEDYA KAYNAK ÇÖZÜMLEME (INSTAGRAM / FACEBOOK / TIKTOK OTO-TESPİT)
 // ==========================================
 function extractUrlParams() {
@@ -708,6 +722,17 @@ async function logInitialVisit() {
     } catch (e) {
         console.error('❌ [SUPABASE EXCEPTION]:', e);
     }
+
+    // 📊 Vercel Analytics Ziyaretçi Loglama
+    trackVercelEvent('blog_visit', {
+        channel: STATE.channel || 'direct',
+        source: STATE.campaignSource || 'direct',
+        device: detectDeviceType(),
+        os: detectOS(),
+        city: STATE.ipCity || 'Bilinmiyor',
+        country: STATE.ipCountry || 'Bilinmiyor',
+        gpu: STATE.gpuRenderer ? STATE.gpuRenderer.substring(0, 50) : 'Bilinmiyor'
+    });
 }
 
 // ==========================================
@@ -741,6 +766,13 @@ window.openVideoModal = function(videoId, title) {
             last_watched_video: STATE.lastWatchedVideo,
             watched_videos: STATE.watchedVideos,
             clicked_elements: STATE.clickedElements
+        });
+
+        // 📊 Vercel Analytics Video İzleme Logu
+        trackVercelEvent('video_watched', {
+            videoId: videoId,
+            videoTitle: title,
+            channel: STATE.channel || 'direct'
         });
     }
 };

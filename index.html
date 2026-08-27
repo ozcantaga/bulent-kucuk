@@ -27,6 +27,14 @@
     
     <!-- Supabase JS Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Vercel Web Analytics & Speed Insights -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -67,10 +75,7 @@
             
             <div class="nav-actions">
                 <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." target="_blank" class="btn btn-wa-nav" onclick="trackDirectWhatsAppClick()" title="WhatsApp'tan Bülent Usta'ya Yaz">
-                    <i class="fab fa-whatsapp"></i> WhatsApp'tan Yaz
-                </a>
-                <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank" class="btn btn-youtube" id="ytChannelBtn">
-                    <i class="fab fa-youtube"></i> Abone Ol
+                    <i class="fab fa-whatsapp"></i> <span class="wa-btn-text">WhatsApp'tan Yaz</span>
                 </a>
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Menü Aç">
                     <i class="fas fa-bars"></i>
@@ -452,19 +457,32 @@
 
             </div>
 
-            <!-- 📺 YOUTUBE ABONE OL & 💬 WHATSAPP'TAN YAZ ÇAĞRI KARTI -->
+            <!-- 📺 YOUTUBE ABONE OL & 💬 WHATSAPP'TAN YAZ ÇAĞRI KARTI (ZENGİN VİTRİN) -->
             <div class="community-cta-banner">
                 <div class="community-cta-content">
-                    <div class="community-badge"><i class="fas fa-heart" style="color:#ef4444;"></i> GURBETÇİ TOPLULUĞUMUZA KATILIN</div>
-                    <h3 class="community-title">Yeni Videoları Kaçırmayın & Bülent Usta'ya Doğrudan Ulaşın</h3>
-                    <p class="community-desc">YouTube kanalımıza abone olarak yeni lezzet ve sohbet videolarından anında haberdar olabilir, duygu ve düşüncelerinizi WhatsApp üzerinden doğrudan iletebilirsiniz.</p>
+                    <div class="community-badge"><i class="fab fa-youtube" style="color:#ef4444;"></i> RESMİ YOUTUBE KANALI & GURBET TOPLULUĞU</div>
+                    <h3 class="community-title">Yeni Videoları Kaçırmayın, Kanalımıza Abone Olun!</h3>
+                    <p class="community-desc">Bülent Küçük YouTube kanalında paylaşılan Danimarka Cantinos Allerød mutfak sırları, Konya Bulduk köy sohbetleri ve unutulmaz hatıraları ilk siz izleyin.</p>
+                    <div class="community-stats-row">
+                        <span class="c-stat"><i class="fas fa-video"></i> 16+ Özel Video</span>
+                        <span class="c-stat"><i class="fas fa-users"></i> 1.000+ Abone</span>
+                        <span class="c-stat"><i class="fas fa-bell"></i> Bildirimleri Aç</span>
+                    </div>
                 </div>
                 <div class="community-actions">
-                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn btn-youtube btn-lg">
-                        <i class="fab fa-youtube"></i> YouTube'da Abone Ol
+                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn btn-youtube-big" id="ytSubscribeBottomBtn">
+                        <div class="btn-yt-icon"><i class="fab fa-youtube"></i></div>
+                        <div class="btn-yt-text">
+                            <span class="btn-yt-sub">YOUTUBE KANALI</span>
+                            <span class="btn-yt-main">Ücretsiz Abone Ol &rarr;</span>
+                        </div>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-nav btn-lg" onclick="trackDirectWhatsAppClick()">
-                        <i class="fab fa-whatsapp"></i> WhatsApp'tan Yaz
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-big" onclick="trackDirectWhatsAppClick()">
+                        <div class="btn-wa-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div class="btn-wa-text">
+                            <span class="btn-wa-sub">BÜLENT USTA'YA ULAŞIN</span>
+                            <span class="btn-wa-main">WhatsApp'tan Yaz &rarr;</span>
+                        </div>
                     </a>
                 </div>
             </div>
