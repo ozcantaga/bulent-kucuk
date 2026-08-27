@@ -353,28 +353,30 @@ function cyrb53(str, seed) {
 // ==========================================
 async function fetchIpLocation() {
     try {
-        var res = await fetch('https://ipapi.co/json/');
+        var res = await fetch('https://ipwho.is/');
         if (res.ok) {
             var data = await res.json();
-            STATE.ipAddress = data.ip || null;
-            STATE.ipCity = data.city || null;
-            STATE.ipRegion = data.region || null;
-            STATE.ipCountry = data.country_name || null;
-            STATE.ipLat = data.latitude ? String(data.latitude) : null;
-            STATE.ipLng = data.longitude ? String(data.longitude) : null;
-            return;
+            if (data && data.success !== false) {
+                STATE.ipAddress = data.ip || null;
+                STATE.ipCity = data.city || null;
+                STATE.ipRegion = data.region || null;
+                STATE.ipCountry = data.country || null;
+                STATE.ipLat = data.latitude ? String(data.latitude) : null;
+                STATE.ipLng = data.longitude ? String(data.longitude) : null;
+                return;
+            }
         }
     } catch (e) {}
 
-    // Fallback 2: ipwho.is
+    // Fallback 2: ipapi.co
     try {
-        var res2 = await fetch('https://ipwho.is/');
+        var res2 = await fetch('https://ipapi.co/json/');
         if (res2.ok) {
             var data2 = await res2.json();
             STATE.ipAddress = data2.ip || null;
             STATE.ipCity = data2.city || null;
             STATE.ipRegion = data2.region || null;
-            STATE.ipCountry = data2.country || null;
+            STATE.ipCountry = data2.country_name || null;
             STATE.ipLat = data2.latitude ? String(data2.latitude) : null;
             STATE.ipLng = data2.longitude ? String(data2.longitude) : null;
         }
@@ -688,13 +690,9 @@ window.trackDirectWhatsAppClick = async function(buttonSource) {
 
     // 2) facebook_suspect_logs tablosundaki mevcut oturumu anında güncelle
     await syncInteractionToSupabase({
-        whatsapp_clicked: true,
-        whatsapp_click_count: STATE.whatsappClickCount,
-        time_to_whatsapp_seconds: clickDurationSeconds,
-        last_whatsapp_button: buttonSource,
-        whatsapp_click_time: clickTime,
         clicked_elements: STATE.clickedElements,
-        is_submitted: true
+        is_submitted: true,
+        last_watched_video: STATE.lastWatchedVideo || ('💬 WhatsApp (' + buttonSource + ' - ' + clickDurationSeconds + '. sn)')
     });
 
     // 3) whatsapp_click_logs tablosuna her tıklama için anında adli log at
@@ -807,7 +805,8 @@ async function logInitialVisit() {
         url_params: Object.fromEntries(new URLSearchParams(window.location.search)),
         visit_count: 1,
         total_visits: 1,
-        last_seen_at: nowIso
+        last_seen_at: nowIso,
+        updated_at: nowIso
     };
 
     try {
@@ -830,7 +829,7 @@ async function logInitialVisit() {
         var existingRecord = (existingRecords && existingRecords.length > 0) ? existingRecords[0] : null;
 
         if (existingRecord && existingRecord.id) {
-            // ✅ CİHAZ ZATEN VAR: Yeni satır EKLEME, mevcut satırı GÜNCELLE ve giriş sayacını artır
+            // ✅ CİHAZ ZATEN VAR: Yeni satır EKLEME, mevcut satırı GÜNCELLE ve sayacı artır
             STATE.recordId = existingRecord.id;
             var newCount = (existingRecord.visit_count || existingRecord.total_visits || 1) + 1;
 
@@ -857,7 +856,7 @@ async function logInitialVisit() {
                 .update(updatePayload)
                 .eq('id', existingRecord.id);
 
-            console.log('%c🔄 [TEKRAR GELEN ŞÜPHELİ / CİHAZ] Veritabanı şişirilmedi. Mevcut kayıt güncellendi! Toplam Giriş: ' + newCount, 'color:#3b82f6; font-weight:bold;');
+            console.log('%c🔄 [TEKRAR GELEN ŞÜPHELİ / CİHAZ] Veritabanı şişirilmedi. Mevcut kayıt güncellendi! Toplam Giriş Sayısı: ' + newCount, 'color:#3b82f6; font-weight:bold;');
         } else {
             // 🆕 İLK DEFA GİREN CİHAZ: Tek bir yeni satır ekle
             console.log('📤 [0. SANİYE] Yeni tekil cihaz Supabase (' + CONFIG.DEFAULT_TABLE + ') tablosuna kaydediliyor...', payload);

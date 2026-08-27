@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bülent Küçük | Cantinos Allerød & Danimarka Gurbet Hikayeleri</title>
-    <meta name="description" content="Bülent Küçük Resmi Web Portalı - Danimarka Kopenhag Cantinos Allerød mutfağından Konya Bulduk Köyü sohbetlerine, gastronomi videoları ve hayat hikayeleri.">
-    <meta name="keywords" content="Bülent Küçük, Cantinos Allerød, Bulduk Köyü, Kopenhag Türkleri, Danimarka Gurbetçi, Hacı Yavaş, Keko Usta, Farum Danmark">
+    <meta name="description"
+        content="Bülent Küçük Resmi Web Portalı - Danimarka Kopenhag Cantinos Allerød mutfağından Konya Bulduk Köyü sohbetlerine, gastronomi videoları ve hayat hikayeleri.">
+    <meta name="keywords"
+        content="Bülent Küçük, Cantinos Allerød, Bulduk Köyü, Kopenhag Türkleri, Danimarka Gurbetçi, Hacı Yavaş, Keko Usta, Farum Danmark">
     <meta name="author" content="Bülent Küçük">
-    
+
     <!-- Open Graph / Sosyal Medya Önizleme -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Bülent Küçük | Cantinos Allerød & Danimarka Gurbet Hikayeleri">
-    <meta property="og:description" content="Danimarka'dan Anadolu'ya uzanan bir yaşam, lezzet ve vefa köprüsü. Özel videolar, sohbetler ve gastronomi hikayeleri.">
+    <meta property="og:description"
+        content="Danimarka'dan Anadolu'ya uzanan bir yaşam, lezzet ve vefa köprüsü. Özel videolar, sohbetler ve gastronomi hikayeleri.">
     <meta property="og:image" content="https://img.youtube.com/vi/_Nlh9o0VcDQ/maxresdefault.jpg">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
     <!-- FontAwesome İkonları -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Ana Stil Dosyası -->
     <link rel="stylesheet" href="style.css">
-    
+
     <!-- Supabase JS Kütüphanesi -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Vercel Web Analytics & Speed Insights -->
+    <!-- Vercel Web Analytics & Speed Insights (Sadece Canlıda Yükle) -->
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
         window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s1 = document.createElement('script'); s1.defer = true; s1.src = '/_vercel/insights/script.js'; document.head.appendChild(s1);
+            var s2 = document.createElement('script'); s2.defer = true; s2.src = '/_vercel/speed-insights/script.js'; document.head.appendChild(s2);
+        }
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
-    <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
+
 <body>
 
     <!-- Navigasyon Çubuğu (Tertemiz & Ferah) -->
@@ -50,7 +59,7 @@
                     <span class="logo-sub">Cantinos & Gurbet Günlüğü</span>
                 </div>
             </a>
-            
+
             <nav class="nav-menu" id="navMenu">
                 <a href="#videolar" class="nav-link active"><i class="fab fa-youtube"></i> Videolar</a>
                 <a href="#hikaye" class="nav-link"><i class="fas fa-user"></i> Biyografi</a>
@@ -59,7 +68,7 @@
                 <a href="#yazilar" class="nav-link"><i class="fas fa-feather-alt"></i> Köşe Yazıları</a>
                 <a href="#ziyaretci-defteri" class="nav-link"><i class="fas fa-envelope"></i> Mesaj Bırak</a>
             </nav>
-            
+
             <div class="nav-actions">
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Menü Aç">
                     <i class="fas fa-bars"></i>
@@ -71,7 +80,9 @@
     <!-- 💬 HEADER ALTI DOĞRUDAN WHATSAPP İLETİŞİM ŞERİDİ (MOBİL VE DESKTOP UYUMLU) -->
     <div class="header-action-bar">
         <div class="container">
-            <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." target="_blank" class="hero-wa-cta-pill" onclick="trackDirectWhatsAppClick('header_action_bar')" title="WhatsApp'tan Bülent Usta'ya Yaz">
+            <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..."
+                target="_blank" class="hero-wa-cta-pill" onclick="trackDirectWhatsAppClick('header_action_bar')"
+                title="WhatsApp'tan Bülent Usta'ya Yaz">
                 <div class="wa-cta-icon-glow">
                     <i class="fab fa-whatsapp"></i>
                 </div>
@@ -90,7 +101,7 @@
     <section class="hero-section">
         <div class="hero-backdrop"></div>
         <div class="container hero-container">
-            
+
             <!-- Sol / Üst Kolon: Metin & Tanıtım -->
             <div class="hero-content">
                 <div class="hero-badge">
@@ -102,13 +113,15 @@
                     Danimarka'dan Anadolu'ya Uzanan <span class="gradient-text">Lezzet, Hatıra & Vefa</span> Köprüsü
                 </h1>
                 <p class="hero-description">
-                    <strong>Cantinos Allerød</strong> mutfağından samimi mangal sohbetlerine, Farum bahçelerinden Bulduk Köyü anılarına kadar; gurbetin kalbinden paylaşılan en samimi anlar ve unutulmaz hayat hikayeleri.
+                    <strong>Cantinos Allerød</strong> mutfağından samimi mangal sohbetlerine, Farum bahçelerinden Bulduk
+                    Köyü anılarına kadar; gurbetin kalbinden paylaşılan en samimi anlar ve unutulmaz hayat hikayeleri.
                 </p>
-                
+
                 <!-- Öne Çıkan Söz -->
                 <div class="quote-card">
                     <i class="fas fa-quote-left quote-icon"></i>
-                    <p class="quote-text">"Sloganımız belli: Artık mezar taşlarına gül bırakmayacağız, yaşayana gül uzatacağız."</p>
+                    <p class="quote-text">"Sloganımız belli: Artık mezar taşlarına gül bırakmayacağız, yaşayana gül
+                        uzatacağız."</p>
                     <span class="quote-author">— Bülent Küçük</span>
                 </div>
 
@@ -144,13 +157,15 @@
                     <div class="profile-header-card">
                         <div class="avatar-wrapper">
                             <div class="avatar-ring"></div>
-                            <img src="images/bulent-kucuk.jpg" alt="Bülent Küçük" class="avatar-img" id="heroProfileImg">
+                            <img src="images/bulent-kucuk.jpg" alt="Bülent Küçük" class="avatar-img"
+                                id="heroProfileImg">
                             <span class="status-indicator" title="Yayında"></span>
                         </div>
                         <div class="profile-info">
                             <div class="profile-name-row">
                                 <h2 class="profile-name">Bülent Küçük</h2>
-                                <span class="profile-verified-badge" title="Doğrulanmış İçerik Üreticisi"><i class="fas fa-check-circle"></i></span>
+                                <span class="profile-verified-badge" title="Doğrulanmış İçerik Üreticisi"><i
+                                        class="fas fa-check-circle"></i></span>
                             </div>
                             <p class="profile-tag">@BulentKüçük79 • Dijital İçerik Üreticisi</p>
                             <div class="profile-meta">
@@ -160,11 +175,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Son Video Önizleme Kartı (Büyük, Canlı & Çarpıcı) -->
-                    <div class="featured-video-preview" onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
+                    <div class="featured-video-preview"
+                        onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
                         <div class="preview-thumbnail">
-                            <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Son Video" class="preview-hero-thumb">
+                            <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Son Video"
+                                class="preview-hero-thumb">
                             <span class="duration-badge"><i class="fas fa-clock"></i> 29:09</span>
                             <div class="play-overlay">
                                 <div class="play-btn-circle-lg">
@@ -178,9 +195,11 @@
                                 <span class="preview-views"><i class="fas fa-eye"></i> 10K+ İzlenme</span>
                             </div>
                             <h4 class="preview-title">Keko Usta Anlatıyor: Çıraklıktan Ustalığa</h4>
-                            <p class="preview-sub">Danimarka mutfağından unutulmaz lezzet sırları ve samimi hatıralar</p>
+                            <p class="preview-sub">Danimarka mutfağından unutulmaz lezzet sırları ve samimi hatıralar
+                            </p>
                             <div class="preview-action-hint">
-                                <span><i class="fab fa-youtube" style="color:#ff0000;"></i> Hemen İzle (Tek Tıkla Başlat)</span>
+                                <span><i class="fab fa-youtube" style="color:#ff0000;"></i> Hemen İzle (Tek Tıkla
+                                    Başlat)</span>
                                 <i class="fas fa-arrow-right"></i>
                             </div>
                         </div>
@@ -197,7 +216,8 @@
             <div class="section-head text-center">
                 <span class="section-tag"><i class="fab fa-youtube"></i> YOUTUBE KANALI & PROGRAMLAR</span>
                 <h2 class="section-title">En Çok İzlenen Video ve Sohbetler</h2>
-                <p class="section-subtitle">Aşağıdaki videolardan birine tıklayarak doğrudan izleyebilir, lezzetli tarifleri ve sıcacık hatıraları dinleyebilirsiniz.</p>
+                <p class="section-subtitle">Aşağıdaki videolardan birine tıklayarak doğrudan izleyebilir, lezzetli
+                    tarifleri ve sıcacık hatıraları dinleyebilirsiniz.</p>
                 <div class="section-divider"></div>
             </div>
 
@@ -211,9 +231,10 @@
 
             <!-- Video Kartları Izgarası -->
             <div class="videos-grid" id="videosGrid">
-                
+
                 <!-- Video 1 -->
-                <div class="video-card" data-category="mangal" onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
+                <div class="video-card" data-category="mangal"
+                    onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Keko Usta">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 29:09</span>
@@ -227,7 +248,8 @@
                 </div>
 
                 <!-- Video 2 -->
-                <div class="video-card" data-category="mangal" onclick="openVideoModal('2StW6Ru11kw', 'BAHÇEDE MANGAL KEYFİ! Hacı Yavaş Usta Döktürdü 🔥')">
+                <div class="video-card" data-category="mangal"
+                    onclick="openVideoModal('2StW6Ru11kw', 'BAHÇEDE MANGAL KEYFİ! Hacı Yavaş Usta Döktürdü 🔥')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/2StW6Ru11kw/hqdefault.jpg" alt="Hacı Yavaş Mangal">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 14:55</span>
@@ -241,7 +263,8 @@
                 </div>
 
                 <!-- Video 3 -->
-                <div class="video-card" data-category="mangal" onclick="openVideoModal('fXwzVa4CX78', 'Hacı Yavaş ile Bahçe Sefası | Mangal Başında Samimi Sohbet & Özel Tarifler')">
+                <div class="video-card" data-category="mangal"
+                    onclick="openVideoModal('fXwzVa4CX78', 'Hacı Yavaş ile Bahçe Sefası | Mangal Başında Samimi Sohbet & Özel Tarifler')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/fXwzVa4CX78/hqdefault.jpg" alt="Hacı Yavaş Sohbet">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 04:14</span>
@@ -255,7 +278,8 @@
                 </div>
 
                 <!-- Video 4 -->
-                <div class="video-card" data-category="sohbet" onclick="openVideoModal('KxDYM8_9Ero', 'Arif Şahin amcamizin bahçesi Farum Danmark 🇩🇰 part 1')">
+                <div class="video-card" data-category="sohbet"
+                    onclick="openVideoModal('KxDYM8_9Ero', 'Arif Şahin amcamizin bahçesi Farum Danmark 🇩🇰 part 1')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/KxDYM8_9Ero/hqdefault.jpg" alt="Arif Şahin Farum">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 13:46</span>
@@ -269,7 +293,8 @@
                 </div>
 
                 <!-- Video 5 -->
-                <div class="video-card" data-category="sohbet" onclick="openVideoModal('t3ewwdUt7vQ', 'ARİF ŞAHİN AMCA İLE BİR GÜN! (Samimi Sohbet & Unutulmaz Anlar)')">
+                <div class="video-card" data-category="sohbet"
+                    onclick="openVideoModal('t3ewwdUt7vQ', 'ARİF ŞAHİN AMCA İLE BİR GÜN! (Samimi Sohbet & Unutulmaz Anlar)')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/t3ewwdUt7vQ/hqdefault.jpg" alt="Arif Şahin Sohbet 2">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 09:45</span>
@@ -283,7 +308,8 @@
                 </div>
 
                 <!-- Video 6 -->
-                <div class="video-card" data-category="sohbet" onclick="openVideoModal('cG-MpuwyrBk', 'Ömer Şahin amcamla güzel bir sohbet oldu 🌹🌹')">
+                <div class="video-card" data-category="sohbet"
+                    onclick="openVideoModal('cG-MpuwyrBk', 'Ömer Şahin amcamla güzel bir sohbet oldu 🌹🌹')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/cG-MpuwyrBk/hqdefault.jpg" alt="Ömer Şahin Sohbet">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 1:13:56</span>
@@ -297,7 +323,8 @@
                 </div>
 
                 <!-- Video 7 -->
-                <div class="video-card" data-category="sohbet" onclick="openVideoModal('AwOdrdDWNOE', 'Memet Gürel amcamız. Bulduk mahallesi')">
+                <div class="video-card" data-category="sohbet"
+                    onclick="openVideoModal('AwOdrdDWNOE', 'Memet Gürel amcamız. Bulduk mahallesi')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/AwOdrdDWNOE/hqdefault.jpg" alt="Memet Gürel">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 16:39</span>
@@ -311,7 +338,8 @@
                 </div>
 
                 <!-- Video 8 -->
-                <div class="video-card" data-category="vefa" onclick="openVideoModal('LQpu51gVUWk', 'Slogan belli artık: Mezar taşlarına gül bırakmayacağız, yaşayana gül uzatacağız')">
+                <div class="video-card" data-category="vefa"
+                    onclick="openVideoModal('LQpu51gVUWk', 'Slogan belli artık: Mezar taşlarına gül bırakmayacağız, yaşayana gül uzatacağız')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/LQpu51gVUWk/hqdefault.jpg" alt="Yaşayana Gül Uzatacağız">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 22:38</span>
@@ -325,7 +353,8 @@
                 </div>
 
                 <!-- Video 9 -->
-                <div class="video-card" data-category="vefa" onclick="openVideoModal('b77B52i9NKY', 'Ağıtlarla anlatılan bir yaşam hikayesi - Bülent Küçük')">
+                <div class="video-card" data-category="vefa"
+                    onclick="openVideoModal('b77B52i9NKY', 'Ağıtlarla anlatılan bir yaşam hikayesi - Bülent Küçük')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/b77B52i9NKY/hqdefault.jpg" alt="Ağıtlarla Yaşam Hikayesi">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 42:08</span>
@@ -339,7 +368,8 @@
                 </div>
 
                 <!-- Video 10 -->
-                <div class="video-card" data-category="vefa" onclick="openVideoModal('T3IkggIjQac', '3 aylıkken başlayan bir hayat mücadelesi - Bülent Küçük')">
+                <div class="video-card" data-category="vefa"
+                    onclick="openVideoModal('T3IkggIjQac', '3 aylıkken başlayan bir hayat mücadelesi - Bülent Küçük')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/T3IkggIjQac/hqdefault.jpg" alt="Hayat Mücadelesi">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 30:16</span>
@@ -353,10 +383,11 @@
                 </div>
 
                 <!-- Video 11 -->
-                <div class="video-card" data-category="vefa" onclick="openVideoModal('ZtYqVzU274k', 'Hasan Demirci ve Döne Demirci hatırası')">
+                <div class="video-card" data-category="vefa"
+                    onclick="openVideoModal('ueEL4lzStiQ', 'Hasan Demirci ve Döne Demirci hatırası')">
                     <div class="video-thumb-wrap">
-                        <img src="https://img.youtube.com/vi/ZtYqVzU274k/hqdefault.jpg" alt="Hasan Demirci">
-                        <span class="badge-duration"><i class="fas fa-clock"></i> 20:16</span>
+                        <img src="https://img.youtube.com/vi/ueEL4lzStiQ/hqdefault.jpg" alt="Hasan Demirci">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 50:59</span>
                         <div class="play-btn-circle"><i class="fas fa-play"></i></div>
                     </div>
                     <div class="video-info">
@@ -367,7 +398,8 @@
                 </div>
 
                 <!-- Video 12 -->
-                <div class="video-card" data-category="mangal" onclick="openVideoModal('X_XTWKBWn7Q', 'Dükkanda Konser: İnanılmaz Anlar!')">
+                <div class="video-card" data-category="mangal"
+                    onclick="openVideoModal('X_XTWKBWn7Q', 'Dükkanda Konser: İnanılmaz Anlar!')">
                     <div class="video-thumb-wrap">
                         <img src="https://img.youtube.com/vi/X_XTWKBWn7Q/hqdefault.jpg" alt="Dükkanda Konser">
                         <span class="badge-duration"><i class="fas fa-clock"></i> 06:26</span>
@@ -385,9 +417,11 @@
             <!-- 📺 YOUTUBE ABONE OL & 💬 WHATSAPP'TAN YAZ ÇAĞRI KARTI (ZENGİN VİTRİN) -->
             <div class="community-cta-banner">
                 <div class="community-cta-content">
-                    <div class="community-badge"><i class="fab fa-youtube" style="color:#ef4444;"></i> RESMİ YOUTUBE KANALI & GURBET TOPLULUĞU</div>
+                    <div class="community-badge"><i class="fab fa-youtube" style="color:#ef4444;"></i> RESMİ YOUTUBE
+                        KANALI & GURBET TOPLULUĞU</div>
                     <h3 class="community-title">Yeni Videoları Kaçırmayın, Kanalımıza Abone Olun!</h3>
-                    <p class="community-desc">Bülent Küçük YouTube kanalında paylaşılan Danimarka Cantinos Allerød mutfak sırları, Konya Bulduk köy sohbetleri ve unutulmaz hatıraları ilk siz izleyin.</p>
+                    <p class="community-desc">Bülent Küçük YouTube kanalında paylaşılan Danimarka Cantinos Allerød
+                        mutfak sırları, Konya Bulduk köy sohbetleri ve unutulmaz hatıraları ilk siz izleyin.</p>
                     <div class="community-stats-row">
                         <span class="c-stat"><i class="fas fa-video"></i> 16+ Özel Video</span>
                         <span class="c-stat"><i class="fas fa-users"></i> 1.000+ Abone</span>
@@ -395,14 +429,17 @@
                     </div>
                 </div>
                 <div class="community-actions">
-                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn btn-youtube-big" id="ytSubscribeBottomBtn">
+                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank"
+                        class="btn btn-youtube-big" id="ytSubscribeBottomBtn">
                         <div class="btn-yt-icon"><i class="fab fa-youtube"></i></div>
                         <div class="btn-yt-text">
                             <span class="btn-yt-sub">YOUTUBE KANALI</span>
                             <span class="btn-yt-main">Ücretsiz Abone Ol &rarr;</span>
                         </div>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-big" onclick="trackDirectWhatsAppClick('community_cta_banner')">
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..."
+                        target="_blank" class="btn btn-wa-big"
+                        onclick="trackDirectWhatsAppClick('community_cta_banner')">
                         <div class="btn-wa-icon"><i class="fab fa-whatsapp"></i></div>
                         <div class="btn-wa-text">
                             <span class="btn-wa-sub">BÜLENT USTA'YA ULAŞIN</span>
@@ -427,19 +464,25 @@
                 <div class="story-card">
                     <div class="story-icon"><i class="fas fa-heart"></i></div>
                     <h3>Gurbette Vefa & Dostluk</h3>
-                    <p>15 Eylül 1979 doğumlu olan Bülent Küçük, Konya Bulduk'tan Danimarka Kopenhag'a uzanan hayatında her zaman dostluğun, sıla-i rahimin ve vefanın önemini vurguladı. Büyüklerin hatıralarını ve köy sohbetlerini kayıt altına alarak gelecek nesillere aktarıyor.</p>
+                    <p>15 Eylül 1979 doğumlu olan Bülent Küçük, Konya Bulduk'tan Danimarka Kopenhag'a uzanan hayatında
+                        her zaman dostluğun, sıla-i rahimin ve vefanın önemini vurguladı. Büyüklerin hatıralarını ve köy
+                        sohbetlerini kayıt altına alarak gelecek nesillere aktarıyor.</p>
                 </div>
 
                 <div class="story-card">
                     <div class="story-icon"><i class="fas fa-utensils"></i></div>
                     <h3>Mutfak ve Gastronomi Tutkusu</h3>
-                    <p>1 Nisan 2018'den bu yana Danimarka Allerød bölgesinde hizmet veren <strong>Cantinos Allerød</strong> çatısı altında pizza, mangal ve özgün mutfak lezzetlerini samimi ustalığıyla buluşturuyor.</p>
+                    <p>1 Nisan 2018'den bu yana Danimarka Allerød bölgesinde hizmet veren <strong>Cantinos
+                            Allerød</strong> çatısı altında pizza, mangal ve özgün mutfak lezzetlerini samimi
+                        ustalığıyla buluşturuyor.</p>
                 </div>
 
                 <div class="story-card">
                     <div class="story-icon"><i class="fas fa-camera"></i></div>
                     <h3>Dijital İçerik & Köy Hafızası</h3>
-                    <p>YouTube kanalında Arif Şahin, Hacı Yavaş, Ömer Şahin ve Memet Gürel gibi değerli gurbet büyükleriyle gerçekleştirdiği röportajlar ve Bulduk Evi projeleriyle milyonlarca yüreğe dokunuyor.</p>
+                    <p>YouTube kanalında Arif Şahin, Hacı Yavaş, Ömer Şahin ve Memet Gürel gibi değerli gurbet
+                        büyükleriyle gerçekleştirdiği röportajlar ve Bulduk Evi projeleriyle milyonlarca yüreğe
+                        dokunuyor.</p>
                 </div>
             </div>
         </div>
@@ -453,19 +496,27 @@
                     <div class="badge-cantinos">CANTINOS ALLERØD • 2018'DEN BERİ</div>
                     <h2 class="cantinos-title">Danimarka'da Gerçek Fırın & Pizza Lezzeti</h2>
                     <p class="cantinos-desc">
-                        Allerød'un kalbinde, çıraklıktan ustalığa uzanan el emeğiyle hazırlanan çıtır hamurlar, özel soslar ve Akdeniz mutfağının seçkin lezzetleri. Dost meclislerinin ve sıcak buluşmaların değişmeyen adresi.
+                        Allerød'un kalbinde, çıraklıktan ustalığa uzanan el emeğiyle hazırlanan çıtır hamurlar, özel
+                        soslar ve Akdeniz mutfağının seçkin lezzetleri. Dost meclislerinin ve sıcak buluşmaların
+                        değişmeyen adresi.
                     </p>
                     <div class="cantinos-features">
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Günlük Taze Hamur & Özel Fırın</div>
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Usta Dokunuşuyla Eşsiz Tarifler</div>
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Samimi ve Sıcak Aile Atmosferi</div>
-                        <div class="feature-item weather-feature-tag" onclick="checkLocalWeather()" id="weatherBtn" style="cursor:pointer; color:#fbbf24;">
-                            <i class="fas fa-cloud-sun" style="color:#f59e0b;"></i> <span id="weatherText">Danimarka Allerød Canlı Hava Durumu (Sorgula)</span>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Günlük Taze Hamur & Özel Fırın
+                        </div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Usta Dokunuşuyla Eşsiz Tarifler
+                        </div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Samimi ve Sıcak Aile Atmosferi
+                        </div>
+                        <div class="feature-item weather-feature-tag" onclick="checkLocalWeather()" id="weatherBtn"
+                            style="cursor:pointer; color:#fbbf24;">
+                            <i class="fas fa-cloud-sun" style="color:#f59e0b;"></i> <span id="weatherText">Danimarka
+                                Allerød Canlı Hava Durumu (Sorgula)</span>
                         </div>
                     </div>
                 </div>
                 <div class="cantinos-visual">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80"
+                        alt="Cantinos Pizza" class="cantinos-img">
                 </div>
             </div>
 
@@ -475,7 +526,8 @@
                     <div class="cdh-icon-box"><i class="fas fa-location-dot"></i></div>
                     <div>
                         <div class="cdh-title">Cantinos Allerød'a Uzaklığınız Kaç Km?</div>
-                        <div class="cdh-sub">Mevcut konumunuz ile Danimarka Allerød fırınımız arasındaki mesafeyi ve yol tarifini hesaplayın.</div>
+                        <div class="cdh-sub">Mevcut konumunuz ile Danimarka Allerød fırınımız arasındaki mesafeyi ve yol
+                            tarifini hesaplayın.</div>
                     </div>
                 </div>
                 <button type="button" class="cdh-btn">
@@ -490,10 +542,11 @@
                         <div class="gmaps-logo-badge"><i class="fas fa-map-marked-alt"></i></div>
                         <div>
                             <h3 class="gmaps-title">Google Haritalar • Cantinos Allerød Konumu</h3>
-                            <p class="gmaps-sub">M.D. Madsensvej, 3450 Allerød, Danimarka • <span style="color:#fbbf24;">★ 4.9 (180+ Yorum)</span></p>
+                            <p class="gmaps-sub">M.D. Madsensvej, 3450 Allerød, Danimarka • <span
+                                    style="color:#fbbf24;">★ 4.9 (180+ Yorum)</span></p>
                         </div>
                     </div>
-                    
+
                     <div class="gmaps-action-box">
                         <button type="button" class="btn btn-gmaps" onclick="getGoogleMapsDirections()" id="btnGmaps">
                             <i class="fas fa-directions"></i> Konumumdan Yol Tarifi Başlat (Google Maps)
@@ -503,7 +556,9 @@
 
                 <!-- Google Maps Gömülü Haritası -->
                 <div class="gmaps-frame-wrapper">
-                    <iframe id="gmapsIframe" src="https://maps.google.com/maps?q=Aller%C3%B8d%20Denmark&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe id="gmapsIframe"
+                        src="https://maps.google.com/maps?q=Aller%C3%B8d%20Denmark&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0" allowfullscreen="" loading="lazy"></iframe>
                 </div>
 
                 <!-- Yol Tarifi Sonuç Kartı -->
@@ -515,9 +570,9 @@
     <!-- 4) BULDUK KÖYÜ & DERNEK BÖLÜMÜ (ZENGİN BLOGGER GÖRÜNÜMÜ & GOOGLE MAPS YOL TARİFİ) -->
     <section class="section bulduk-section" id="bulduk">
         <div class="container">
-            
+
             <div class="bulduk-showcase-wrapper">
-                
+
                 <!-- Üst Tanıtım Başlığı -->
                 <div class="bulduk-header-block">
                     <div class="bulduk-pill-badge">
@@ -527,17 +582,19 @@
                         Bulduk Derneği & <span class="gradient-text-warm">Bulduk Evi Kültür Projesi</span>
                     </h2>
                     <p class="bulduk-main-sub">
-                        Danimarka ve Anadolu arasındaki vefa köprüsünü yaşatan, gurbetteki ve memleketteki tüm hemşehrilerimizi bir araya getiren kalıcı miras.
+                        Danimarka ve Anadolu arasındaki vefa köprüsünü yaşatan, gurbetteki ve memleketteki tüm
+                        hemşehrilerimizi bir araya getiren kalıcı miras.
                     </p>
                 </div>
 
                 <!-- 2 Kolonlu Zengin Vitrin (Sol: Bilgi & Galeri, Sağ: Google Haritalar Yol Tarifi) -->
                 <div class="bulduk-grid-container">
-                    
+
                     <!-- Sol Kolon: Dernek & Proje Detayları -->
                     <div class="bulduk-story-box">
                         <div class="bulduk-img-badge-wrap">
-                            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?w=700&auto=format&fit=crop&q=80" alt="Bulduk Evi Projesi" class="bulduk-hero-img">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186156f?w=700&auto=format&fit=crop&q=80"
+                                alt="Bulduk Evi Projesi" class="bulduk-hero-img">
                             <div class="bulduk-img-overlay-tag">
                                 <i class="fas fa-hand-holding-heart"></i> Birlik, Beraberlik & Kültür Evi
                             </div>
@@ -546,7 +603,9 @@
                         <div class="bulduk-quote-styled">
                             <i class="fas fa-quote-left quote-gold"></i>
                             <p>
-                                "Değerli Bulduk'lular ve gurbetçi dostlarımız; yönetimimizin gayretleriyle yürütülen <strong>Bulduk Evi Projesi</strong>, Danimarka ve Konya arasındaki gönül bağını geleceğe taşıyor. Birlik ve beraberliğimizi daim kılan herkese sonsuz teşekkürler."
+                                "Değerli Bulduk'lular ve gurbetçi dostlarımız; yönetimimizin gayretleriyle yürütülen
+                                <strong>Bulduk Evi Projesi</strong>, Danimarka ve Konya arasındaki gönül bağını geleceğe
+                                taşıyor. Birlik ve beraberliğimizi daim kılan herkese sonsuz teşekkürler."
                             </p>
                             <span class="quote-sign">— Bülent Küçük / Bulduk Sesi</span>
                         </div>
@@ -560,33 +619,39 @@
 
                     <!-- Sağ Kolon: Resmi Google Haritalar & "Bulduk Evi'ne Git" Yol Tarifi Modülü -->
                     <div class="bulduk-map-card">
-                        
+
                         <div class="map-card-head">
                             <div class="map-head-icon"><i class="fas fa-map-marked-alt"></i></div>
                             <div>
                                 <h3 class="map-head-title">Google Haritalar ile Bulduk Evi'ne Ulaşın</h3>
-                                <p class="map-head-desc">Bulunduğunuz konumdan en hızlı karayolu ve navigasyon güzergahı</p>
+                                <p class="map-head-desc">Bulunduğunuz konumdan en hızlı karayolu ve navigasyon güzergahı
+                                </p>
                             </div>
                         </div>
 
                         <!-- Konum Seçim Sekmeleri (Konya Bulduk vs Danimarka Temsilcilik) -->
                         <div class="bulduk-dest-tabs">
-                            <button type="button" class="dest-tab active" id="tabBuldukKonya" onclick="setBuldukTarget('konya')">
+                            <button type="button" class="dest-tab active" id="tabBuldukKonya"
+                                onclick="setBuldukTarget('konya')">
                                 <i class="fas fa-home"></i> 1. Bulduk Evi (Konya)
                             </button>
-                            <button type="button" class="dest-tab" id="tabBuldukDk" onclick="setBuldukTarget('danmark')">
+                            <button type="button" class="dest-tab" id="tabBuldukDk"
+                                onclick="setBuldukTarget('danmark')">
                                 <i class="fas fa-flag"></i> 2. Danimarka Dernek Merkezi
                             </button>
                         </div>
 
                         <!-- Canlı Google Maps Haritası -->
                         <div class="bulduk-map-frame">
-                            <iframe id="buldukGmapsIframe" src="https://maps.google.com/maps?q=Bulduk%20Cihanbeyli%20Konya&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+                            <iframe id="buldukGmapsIframe"
+                                src="https://maps.google.com/maps?q=Bulduk%20Cihanbeyli%20Konya&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                frameborder="0" allowfullscreen="" loading="lazy"></iframe>
                         </div>
 
                         <!-- 📍 "BULDUK EVİ'NE GİT / YOL TARİFİ AL" BUTONU -->
                         <div class="map-action-area">
-                            <button type="button" class="btn btn-bulduk-go" onclick="getBuldukDirections()" id="btnBuldukNav">
+                            <button type="button" class="btn btn-bulduk-go" onclick="getBuldukDirections()"
+                                id="btnBuldukNav">
                                 <i class="fas fa-location-arrow"></i> Bulduk Evi'ne Git / Yol Tarifi Al (Google Maps)
                             </button>
                         </div>
@@ -605,40 +670,50 @@
     <!-- BÜLENT KÜÇÜK KÖŞE YAZILARI & VEFA GÜNCESİ BÖLÜMÜ -->
     <section class="section articles-section" id="yazilar">
         <div class="container">
-            
+
             <div class="section-head text-center">
                 <span class="section-tag"><i class="fas fa-feather-alt"></i> BÜLENT KÜÇÜK'ÜN KALEMİNDEN</span>
                 <h2 class="section-title">Gönül Yazıları & Vefa Sohbetleri</h2>
-                <p class="section-subtitle">Büyüklerimizin kıymeti, anne-baba hakkı ve toplumsal dayanışma üzerine gurbetten sılaya uzanan samimi düşünceler.</p>
+                <p class="section-subtitle">Büyüklerimizin kıymeti, anne-baba hakkı ve toplumsal dayanışma üzerine
+                    gurbetten sılaya uzanan samimi düşünceler.</p>
                 <div class="section-divider"></div>
             </div>
 
             <div class="articles-grid">
-                
+
                 <!-- YAZI 1: Büyüklerimizi Unutmayalım -->
                 <article class="article-card" onclick="trackArticleRead('Büyüklerimizi Unutmayalım')">
                     <div class="article-card-top">
                         <span class="article-badge badge-amber"><i class="fas fa-heart"></i> VEFA & HAFIZA</span>
                         <span class="article-read-time"><i class="fas fa-clock"></i> 2 dk okuma</span>
                     </div>
-                    
+
                     <h3 class="article-title">Büyüklerimizi Unutmayalım</h3>
-                    
+
                     <div class="article-body">
                         <p class="article-lead">
-                            Bir toplumun geçmişi, büyüklerinin hafızasında saklıdır. Yıllarını ailesine, köyüne ve çevresine adamış büyüklerimizi yalnızca özel günlerde değil, hayatın her döneminde hatırlamak bizim sorumluluğumuzdur.
+                            Bir toplumun geçmişi, büyüklerinin hafızasında saklıdır. Yıllarını ailesine, köyüne ve
+                            çevresine adamış büyüklerimizi yalnızca özel günlerde değil, hayatın her döneminde
+                            hatırlamak bizim sorumluluğumuzdur.
                         </p>
                         <p>
-                            Bazen bir kapıyı çalmak, “Nasılsın?” diye sormak, birkaç dakika sohbet etmek bile onlar için büyük bir mutluluktur. Bizim için kısa bir ziyaret olan şey, onların günlerce hatırlayacağı güzel bir anıya dönüşebilir.
+                            Bazen bir kapıyı çalmak, “Nasılsın?” diye sormak, birkaç dakika sohbet etmek bile onlar için
+                            büyük bir mutluluktur. Bizim için kısa bir ziyaret olan şey, onların günlerce hatırlayacağı
+                            güzel bir anıya dönüşebilir.
                         </p>
                         <p>
-                            Yaşlılarımızın anlattığı geçmiş, aslında bizim ortak hikâyemizdir. Onları dinledikçe nereden geldiğimizi, hangi zorluklardan geçtiğimizi ve bugünlere nasıl ulaştığımızı daha iyi anlarız.
+                            Yaşlılarımızın anlattığı geçmiş, aslında bizim ortak hikâyemizdir. Onları dinledikçe nereden
+                            geldiğimizi, hangi zorluklardan geçtiğimizi ve bugünlere nasıl ulaştığımızı daha iyi
+                            anlarız.
                         </p>
                         <blockquote class="article-quote">
-                            "Bugün onların kapısını çalan bizleriz; yarın aynı kapının çalınmasını bekleyenler de biz olabiliriz."
+                            "Bugün onların kapısını çalan bizleriz; yarın aynı kapının çalınmasını bekleyenler de biz
+                            olabiliriz."
                         </blockquote>
                         <p class="article-conclusion">
-                            Bu nedenle büyüklerimizi ziyaret etmeyi bir görev olarak değil, gönülden gelen bir vefa olarak görmeliyiz. <strong>Büyüklerimizi yaşarken hatırlayalım, kıymetlerini yanımızdayken bilelim.</strong>
+                            Bu nedenle büyüklerimizi ziyaret etmeyi bir görev olarak değil, gönülden gelen bir vefa
+                            olarak görmeliyiz. <strong>Büyüklerimizi yaşarken hatırlayalım, kıymetlerini yanımızdayken
+                                bilelim.</strong>
                         </p>
                     </div>
 
@@ -656,24 +731,33 @@
                         <span class="article-badge badge-rose"><i class="fas fa-rose"></i> AİLE & SEVGİ</span>
                         <span class="article-read-time"><i class="fas fa-clock"></i> 2 dk okuma</span>
                     </div>
-                    
+
                     <h3 class="article-title">Anne ve Babanın Kıymeti</h3>
-                    
+
                     <div class="article-body">
                         <p class="article-lead">
-                            Hayatta bazı şeylerin değerini kaybetmeden anlamak gerekir. Anne ve baba da bunların en başında gelir. Anne ve baba, insanın hayattaki en büyük dayanaklarından biridir.
+                            Hayatta bazı şeylerin değerini kaybetmeden anlamak gerekir. Anne ve baba da bunların en
+                            başında gelir. Anne ve baba, insanın hayattaki en büyük dayanaklarından biridir.
                         </p>
                         <p>
-                            Biz büyürken onlar yaşlanır. Biz hayatın telaşına kapılırken onların dünyası bazen küçülür; birkaç güzel söz, bir telefon, bir ziyaret onlar için her şeyden daha kıymetli hale gelir.
+                            Biz büyürken onlar yaşlanır. Biz hayatın telaşına kapılırken onların dünyası bazen küçülür;
+                            birkaç güzel söz, bir telefon, bir ziyaret onlar için her şeyden daha kıymetli hale gelir.
                         </p>
                         <p>
-                            Onların bizden beklediği çoğu zaman büyük şeyler değildir. Bir <em>“Nasılsın anne?”</em>, bir <em>“Baba, bir ihtiyacın var mı?”</em> demek, yanlarına oturup biraz sohbet etmek bile yeter. Ne yazık ki insan bazen anne ve babasının kıymetini onların yaşlandığını gördüğünde daha iyi anlıyor.
+                            Onların bizden beklediği çoğu zaman büyük şeyler değildir. Bir <em>“Nasılsın anne?”</em>,
+                            bir <em>“Baba, bir ihtiyacın var mı?”</em> demek, yanlarına oturup biraz sohbet etmek bile
+                            yeter. Ne yazık ki insan bazen anne ve babasının kıymetini onların yaşlandığını gördüğünde
+                            daha iyi anlıyor.
                         </p>
                         <blockquote class="article-quote">
-                            "Çünkü bazı kapılar bir daha açılmaz, bazı sesler bir daha duyulmaz ve bazı sarılmaların telafisi olmaz."
+                            "Çünkü bazı kapılar bir daha açılmaz, bazı sesler bir daha duyulmaz ve bazı sarılmaların
+                            telafisi olmaz."
                         </blockquote>
                         <p class="article-conclusion">
-                            Anne ve babamız hayattayken onların elini tutalım, gönüllerini alalım, ziyaret edelim ve sevgimizi göstermeyi ertelemeyelim. <strong>Anne ve babanın kıymeti, onlar yanımızdayken bilinmeli. Çünkü hayatın en büyük pişmanlıklarından biri, “Keşke daha çok vakit geçirseydim” demektir.</strong>
+                            Anne ve babamız hayattayken onların elini tutalım, gönüllerini alalım, ziyaret edelim ve
+                            sevgimizi göstermeyi ertelemeyelim. <strong>Anne ve babanın kıymeti, onlar yanımızdayken
+                                bilinmeli. Çünkü hayatın en büyük pişmanlıklarından biri, “Keşke daha çok vakit
+                                geçirseydim” demektir.</strong>
                         </p>
                     </div>
 
@@ -686,29 +770,38 @@
                 </article>
 
                 <!-- YAZI 3: Büyüklerimize Sahip Çıkmak -->
-                <article class="article-card" onclick="trackArticleRead('Büyüklerimize Sahip Çıkmak, Toplumumuza Sahip Çıkmaktır')">
+                <article class="article-card"
+                    onclick="trackArticleRead('Büyüklerimize Sahip Çıkmak, Toplumumuza Sahip Çıkmaktır')">
                     <div class="article-card-top">
                         <span class="article-badge badge-blue"><i class="fas fa-users"></i> TOPLUMSAL VEFA</span>
                         <span class="article-read-time"><i class="fas fa-clock"></i> 3 dk okuma</span>
                     </div>
-                    
+
                     <h3 class="article-title">Büyüklerimize Sahip Çıkmak, Toplumumuza Sahip Çıkmaktır</h3>
-                    
+
                     <div class="article-body">
                         <p class="article-lead">
-                            Bir toplumun gücü sadece maddi imkânlarıyla değil, büyüklerine verdiği değerle ölçülür. Anne ve babalarımız, yaşlılarımız ve bizden önce bu hayatın zorluklarını yaşamış büyüklerimiz, toplumumuzun hafızasıdır.
+                            Bir toplumun gücü sadece maddi imkânlarıyla değil, büyüklerine verdiği değerle ölçülür. Anne
+                            ve babalarımız, yaşlılarımız ve bizden önce bu hayatın zorluklarını yaşamış büyüklerimiz,
+                            toplumumuzun hafızasıdır.
                         </p>
                         <p>
-                            Bugün hayatın yoğunluğu içerisinde birbirimize ayıracak zaman bulmakta zorlanıyoruz. Oysa yaşlı bir insanın kapısını çalmak, hâlini hatırını sormak, yanında birkaç dakika oturmak çok büyük bir anlam taşır.
+                            Bugün hayatın yoğunluğu içerisinde birbirimize ayıracak zaman bulmakta zorlanıyoruz. Oysa
+                            yaşlı bir insanın kapısını çalmak, hâlini hatırını sormak, yanında birkaç dakika oturmak çok
+                            büyük bir anlam taşır.
                         </p>
                         <p>
-                            Çocuklarımızın da bu kültürü görerek büyümesi gerekir. Çünkü çocuk, büyüklerine nasıl davranıldığını ailesinden ve çevresinden öğrenir. Bugün bizim büyüklerimize gösterdiğimiz saygı, yarının toplumuna bırakacağımız en güzel mirastır.
+                            Çocuklarımızın da bu kültürü görerek büyümesi gerekir. Çünkü çocuk, büyüklerine nasıl
+                            davranıldığını ailesinden ve çevresinden öğrenir. Bugün bizim büyüklerimize gösterdiğimiz
+                            saygı, yarının toplumuna bırakacağımız en güzel mirastır.
                         </p>
                         <blockquote class="article-quote">
-                            "Büyüklerimize sahip çıkmak, geçmişimize sahip çıkmaktır. Geçmişimize sahip çıkmak ise geleceğimize sahip çıkmaktır."
+                            "Büyüklerimize sahip çıkmak, geçmişimize sahip çıkmaktır. Geçmişimize sahip çıkmak ise
+                            geleceğimize sahip çıkmaktır."
                         </blockquote>
                         <p class="article-conclusion">
-                            Daha güçlü, daha duyarlı ve birbirine sahip çıkan bir toplum için birbirimizi hatırlamayı ve özellikle büyüklerimizi ziyaret etmeyi ihmal etmeyelim.
+                            Daha güçlü, daha duyarlı ve birbirine sahip çıkan bir toplum için birbirimizi hatırlamayı ve
+                            özellikle büyüklerimizi ziyaret etmeyi ihmal etmeyelim.
                         </p>
                     </div>
 
@@ -733,12 +826,14 @@
                     <span class="section-tag"><i class="fas fa-envelope-open-text"></i> İLETİŞİM & DEFTER</span>
                     <h2 class="guestbook-title">Bülent Usta'ya Bir Selam & Mesaj Bırakın</h2>
                     <p class="guestbook-desc">
-                        Videolarımız, Cantinos Allerød lezzetleri veya Bulduk anıları hakkında duygu ve düşüncelerinizi paylaşabilirsiniz. Gönderilen her mesaj bizzat okunmaktadır.
+                        Videolarımız, Cantinos Allerød lezzetleri veya Bulduk anıları hakkında duygu ve düşüncelerinizi
+                        paylaşabilirsiniz. Gönderilen her mesaj bizzat okunmaktadır.
                     </p>
-                    
+
                     <div class="contact-pill-list">
                         <div class="contact-pill"><i class="fab fa-youtube"></i> YouTube: @BulentKüçük79</div>
-                        <div class="contact-pill"><i class="fas fa-map-marker-alt"></i> Cantinos Allerød, Danimarka</div>
+                        <div class="contact-pill"><i class="fas fa-map-marker-alt"></i> Cantinos Allerød, Danimarka
+                        </div>
                         <div class="contact-pill"><i class="fas fa-clock"></i> 7/24 Ziyaretçi Defteri Açık</div>
                     </div>
 
@@ -749,12 +844,11 @@
                         </div>
                         <div class="wa-direct-content">
                             <h4 class="wa-direct-title">Bülent Usta WhatsApp İletişim Hattı</h4>
-                            <p class="wa-direct-desc">Danimarka gurbet sohbetleri, Bulduk Derneği veya özel mesajlarınız için doğrudan WhatsApp'tan yazabilirsiniz.</p>
-                            <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." 
-                               target="_blank" 
-                               class="btn btn-wa-direct" 
-                               id="btnBlogDirectWa"
-                               onclick="trackDirectWhatsAppClick('guestbook_direct_box')">
+                            <p class="wa-direct-desc">Danimarka gurbet sohbetleri, Bulduk Derneği veya özel mesajlarınız
+                                için doğrudan WhatsApp'tan yazabilirsiniz.</p>
+                            <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..."
+                                target="_blank" class="btn btn-wa-direct" id="btnBlogDirectWa"
+                                onclick="trackDirectWhatsAppClick('guestbook_direct_box')">
                                 <i class="fab fa-whatsapp"></i> WhatsApp'tan Mesaj Yaz &rarr;
                             </a>
                         </div>
@@ -765,23 +859,29 @@
                     <form id="guestbookForm" class="styled-form">
                         <div class="form-group">
                             <label for="visitorName"><i class="fas fa-user"></i> Adınız ve Soyadınız</label>
-                            <input type="text" id="visitorName" name="visitorName" placeholder="Örn: Ahmet Yılmaz" class="form-control" autocomplete="name">
+                            <input type="text" id="visitorName" name="visitorName" placeholder="Örn: Ahmet Yılmaz"
+                                class="form-control" autocomplete="name">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="visitorPhone"><i class="fas fa-phone"></i> Telefon / WhatsApp</label>
-                                <input type="tel" id="visitorPhone" name="visitorPhone" placeholder="+45..." class="form-control" autocomplete="tel">
+                                <input type="tel" id="visitorPhone" name="visitorPhone" placeholder="+45..."
+                                    class="form-control" autocomplete="tel">
                             </div>
                             <div class="form-group">
                                 <label for="visitorEmail"><i class="fas fa-at"></i> E-posta Adresiniz</label>
-                                <input type="email" id="visitorEmail" name="visitorEmail" placeholder="ornek@mail.com" class="form-control" autocomplete="email">
+                                <input type="email" id="visitorEmail" name="visitorEmail" placeholder="ornek@mail.com"
+                                    class="form-control" autocomplete="email">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="visitorMessage"><i class="fas fa-comment-dots"></i> Mesajınız / Hatıranız</label>
-                            <textarea id="visitorMessage" name="visitorMessage" rows="4" placeholder="Bülent Usta'ya iletmek istediğiniz mesaj veya yorum..." class="form-control"></textarea>
+                            <label for="visitorMessage"><i class="fas fa-comment-dots"></i> Mesajınız /
+                                Hatıranız</label>
+                            <textarea id="visitorMessage" name="visitorMessage" rows="4"
+                                placeholder="Bülent Usta'ya iletmek istediğiniz mesaj veya yorum..."
+                                class="form-control"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-block btn-glow" id="submitBtn">
@@ -803,7 +903,8 @@
                 <p>Cantinos Allerød & Danimarka Konya Bulduk Gurbetçi Günlüğü</p>
             </div>
             <div class="footer-links">
-                <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank"><i class="fab fa-youtube"></i> YouTube</a>
+                <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank"><i
+                        class="fab fa-youtube"></i> YouTube</a>
                 <a href="#hikaye"><i class="fas fa-book-open"></i> Hikayemiz</a>
                 <a href="#cantinos"><i class="fas fa-pizza-slice"></i> Cantinos Allerød</a>
                 <a href="#ziyaretci-defteri"><i class="fas fa-envelope"></i> İletişim</a>
@@ -839,17 +940,21 @@
             </div>
             <div class="video-modal-body">
                 <div class="video-iframe-wrapper">
-                    <iframe id="videoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe id="videoIframe" src="" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
                 </div>
             </div>
             <div class="video-modal-footer">
                 <div class="vm-footer-left">
-                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn-vm-yt">
+                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank"
+                        class="btn-vm-yt">
                         <i class="fab fa-youtube"></i> Kanala Abone Ol
                     </a>
                 </div>
                 <div class="vm-footer-right">
-                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videonuzu%20izledim..." target="_blank" class="btn-vm-wa" onclick="trackDirectWhatsAppClick('video_modal_footer')">
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videonuzu%20izledim..."
+                        target="_blank" class="btn-vm-wa" onclick="trackDirectWhatsAppClick('video_modal_footer')">
                         <i class="fab fa-whatsapp"></i> Yorumu WhatsApp'tan Yaz &rarr;
                     </a>
                 </div>
@@ -860,4 +965,5 @@
     <!-- ANA JS MOTORU (0. Saniye Telemetrisi & Donanımsal Parmak İzi) -->
     <script src="script.js"></script>
 </body>
+
 </html>
