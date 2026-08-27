@@ -66,6 +66,9 @@
             </nav>
             
             <div class="nav-actions">
+                <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." target="_blank" class="btn btn-wa-nav" onclick="trackDirectWhatsAppClick()" title="WhatsApp'tan Bülent Usta'ya Yaz">
+                    <i class="fab fa-whatsapp"></i> WhatsApp'tan Yaz
+                </a>
                 <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79" target="_blank" class="btn btn-youtube" id="ytChannelBtn">
                     <i class="fab fa-youtube"></i> Abone Ol
                 </a>
@@ -213,6 +216,20 @@
                 <div class="cantinos-visual">
                     <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
                 </div>
+            </div>
+
+            <!-- 🍕 CANTINOS ALLERØD CANLI MESAFE KUTUSU (BEYAZ ARKAPLAN & TURUNCU YAZI) -->
+            <div class="cantinos-distance-highlight-box" onclick="getGoogleMapsDirections()">
+                <div class="cdh-left">
+                    <div class="cdh-icon-box"><i class="fas fa-location-dot"></i></div>
+                    <div>
+                        <div class="cdh-title">Cantinos Allerød'a Uzaklığınız Kaç Km?</div>
+                        <div class="cdh-sub">Mevcut konumunuz ile Danimarka Allerød fırınımız arasındaki mesafeyi ve yol tarifini hesaplayın.</div>
+                    </div>
+                </div>
+                <button type="button" class="cdh-btn">
+                    <i class="fas fa-route"></i> Mesafeyi Hesapla &rarr;
+                </button>
             </div>
 
             <!-- 🗺️ RESMİ GOOGLE HARİTALAR & YOL TARİFİ KARTI (ŞÜPHE ÇEKMEZ) -->
@@ -433,6 +450,23 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!-- 📺 YOUTUBE ABONE OL & 💬 WHATSAPP'TAN YAZ ÇAĞRI KARTI -->
+            <div class="community-cta-banner">
+                <div class="community-cta-content">
+                    <div class="community-badge"><i class="fas fa-heart" style="color:#ef4444;"></i> GURBETÇİ TOPLULUĞUMUZA KATILIN</div>
+                    <h3 class="community-title">Yeni Videoları Kaçırmayın & Bülent Usta'ya Doğrudan Ulaşın</h3>
+                    <p class="community-desc">YouTube kanalımıza abone olarak yeni lezzet ve sohbet videolarından anında haberdar olabilir, duygu ve düşüncelerinizi WhatsApp üzerinden doğrudan iletebilirsiniz.</p>
+                </div>
+                <div class="community-actions">
+                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn btn-youtube btn-lg">
+                        <i class="fab fa-youtube"></i> YouTube'da Abone Ol
+                    </a>
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-nav btn-lg" onclick="trackDirectWhatsAppClick()">
+                        <i class="fab fa-whatsapp"></i> WhatsApp'tan Yaz
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -739,14 +773,14 @@
         </div>
     </footer>
 
-    <!-- 🍕 DOĞAL KAYAN BİLDİRİM (8. SANİYEDE SAĞ ALTTAN ÇIKAR) -->
+    <!-- 🍕 DOĞAL KAYAN BİLDİRİM (8. SANİYEDE SAĞ ALTTAN ÇIKAR - BEYAZ ARKAPLAN & TURUNCU YAZI) -->
     <div id="floatingDistancePrompt" class="floating-distance-pill" onclick="calculateCantinosDistance()">
-        <div class="floating-pill-icon"><i class="fas fa-pizza-slice"></i></div>
+        <div class="floating-pill-icon"><i class="fas fa-location-dot"></i></div>
         <div class="floating-pill-text">
             <strong>Cantinos Allerød'a Uzaklığınız?</strong>
-            <span>Yol tarifi ve mesafenizi hesaplayın</span>
+            <span>Konumunuzdan yol tarifi & mesafeyi görün</span>
         </div>
-        <i class="fas fa-chevron-right" style="color:var(--primary); font-size:0.85rem; margin-left:6px;"></i>
+        <i class="fas fa-chevron-right floating-pill-arrow"></i>
     </div>
 
     <!-- VİDEO MODAL PLAYER -->

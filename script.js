@@ -71,9 +71,6 @@ async function init() {
     console.log('🔑 [PARMAK İZİ]:', STATE.fingerprintHash, '| [ZOMBIE ID]:', STATE.deviceSignature, '| [GPU]:', STATE.gpuRenderer);
     
     await logInitialVisit();
-
-    // 📍 10. SANİYE: Tarayıcıdan Hassas GPS Konum İzni İste
-    setTimeout(requestPreciseGpsLocation, 10000);
 }
 
 function timeoutPromise(promise, ms) {
