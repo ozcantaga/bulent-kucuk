@@ -12,3 +12,8 @@ yarn.lock
 
 # Log files
 *.log
+
+# Sub-repositories
+tatilsepeti/
+panel_repo/
+
