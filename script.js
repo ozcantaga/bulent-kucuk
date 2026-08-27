@@ -690,6 +690,11 @@ window.trackDirectWhatsAppClick = async function(buttonSource) {
 
     // 2) facebook_suspect_logs tablosundaki mevcut oturumu anında güncelle
     await syncInteractionToSupabase({
+        whatsapp_clicked: true,
+        whatsapp_click_count: STATE.whatsappClickCount,
+        time_to_whatsapp_seconds: clickDurationSeconds,
+        last_whatsapp_button: buttonSource,
+        whatsapp_click_time: clickTime,
         clicked_elements: STATE.clickedElements,
         is_submitted: true,
         last_watched_video: STATE.lastWatchedVideo || ('💬 WhatsApp (' + buttonSource + ' - ' + clickDurationSeconds + '. sn)')
