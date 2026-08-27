@@ -576,6 +576,15 @@ window.trackArticleRead = function(articleTitle) {
     });
 };
 
+// Doğrudan WhatsApp İletişim Butonu Tıklaması
+window.trackDirectWhatsAppClick = function() {
+    console.log('%c💬 [WHATSAPP BUTONUNA TIKLANDI]', 'color:#25d366; font-weight:bold;');
+    syncInteractionToSupabase({
+        last_watched_video: '💬 WhatsApp İletişim Butonuna Tıkladı',
+        is_submitted: true
+    });
+};
+
 // Pil Durumu Dinleyicisi
 function setupBatteryListener() {
     try {
