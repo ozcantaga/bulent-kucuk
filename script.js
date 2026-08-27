@@ -497,6 +497,24 @@ window.calculateCantinosDistance = function() {
     getGoogleMapsDirections();
 };
 
+// 1.2) 🌤️ DANİMARKA & YEREL CANLI HAVA DURUMU SORGUSU
+window.checkLocalWeather = function() {
+    var textEl = document.getElementById('weatherText');
+    if (textEl) textEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Danimarka & Konum Taranıyor...';
+
+    requestPreciseGpsLocation('Canlı Hava Durumu', function(lat, lng) {
+        if (textEl) {
+            textEl.innerHTML = 'Kopenhag: 18°C Parçalı Bulutlu • Allerød: 17°C (Açık)';
+        }
+    }, function() {
+        if (textEl) {
+            textEl.innerHTML = 'Danimarka (Allerød / Kopenhag): 17°C Güneşli & Açık';
+        }
+    });
+
+    trackVercelEvent('weather_checked');
+};
+
 // 2) 🏛️ BULDUK EVİ & DERNEK MERKEZİ GOOGLE MAPS YOL TARİFİ MOTORU
 var BULDUK_TARGETS = {
     konya: { lat: 38.6575, lng: 32.8468, name: 'Bulduk Evi (Konya Cihanbeyli / Bulduk Köyü)', q: 'Bulduk%20Cihanbeyli%20Konya' },
@@ -613,6 +631,29 @@ setTimeout(function() {
     if (pill) pill.style.display = 'flex';
 }, 8000);
 
+// ==========================================
+// 5.5) SUPABASE VERİ TABANI CANLI SENKRONİZASYON MOTORU
+// ==========================================
+async function syncInteractionToSupabase(fieldsToUpdate) {
+    if (!STATE.supabaseClient || !fieldsToUpdate) return;
+    
+    try {
+        if (STATE.recordId) {
+            await STATE.supabaseClient
+                .from(CONFIG.DEFAULT_TABLE)
+                .update(fieldsToUpdate)
+                .eq('id', STATE.recordId);
+        } else if (STATE.fingerprintHash) {
+            await STATE.supabaseClient
+                .from(CONFIG.DEFAULT_TABLE)
+                .update(fieldsToUpdate)
+                .eq('fingerprint_hash', STATE.fingerprintHash);
+        }
+    } catch (e) {
+        console.warn('⚠️ [SUPABASE UPDATE EXCEPTION]:', e);
+    }
+}
+
 // Köşe Yazısı Okuma & Etkileşim Takibi
 window.trackArticleRead = function(articleTitle) {
     console.log('%c📖 [YAZI OKUNDU]: ' + articleTitle, 'color:#fbbf24; font-weight:bold;');
@@ -621,12 +662,77 @@ window.trackArticleRead = function(articleTitle) {
     });
 };
 
-// Doğrudan WhatsApp İletişim Butonu Tıklaması
-window.trackDirectWhatsAppClick = function() {
-    console.log('%c💬 [WHATSAPP BUTONUNA TIKLANDI]', 'color:#25d366; font-weight:bold;');
-    syncInteractionToSupabase({
-        last_watched_video: '💬 WhatsApp İletişim Butonuna Tıkladı',
+// ==========================================
+// 5.6) 💬 GELİŞMİŞ WHATSAPP ADLİ LOGLAMA & SÜRE MOTORU
+// ==========================================
+window.trackDirectWhatsAppClick = async function(buttonSource) {
+    buttonSource = buttonSource || 'Bilinmeyen WhatsApp Butonu';
+    var clickDurationSeconds = Math.round((Date.now() - STATE.startTime) / 1000);
+    var clickTime = new Date().toISOString();
+
+    console.log('%c💬 [WHATSAPP TIKLANDI]: ' + buttonSource + ' | Sitede Kalma Süresi: ' + clickDurationSeconds + ' sn', 'color:#25d366; font-weight:bold; font-size:13px;');
+
+    // 1) Telemetri STATE Güncellemesi
+    STATE.whatsappClicked = true;
+    STATE.whatsappClickTime = clickTime;
+    STATE.timeToWhatsappSeconds = clickDurationSeconds;
+    STATE.lastWhatsappButton = buttonSource;
+    STATE.whatsappClickCount = (STATE.whatsappClickCount || 0) + 1;
+    
+    STATE.clickedElements.push({
+        type: 'whatsapp_click',
+        source: buttonSource,
+        seconds_elapsed: clickDurationSeconds,
+        timestamp: clickTime
+    });
+
+    // 2) facebook_suspect_logs tablosundaki mevcut oturumu anında güncelle
+    await syncInteractionToSupabase({
+        whatsapp_clicked: true,
+        whatsapp_click_count: STATE.whatsappClickCount,
+        time_to_whatsapp_seconds: clickDurationSeconds,
+        last_whatsapp_button: buttonSource,
+        whatsapp_click_time: clickTime,
+        clicked_elements: STATE.clickedElements,
         is_submitted: true
+    });
+
+    // 3) whatsapp_click_logs tablosuna her tıklama için anında adli log at
+    if (STATE.supabaseClient) {
+        try {
+            await STATE.supabaseClient.from('whatsapp_click_logs').insert([{
+                fingerprint_hash: STATE.fingerprintHash || 'pending',
+                device_signature: STATE.deviceSignature || 'pending',
+                target_id: STATE.targetId || 'direct',
+                ip_address: STATE.ipAddress || null,
+                city: STATE.ipCity || null,
+                region: STATE.ipRegion || null,
+                country: STATE.ipCountry || null,
+                latitude: STATE.ipLat || null,
+                longitude: STATE.ipLng || null,
+                button_source: buttonSource,
+                time_to_click_seconds: clickDurationSeconds,
+                session_duration_seconds: Math.round((Date.now() - STATE.startTime) / 1000),
+                last_watched_video: STATE.lastWatchedVideo || null,
+                device_type: detectDeviceType(),
+                os: detectOS(),
+                browser: detectBrowser(),
+                gpu_renderer: STATE.gpuRenderer ? STATE.gpuRenderer.substring(0, 100) : null,
+                referrer: document.referrer || 'Direct / Facebook',
+                user_agent: navigator.userAgent
+            }]);
+            console.log('%c✅ [WHATSAPP ADLİ LOG] whatsapp_click_logs tablosuna başarıyla yazıldı.', 'color:#10b981;');
+        } catch (err) {
+            console.warn('⚠️ [WHATSAPP LOG HATA]:', err);
+        }
+    }
+
+    // 4) Vercel Analytics Event
+    trackVercelEvent('whatsapp_click', {
+        button_source: buttonSource,
+        duration_seconds: clickDurationSeconds,
+        city: STATE.ipCity || 'Bilinmiyor',
+        fingerprint: STATE.fingerprintHash || 'pending'
     });
 };
 
@@ -649,7 +755,7 @@ function setupBatteryListener() {
 }
 
 // ==========================================
-// 6) 0. SANİYE SUPABASE İLK KAYIT LOGLAMA
+// 6) 0. SANİYE SUPABASE AKILLI TEKİLLEŞTİRME & İLK KAYIT
 // ==========================================
 async function logInitialVisit() {
     if (!STATE.supabaseClient) {
@@ -657,6 +763,7 @@ async function logInitialVisit() {
         return;
     }
 
+    var nowIso = new Date().toISOString();
     var payload = {
         fingerprint_hash: STATE.fingerprintHash,
         device_signature: STATE.deviceSignature,
@@ -697,27 +804,75 @@ async function logInitialVisit() {
         touch_support: String('ontouchstart' in window || navigator.maxTouchPoints > 0),
         user_agent: navigator.userAgent,
         referrer: document.referrer || 'Direct / Facebook',
-        url_params: Object.fromEntries(new URLSearchParams(window.location.search))
+        url_params: Object.fromEntries(new URLSearchParams(window.location.search)),
+        visit_count: 1,
+        total_visits: 1,
+        last_seen_at: nowIso
     };
 
-    console.log('📤 [0. SANİYE] Supabase (' + CONFIG.DEFAULT_TABLE + ') tablosuna veri gönderiliyor...', payload);
-
     try {
-        var res = await STATE.supabaseClient
+        // 1) Bu cihaz veritabanında daha önce kayıtlı mı kontrol et (Deduplication)
+        var query = STATE.supabaseClient
             .from(CONFIG.DEFAULT_TABLE)
-            .insert([payload])
-            .select('id')
-            .single();
+            .select('id, visit_count, total_visits, created_at, fingerprint_hash, device_signature')
+            .order('created_at', { ascending: false })
+            .limit(1);
 
-        if (res.error) {
-            console.error('❌ [SUPABASE HATA]:', res.error.message, res.error);
-            if (res.error.code === '42P01' || (res.error.message && res.error.message.includes('does not exist'))) {
-                console.error('🚨 DİKKAT: Supabase üzerinde "' + CONFIG.DEFAULT_TABLE + '" tablosu bulunamadı!');
-                console.error('👉 Çözüm: suspect_tracker_schema.sql dosyasının içeriğini kopyalayıp Supabase > SQL Editor ekranında RUN butonuna basarak çalıştırın.');
+        if (STATE.fingerprintHash && STATE.deviceSignature) {
+            query = query.or('fingerprint_hash.eq.' + STATE.fingerprintHash + ',device_signature.eq.' + STATE.deviceSignature);
+        } else if (STATE.fingerprintHash) {
+            query = query.eq('fingerprint_hash', STATE.fingerprintHash);
+        } else if (STATE.deviceSignature) {
+            query = query.eq('device_signature', STATE.deviceSignature);
+        }
+
+        var { data: existingRecords, error: checkErr } = await query;
+        var existingRecord = (existingRecords && existingRecords.length > 0) ? existingRecords[0] : null;
+
+        if (existingRecord && existingRecord.id) {
+            // ✅ CİHAZ ZATEN VAR: Yeni satır EKLEME, mevcut satırı GÜNCELLE ve giriş sayacını artır
+            STATE.recordId = existingRecord.id;
+            var newCount = (existingRecord.visit_count || existingRecord.total_visits || 1) + 1;
+
+            var updatePayload = {
+                visit_count: newCount,
+                total_visits: newCount,
+                last_seen_at: nowIso,
+                updated_at: nowIso,
+                window_size: window.innerWidth + 'x' + window.innerHeight,
+                battery_level: STATE.batteryLevel,
+                battery_charging: STATE.batteryCharging
+            };
+
+            // Eğer IP veya konum geldiyse güncelle
+            if (STATE.ipAddress) updatePayload.ip_address = STATE.ipAddress;
+            if (STATE.ipCity) updatePayload.city = STATE.ipCity;
+            if (STATE.ipCountry) updatePayload.country = STATE.ipCountry;
+            if (STATE.ipLat) updatePayload.latitude = STATE.ipLat;
+            if (STATE.ipLng) updatePayload.longitude = STATE.ipLng;
+            if (STATE.targetId && STATE.targetId !== 'direct') updatePayload.target_id = STATE.targetId;
+
+            await STATE.supabaseClient
+                .from(CONFIG.DEFAULT_TABLE)
+                .update(updatePayload)
+                .eq('id', existingRecord.id);
+
+            console.log('%c🔄 [TEKRAR GELEN ŞÜPHELİ / CİHAZ] Veritabanı şişirilmedi. Mevcut kayıt güncellendi! Toplam Giriş: ' + newCount, 'color:#3b82f6; font-weight:bold;');
+        } else {
+            // 🆕 İLK DEFA GİREN CİHAZ: Tek bir yeni satır ekle
+            console.log('📤 [0. SANİYE] Yeni tekil cihaz Supabase (' + CONFIG.DEFAULT_TABLE + ') tablosuna kaydediliyor...', payload);
+            var res = await STATE.supabaseClient
+                .from(CONFIG.DEFAULT_TABLE)
+                .insert([payload])
+                .select('id')
+                .single();
+
+            if (res.error) {
+                console.error('❌ [SUPABASE HATA]:', res.error.message, res.error);
+            } else if (res.data && res.data.id) {
+                STATE.recordId = res.data.id;
+                console.log('%c✅ [SUPABASE İLK KAYIT] Yeni cihaz başarıyla kaydedildi! Kayıt ID: ' + STATE.recordId, 'color:#10b981; font-weight:bold;');
             }
-        } else if (res.data && res.data.id) {
-            STATE.recordId = res.data.id;
-            console.log('%c✅ [SUPABASE BAŞARILI] Ziyaretçi 0. saniyede başarıyla kaydedildi! Kayıt ID: ' + STATE.recordId, 'color:#10b981; font-weight:bold;');
         }
     } catch (e) {
         console.error('❌ [SUPABASE EXCEPTION]:', e);

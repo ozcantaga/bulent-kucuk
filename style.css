@@ -572,6 +572,27 @@ a {
     box-shadow: 0 4px 15px var(--primary-glow);
 }
 
+.logo-avatar-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    flex-shrink: 0;
+}
+
+.logo-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
 .logo-text {
     display: flex;
     flex-direction: column;
@@ -643,11 +664,123 @@ a {
 
 .mobile-toggle {
     display: none;
-    background: transparent;
-    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     color: #fff;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     cursor: pointer;
+    width: 42px;
+    height: 42px;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.mobile-toggle:hover {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ========================================================================
+   💬 HEADER ALTI DOĞRUDAN WHATSAPP İLETİŞİM ŞERİDİ
+   ======================================================================== */
+.header-action-bar {
+    background: linear-gradient(180deg, rgba(17, 24, 39, 0.98) 0%, rgba(10, 14, 23, 0.95) 100%);
+    border-bottom: 1px solid rgba(37, 211, 102, 0.25);
+    padding: 10px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    z-index: 990;
+}
+
+.hero-wa-cta-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.16) 0%, rgba(18, 140, 126, 0.16) 100%);
+    border: 1.5px solid #25d366;
+    border-radius: 50px;
+    padding: 9px 18px 9px 12px;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.25), inset 0 0 15px rgba(37, 211, 102, 0.1);
+    transition: all 0.25s ease;
+    gap: 12px;
+}
+
+.hero-wa-cta-pill:hover {
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.28) 0%, rgba(18, 140, 126, 0.28) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+    border-color: #2bf075;
+}
+
+.wa-cta-icon-glow {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.5);
+    flex-shrink: 0;
+}
+
+.wa-cta-text-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    line-height: 1.25;
+}
+
+.wa-cta-title {
+    font-family: var(--font-heading);
+    font-size: 0.94rem;
+    font-weight: 800;
+    color: #25d366;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wa-cta-sub {
+    font-size: 0.76rem;
+    color: #cbd5e1;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wa-cta-badge {
+    background: #25d366;
+    color: #070a11;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
+}
+
+.online-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulse 1.5s infinite;
 }
 
 /* ========================================================================
@@ -756,17 +889,36 @@ a {
 
 .hero-badge {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.25);
-    border-radius: 50px;
-    font-size: 0.82rem;
+    gap: 6px 12px;
+    padding: 7px 16px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1.5px solid rgba(245, 158, 11, 0.35);
+    border-radius: 30px;
+    font-size: 0.84rem;
     font-weight: 700;
     color: var(--primary);
-    letter-spacing: 0.8px;
-    margin-bottom: 20px;
+    letter-spacing: 0.3px;
+    margin-bottom: 18px;
+    max-width: 100%;
+}
+
+.hero-badge-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.hero-badge-item i {
+    font-size: 0.82rem;
+    color: var(--primary);
+}
+
+.hero-badge-dot {
+    color: rgba(245, 158, 11, 0.5);
+    font-weight: 900;
 }
 
 .hero-title {
@@ -873,15 +1025,15 @@ a {
     display: flex;
     gap: 18px;
     align-items: center;
-    margin-bottom: 22px;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
     border-bottom: 1px solid var(--border);
 }
 
 .avatar-wrapper {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 76px;
+    height: 76px;
     flex-shrink: 0;
 }
 
@@ -913,17 +1065,30 @@ a {
     background: #10b981;
     border: 2px solid var(--bg-card);
     border-radius: 50%;
+    box-shadow: 0 0 8px #10b981;
+}
+
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .profile-name {
     font-family: var(--font-heading);
-    font-size: 1.35rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 800;
     color: #fff;
+    line-height: 1.2;
+}
+
+.profile-verified-badge {
+    color: #3b82f6;
+    font-size: 1.05rem;
 }
 
 .profile-tag {
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     color: var(--primary);
     font-weight: 600;
     margin-bottom: 6px;
@@ -933,7 +1098,7 @@ a {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
 }
 
@@ -943,19 +1108,21 @@ a {
     margin-right: 4px;
 }
 
-/* Featured Video Preview Mini Kart */
+/* Featured Video Preview Kartı (Büyük & Çarpıcı) */
 .featured-video-preview {
-    background: rgba(10, 14, 23, 0.6);
-    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(10, 14, 23, 0.95) 100%);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-md);
     overflow: hidden;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .featured-video-preview:hover {
-    border-color: var(--primary);
-    transform: scale(1.02);
+    border-color: #ff0000;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(255, 0, 0, 0.25);
 }
 
 .preview-thumbnail {
@@ -965,80 +1132,115 @@ a {
     overflow: hidden;
 }
 
-.preview-thumbnail img {
+.preview-hero-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
 
-.featured-video-preview:hover .preview-thumbnail img {
-    transform: scale(1.06);
+.featured-video-preview:hover .preview-hero-thumb {
+    transform: scale(1.05);
 }
 
 .duration-badge {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: rgba(0, 0, 0, 0.85);
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.88);
     color: #fff;
     padding: 3px 8px;
     border-radius: 4px;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: 700;
+    letter-spacing: 0.3px;
 }
 
 .play-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.35);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.9;
-    transition: opacity 0.25s;
+    transition: background 0.25s;
 }
 
-.play-overlay i {
-    width: 44px;
-    height: 44px;
-    background: var(--yt-red);
-    color: #fff;
+.featured-video-preview:hover .play-overlay {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.play-btn-circle-lg {
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px var(--yt-glow);
-    transition: transform 0.25s;
+    font-size: 1.35rem;
+    box-shadow: 0 6px 22px rgba(255, 0, 0, 0.6);
+    border: 2.5px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.featured-video-preview:hover .play-overlay i {
-    transform: scale(1.15);
+.featured-video-preview:hover .play-btn-circle-lg {
+    transform: scale(1.14);
+    box-shadow: 0 8px 30px rgba(255, 0, 0, 0.8);
 }
 
 .preview-details {
-    padding: 14px;
+    padding: 16px;
+}
+
+.preview-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .preview-tag {
     font-size: 0.72rem;
     color: #ef4444;
     font-weight: 800;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+}
+
+.preview-views {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    font-weight: 600;
 }
 
 .preview-title {
     font-family: var(--font-heading);
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.12rem;
+    font-weight: 800;
     color: #fff;
-    margin: 4px 0 2px;
+    margin: 4px 0 3px;
+    line-height: 1.3;
 }
 
 .preview-sub {
     font-size: 0.82rem;
     color: var(--text-muted);
+    line-height: 1.45;
+}
+
+.preview-action-hint {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fbbf24;
 }
 
 /* ========================================================================
@@ -2100,24 +2302,24 @@ a {
 }
 
 /* ========================================================================
-   VİDEO MODAL PLAYER
+   🎬 SİNEMATİK & GENİŞ EKRAN VİDEO MODAL PLAYER
    ======================================================================== */
 .video-modal {
     position: fixed;
     inset: 0;
-    z-index: 2000;
+    z-index: 99999;
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
 }
 
 .video-modal.active {
     display: flex;
-    animation: fadeIn 0.25s ease;
+    animation: fadeInModal 0.25s ease;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInModal {
     from { opacity: 0; }
     to { opacity: 1; }
 }
@@ -2125,66 +2327,109 @@ a {
 .video-modal-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.88);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .video-modal-dialog {
     position: relative;
-    z-index: 2001;
+    z-index: 100000;
     width: 100%;
-    max-width: 900px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    max-width: 1100px;
+    background: #0b101c;
+    border: 1.5px solid rgba(245, 158, 11, 0.35);
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-    animation: slideUp 0.3s ease;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.95), 0 0 45px rgba(245, 158, 11, 0.15);
+    animation: zoomInModal 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
 }
 
-@keyframes slideUp {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+@keyframes zoomInModal {
+    from { transform: scale(0.92) translateY(20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 .video-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    background: linear-gradient(180deg, #131b2e 0%, #0c1220 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 14px;
+}
+
+.video-modal-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.video-live-badge {
+    background: #ff0000;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 10px rgba(255, 0, 0, 0.5);
 }
 
 .video-modal-title {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
-    font-weight: 700;
+    font-size: 1.12rem;
+    font-weight: 800;
     color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.25;
 }
 
 .video-modal-close {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: #e2e8f0;
+    font-size: 1.15rem;
     cursor: pointer;
-    padding: 4px 8px;
-    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .video-modal-close:hover {
-    color: #ef4444;
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #ffffff;
+    transform: rotate(90deg) scale(1.08);
 }
 
 .video-modal-body {
     background: #000;
+    position: relative;
+    width: 100%;
 }
 
 .video-iframe-wrapper {
     position: relative;
     aspect-ratio: 16/9;
     width: 100%;
+    background: #000;
 }
 
 .video-iframe-wrapper iframe {
@@ -2192,6 +2437,63 @@ a {
     inset: 0;
     width: 100%;
     height: 100%;
+}
+
+.video-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #0c1220;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-vm-yt {
+    background: linear-gradient(135deg, #ff0000, #cc0000);
+    color: #ffffff !important;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(255, 0, 0, 0.45);
+    transition: all 0.2s ease;
+}
+
+.btn-vm-yt:hover {
+    background: #ff1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.65);
+    color: #ffffff !important;
+}
+
+.btn-vm-wa {
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #ffffff !important;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 800;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+    transition: all 0.2s ease;
+}
+
+.btn-vm-wa:hover {
+    background: #2ee672;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+    color: #ffffff !important;
 }
 
 /* ========================================================================
@@ -2257,8 +2559,26 @@ a {
    ======================================================================== */
 @media (max-width: 992px) {
     .hero-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .hero-media {
+        order: 1; /* 🎯 MOBİLDE GÖRSEL KART EN ÜSTTE VİTRİN OLARAK DURUR */
+        width: 100%;
+    }
+
+    .hero-content {
+        order: 2;
+        width: 100%;
+    }
+    
+    .media-card-main {
+        padding: 20px;
+        background: linear-gradient(135deg, rgba(22, 32, 50, 0.98), rgba(15, 23, 42, 0.98));
+        border: 1.5px solid rgba(245, 158, 11, 0.35);
+        box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 158, 11, 0.15);
     }
     
     .story-grid {
@@ -2275,13 +2595,13 @@ a {
     }
     
     .hero-title {
-        font-size: 2.3rem;
+        font-size: 2.1rem;
     }
 }
 
 @media (max-width: 768px) {
     .header {
-        padding: 9px 0;
+        padding: 10px 0;
     }
 
     .nav-wrapper {
@@ -2289,61 +2609,38 @@ a {
     }
 
     .brand-logo {
-        gap: 8px;
-        flex: 1 1 auto;
-        min-width: 0;
+        gap: 10px;
     }
 
-    .logo-badge {
-        width: 36px;
-        height: 36px;
-        font-size: 1rem;
-        border-radius: 8px;
+    .logo-badge, .logo-avatar-wrap {
+        width: 38px;
+        height: 38px;
+        font-size: 1.05rem;
+        border-radius: 50%;
         flex-shrink: 0;
     }
 
     .logo-title {
-        font-size: 0.95rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 1.05rem;
         line-height: 1.15;
     }
 
     .logo-sub {
-        font-size: 0.62rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.65rem;
         line-height: 1.15;
         margin-top: 1px;
-    }
-
-    .nav-actions {
-        gap: 8px;
-        flex-shrink: 0;
-    }
-
-    .btn-wa-nav {
-        padding: 7px 13px;
-        font-size: 0.8rem;
-        gap: 6px;
-    }
-
-    .btn-wa-nav i {
-        font-size: 0.95rem;
     }
 
     .mobile-toggle {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
-        height: 36px;
+        width: 38px;
+        height: 38px;
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid var(--border);
         border-radius: 8px;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
     }
     
     .nav-menu {
@@ -2365,16 +2662,16 @@ a {
     }
     
     .hero-section {
-        padding: 30px 0 50px;
+        padding: 24px 0 45px;
     }
 
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 1.65rem;
         line-height: 1.25;
     }
 
     .hero-description {
-        font-size: 0.92rem;
+        font-size: 0.9rem;
     }
 
     .hero-cta-group {
@@ -2472,12 +2769,43 @@ a {
         gap: 0;
     }
 
+    /* Mobilde Tam Ekran Sinematik Video Modal */
     .video-modal {
-        padding: 10px;
+        padding: 0;
+        align-items: stretch;
     }
 
     .video-modal-dialog {
-        border-radius: 8px;
+        border-radius: 0;
+        max-width: 100vw;
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh;
+        border: none;
+        box-shadow: none;
+        background: #060912;
+        justify-content: space-between;
+    }
+
+    .video-modal-header {
+        padding: 12px 14px;
+    }
+
+    .video-modal-title {
+        font-size: 0.95rem;
+    }
+
+    .video-modal-footer {
+        padding: 12px 14px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-vm-yt, .btn-vm-wa {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 14px;
+        font-size: 0.84rem;
     }
 }
 
@@ -2486,31 +2814,98 @@ a {
         padding: 0 12px;
     }
 
-    .logo-badge {
-        width: 34px;
-        height: 34px;
-        font-size: 0.92rem;
+    /* Header & WhatsApp Şeridi */
+    .header-action-bar {
+        padding: 8px 0;
     }
 
-    .logo-title {
-        font-size: 0.9rem;
+    .hero-wa-cta-pill {
+        padding: 8px 12px;
+        gap: 8px;
+        border-radius: 40px;
     }
 
-    .logo-sub {
-        font-size: 0.58rem;
+    .wa-cta-icon-glow {
+        width: 32px;
+        height: 32px;
+        font-size: 1.05rem;
     }
 
-    .btn-wa-nav {
-        padding: 6px 11px;
+    .wa-cta-title {
+        font-size: 0.84rem;
+    }
+
+    .wa-cta-sub {
+        font-size: 0.68rem;
+    }
+
+    .wa-cta-badge {
+        padding: 4px 9px;
+        font-size: 0.68rem;
+    }
+
+    /* Hero Görsel Vitrin Kartı & Badge */
+    .hero-badge {
+        gap: 4px 8px;
+        padding: 5px 12px;
+        font-size: 0.74rem;
+        border-radius: 20px;
+    }
+
+    .hero-badge-item {
+        font-size: 0.72rem;
+    }
+
+    .media-card-main {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .profile-header-card {
+        gap: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+
+    .avatar-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-name {
+        font-size: 1.15rem;
+    }
+
+    .profile-tag {
+        font-size: 0.74rem;
+        margin-bottom: 3px;
+    }
+
+    .profile-meta {
+        font-size: 0.7rem;
+        gap: 2px;
+    }
+
+    .preview-details {
+        padding: 12px;
+    }
+
+    .preview-title {
+        font-size: 0.98rem;
+    }
+
+    .preview-sub {
         font-size: 0.76rem;
     }
 
-    .btn-wa-nav i {
-        font-size: 0.9rem;
+    .play-btn-circle-lg {
+        width: 48px;
+        height: 48px;
+        font-size: 1.15rem;
     }
 
     .hero-title {
-        font-size: 1.5rem;
+        font-size: 1.45rem;
     }
 
     .quote-card {
@@ -2518,7 +2913,7 @@ a {
     }
 
     .quote-text {
-        font-size: 0.92rem;
+        font-size: 0.88rem;
     }
 
     .floating-distance-pill {

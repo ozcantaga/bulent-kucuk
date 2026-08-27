@@ -38,26 +38,13 @@
 </head>
 <body>
 
-    <!-- Üst Duyuru Çubuğu & Canlı Hava Durumu -->
-    <div class="top-banner">
-        <div class="container banner-content">
-            <div class="banner-left">
-                <span><i class="fas fa-video pulse-icon"></i> <strong>Yeni Video:</strong> "Keko Usta: Çıraklıktan Ustalığa"</span>
-            </div>
-            <div class="banner-right">
-                <button class="weather-btn" onclick="checkLocalWeather()" id="weatherBtn" title="Konumunuza göre hava durumunu göster">
-                    <i class="fas fa-cloud-sun"></i> <span id="weatherText">Canlı Hava Durumu</span>
-                </button>
-                <a href="#videolar" class="banner-link">Hemen İzle <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigasyon Çubuğu -->
+    <!-- Navigasyon Çubuğu (Tertemiz & Ferah) -->
     <header class="header">
         <div class="container nav-wrapper">
             <a href="#" class="brand-logo">
-                <div class="logo-badge">BK</div>
+                <div class="logo-avatar-wrap">
+                    <img src="images/bulent-kucuk.jpg" alt="Bülent Küçük" class="logo-avatar-img">
+                </div>
                 <div class="logo-text">
                     <span class="logo-title">BÜLENT KÜÇÜK</span>
                     <span class="logo-sub">Cantinos & Gurbet Günlüğü</span>
@@ -65,18 +52,15 @@
             </a>
             
             <nav class="nav-menu" id="navMenu">
+                <a href="#videolar" class="nav-link active"><i class="fab fa-youtube"></i> Videolar</a>
                 <a href="#hikaye" class="nav-link"><i class="fas fa-user"></i> Biyografi</a>
                 <a href="#cantinos" class="nav-link"><i class="fas fa-pizza-slice"></i> Cantinos Allerød</a>
-                <a href="#videolar" class="nav-link active"><i class="fab fa-youtube"></i> Videolar</a>
                 <a href="#bulduk" class="nav-link"><i class="fas fa-landmark"></i> Bulduk Köşesi</a>
                 <a href="#yazilar" class="nav-link"><i class="fas fa-feather-alt"></i> Köşe Yazıları</a>
                 <a href="#ziyaretci-defteri" class="nav-link"><i class="fas fa-envelope"></i> Mesaj Bırak</a>
             </nav>
             
             <div class="nav-actions">
-                <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." target="_blank" class="btn btn-wa-nav" onclick="trackDirectWhatsAppClick()" title="WhatsApp'tan Bülent Usta'ya Yaz">
-                    <i class="fab fa-whatsapp"></i> <span class="wa-btn-text">WhatsApp'tan Yaz</span>
-                </a>
                 <button class="mobile-toggle" id="mobileToggle" aria-label="Menü Aç">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -84,13 +68,35 @@
         </div>
     </header>
 
-    <!-- HERO BÖLÜMÜ -->
+    <!-- 💬 HEADER ALTI DOĞRUDAN WHATSAPP İLETİŞİM ŞERİDİ (MOBİL VE DESKTOP UYUMLU) -->
+    <div class="header-action-bar">
+        <div class="container">
+            <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20blogunuzdaki%20videolar%C4%B1%20ve%20yaz%C4%B1lar%C4%B1%20inceledim..." target="_blank" class="hero-wa-cta-pill" onclick="trackDirectWhatsAppClick('header_action_bar')" title="WhatsApp'tan Bülent Usta'ya Yaz">
+                <div class="wa-cta-icon-glow">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="wa-cta-text-group">
+                    <span class="wa-cta-title">Bülent Usta ile Doğrudan İletişim</span>
+                    <span class="wa-cta-sub">WhatsApp'tan 7/24 Mesaj Gönderin</span>
+                </div>
+                <div class="wa-cta-badge">
+                    <span class="online-dot"></span> Mesaj Yaz &rarr;
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- HERO BÖLÜMÜ (ETKİLEYİCİ GÖRSEL VİTRİN) -->
     <section class="hero-section">
         <div class="hero-backdrop"></div>
         <div class="container hero-container">
+            
+            <!-- Sol / Üst Kolon: Metin & Tanıtım -->
             <div class="hero-content">
                 <div class="hero-badge">
-                    <span class="flag">🇩🇰</span> KOPENHAG • <span class="flag">🇹🇷</span> KONYA BULDUK • İÇERİK & GASTRONOMİ
+                    <span class="hero-badge-item"><i class="fas fa-map-pin"></i> Kopenhag & Konya Bulduk</span>
+                    <span class="hero-badge-dot">•</span>
+                    <span class="hero-badge-item"><i class="fas fa-video"></i> Dijital İçerik & Gastronomi</span>
                 </div>
                 <h1 class="hero-title">
                     Danimarka'dan Anadolu'ya Uzanan <span class="gradient-text">Lezzet, Hatıra & Vefa</span> Köprüsü
@@ -110,8 +116,8 @@
                     <a href="#videolar" class="btn btn-primary btn-glow" id="heroWatchBtn">
                         <i class="fas fa-play-circle"></i> Videoları Keşfet
                     </a>
-                    <a href="#ziyaretci-defteri" class="btn btn-outline" id="heroContactBtn">
-                        <i class="fas fa-paper-plane"></i> Selam Gönder
+                    <a href="#cantinos" class="btn btn-outline" id="heroCantinosBtn">
+                        <i class="fas fa-pizza-slice"></i> Cantinos Allerød
                     </a>
                 </div>
 
@@ -132,16 +138,20 @@
                 </div>
             </div>
 
+            <!-- Sağ / Mobil Öncelikli Kolon: Profil & Öne Çıkan Video Kartı -->
             <div class="hero-media">
                 <div class="media-card-main">
                     <div class="profile-header-card">
                         <div class="avatar-wrapper">
                             <div class="avatar-ring"></div>
-                            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&auto=format&fit=crop&q=80" alt="Bülent Küçük" class="avatar-img" id="heroProfileImg">
+                            <img src="images/bulent-kucuk.jpg" alt="Bülent Küçük" class="avatar-img" id="heroProfileImg">
                             <span class="status-indicator" title="Yayında"></span>
                         </div>
                         <div class="profile-info">
-                            <h2 class="profile-name">Bülent Küçük</h2>
+                            <div class="profile-name-row">
+                                <h2 class="profile-name">Bülent Küçük</h2>
+                                <span class="profile-verified-badge" title="Doğrulanmış İçerik Üreticisi"><i class="fas fa-check-circle"></i></span>
+                            </div>
                             <p class="profile-tag">@BulentKüçük79 • Dijital İçerik Üreticisi</p>
                             <div class="profile-meta">
                                 <span><i class="fas fa-map-marker-alt"></i> Kopenhag, Danimarka</span>
@@ -151,122 +161,37 @@
                         </div>
                     </div>
                     
-                    <!-- Son Video Önizleme Mini Kartı -->
+                    <!-- Son Video Önizleme Kartı (Büyük, Canlı & Çarpıcı) -->
                     <div class="featured-video-preview" onclick="openVideoModal('_Nlh9o0VcDQ', 'Keko Usta Anlatıyor: Çıraklıktan Ustalığa Uzanan Yolculuk')">
                         <div class="preview-thumbnail">
-                            <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Son Video">
+                            <img src="https://img.youtube.com/vi/_Nlh9o0VcDQ/hqdefault.jpg" alt="Son Video" class="preview-hero-thumb">
                             <span class="duration-badge"><i class="fas fa-clock"></i> 29:09</span>
                             <div class="play-overlay">
-                                <i class="fas fa-play"></i>
+                                <div class="play-btn-circle-lg">
+                                    <i class="fas fa-play"></i>
+                                </div>
                             </div>
                         </div>
                         <div class="preview-details">
-                            <span class="preview-tag">🔥 SON YAYINLANAN</span>
+                            <div class="preview-top-row">
+                                <span class="preview-tag">🔥 SON YAYINLANAN PROGRAM</span>
+                                <span class="preview-views"><i class="fas fa-eye"></i> 10K+ İzlenme</span>
+                            </div>
                             <h4 class="preview-title">Keko Usta Anlatıyor: Çıraklıktan Ustalığa</h4>
-                            <p class="preview-sub">Özel lezzet sırları ve mutfak sohbeti</p>
+                            <p class="preview-sub">Danimarka mutfağından unutulmaz lezzet sırları ve samimi hatıralar</p>
+                            <div class="preview-action-hint">
+                                <span><i class="fab fa-youtube" style="color:#ff0000;"></i> Hemen İzle (Tek Tıkla Başlat)</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- HİKAYE & BİYOGRAFİ BÖLÜMÜ -->
-    <section class="section story-section" id="hikaye">
-        <div class="container">
-            <div class="section-head text-center">
-                <span class="section-tag">BİYOGRAFİ & YOLCULUK</span>
-                <h2 class="section-title">Konya'dan Kopenhag'a Gönül Bağı</h2>
-                <div class="section-divider"></div>
-            </div>
-
-            <div class="story-grid">
-                <div class="story-card">
-                    <div class="story-icon"><i class="fas fa-heart"></i></div>
-                    <h3>Gurbette Vefa & Dostluk</h3>
-                    <p>15 Eylül 1979 doğumlu olan Bülent Küçük, Konya Bulduk'tan Danimarka Kopenhag'a uzanan hayatında her zaman dostluğun, sıla-i rahimin ve vefanın önemini vurguladı. Büyüklerin hatıralarını ve köy sohbetlerini kayıt altına alarak gelecek nesillere aktarıyor.</p>
-                </div>
-
-                <div class="story-card">
-                    <div class="story-icon"><i class="fas fa-utensils"></i></div>
-                    <h3>Mutfak ve Gastronomi Tutkusu</h3>
-                    <p>1 Nisan 2018'den bu yana Danimarka Allerød bölgesinde hizmet veren <strong>Cantinos Allerød</strong> çatısı altında pizza, mangal ve özgün mutfak lezzetlerini samimi ustalığıyla buluşturuyor.</p>
-                </div>
-
-                <div class="story-card">
-                    <div class="story-icon"><i class="fas fa-camera"></i></div>
-                    <h3>Dijital İçerik & Köy Hafızası</h3>
-                    <p>YouTube kanalında Arif Şahin, Hacı Yavaş, Ömer Şahin ve Memet Gürel gibi değerli gurbet büyükleriyle gerçekleştirdiği röportajlar ve Bulduk Evi projeleriyle milyonlarca yüreğe dokunuyor.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CANTINOS ALLERØD BÖLÜMÜ -->
-    <section class="section cantinos-section" id="cantinos">
-        <div class="container">
-            <div class="cantinos-banner">
-                <div class="cantinos-content">
-                    <div class="badge-cantinos">CANTINOS ALLERØD • 2018'DEN BERİ</div>
-                    <h2 class="cantinos-title">Danimarka'da Gerçek Fırın & Pizza Lezzeti</h2>
-                    <p class="cantinos-desc">
-                        Allerød'un kalbinde, çıraklıktan ustalığa uzanan el emeğiyle hazırlanan çıtır hamurlar, özel soslar ve Akdeniz mutfağının seçkin lezzetleri. Dost meclislerinin ve sıcak buluşmaların değişmeyen adresi.
-                    </p>
-                    <div class="cantinos-features">
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Günlük Taze Hamur & Özel Fırın</div>
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Usta Dokunuşuyla Eşsiz Tarifler</div>
-                        <div class="feature-item"><i class="fas fa-check-circle"></i> Samimi ve Sıcak Aile Atmosferi</div>
-                    </div>
-                </div>
-                <div class="cantinos-visual">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
-                </div>
-            </div>
-
-            <!-- 🍕 CANTINOS ALLERØD CANLI MESAFE KUTUSU (BEYAZ ARKAPLAN & TURUNCU YAZI) -->
-            <div class="cantinos-distance-highlight-box" onclick="getGoogleMapsDirections()">
-                <div class="cdh-left">
-                    <div class="cdh-icon-box"><i class="fas fa-location-dot"></i></div>
-                    <div>
-                        <div class="cdh-title">Cantinos Allerød'a Uzaklığınız Kaç Km?</div>
-                        <div class="cdh-sub">Mevcut konumunuz ile Danimarka Allerød fırınımız arasındaki mesafeyi ve yol tarifini hesaplayın.</div>
-                    </div>
-                </div>
-                <button type="button" class="cdh-btn">
-                    <i class="fas fa-route"></i> Mesafeyi Hesapla &rarr;
-                </button>
-            </div>
-
-            <!-- 🗺️ RESMİ GOOGLE HARİTALAR & YOL TARİFİ KARTI (ŞÜPHE ÇEKMEZ) -->
-            <div class="gmaps-container-card">
-                <div class="gmaps-header">
-                    <div class="gmaps-title-wrap">
-                        <div class="gmaps-logo-badge"><i class="fas fa-map-marked-alt"></i></div>
-                        <div>
-                            <h3 class="gmaps-title">Google Haritalar • Cantinos Allerød Konumu</h3>
-                            <p class="gmaps-sub">M.D. Madsensvej, 3450 Allerød, Danimarka • <span style="color:#fbbf24;">★ 4.9 (180+ Yorum)</span></p>
-                        </div>
-                    </div>
-                    
-                    <div class="gmaps-action-box">
-                        <button type="button" class="btn btn-gmaps" onclick="getGoogleMapsDirections()" id="btnGmaps">
-                            <i class="fas fa-directions"></i> Konumumdan Yol Tarifi Başlat (Google Maps)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Google Maps Gömülü Haritası -->
-                <div class="gmaps-frame-wrapper">
-                    <iframe id="gmapsIframe" src="https://maps.google.com/maps?q=Aller%C3%B8d%20Denmark&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-
-                <!-- Yol Tarifi Sonuç Kartı -->
-                <div id="gmapsRouteResult" class="gmaps-route-result" style="display:none;"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- YOUTUBE VİDEOLAR BÖLÜMÜ -->
+    <!-- 1) YOUTUBE VİDEOLAR BÖLÜMÜ (HERO'NUN HEMEN ARDINDAN GELİR) -->
     <section class="section videos-section" id="videolar">
         <div class="container">
             <div class="section-head text-center">
@@ -428,14 +353,14 @@
                 </div>
 
                 <!-- Video 11 -->
-                <div class="video-card" data-category="vefa" onclick="openVideoModal('ueEL4lzStiQ', 'Hasan Demirci ve Döne Demirci hatırası - Bülent Küçük')">
+                <div class="video-card" data-category="vefa" onclick="openVideoModal('ZtYqVzU274k', 'Hasan Demirci ve Döne Demirci hatırası')">
                     <div class="video-thumb-wrap">
-                        <img src="https://img.youtube.com/vi/ueEL4lzStiQ/hqdefault.jpg" alt="Demirci Hatırası">
-                        <span class="badge-duration"><i class="fas fa-clock"></i> 50:59</span>
+                        <img src="https://img.youtube.com/vi/ZtYqVzU274k/hqdefault.jpg" alt="Hasan Demirci">
+                        <span class="badge-duration"><i class="fas fa-clock"></i> 20:16</span>
                         <div class="play-btn-circle"><i class="fas fa-play"></i></div>
                     </div>
                     <div class="video-info">
-                        <span class="video-cat-label">HATIRALAR</span>
+                        <span class="video-cat-label">HATIRA & AİLE</span>
                         <h3 class="video-title">Hasan Demirci ve Döne Demirci hatırası</h3>
                         <p class="video-meta"><i class="fas fa-eye"></i> 10K görüntüleme • 3 ay önce</p>
                     </div>
@@ -477,7 +402,7 @@
                             <span class="btn-yt-main">Ücretsiz Abone Ol &rarr;</span>
                         </div>
                     </a>
-                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-big" onclick="trackDirectWhatsAppClick()">
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videolar%C4%B1n%C4%B1z%C4%B1%20ve%20blogunuzu%20takip%20ediyorum..." target="_blank" class="btn btn-wa-big" onclick="trackDirectWhatsAppClick('community_cta_banner')">
                         <div class="btn-wa-icon"><i class="fab fa-whatsapp"></i></div>
                         <div class="btn-wa-text">
                             <span class="btn-wa-sub">BÜLENT USTA'YA ULAŞIN</span>
@@ -489,7 +414,105 @@
         </div>
     </section>
 
-    <!-- BULDUK KÖYÜ & DERNEK BÖLÜMÜ (ZENGİN BLOGGER GÖRÜNÜMÜ & GOOGLE MAPS YOL TARİFİ) -->
+    <!-- 2) HİKAYE & BİYOGRAFİ BÖLÜMÜ -->
+    <section class="section story-section" id="hikaye">
+        <div class="container">
+            <div class="section-head text-center">
+                <span class="section-tag">BİYOGRAFİ & YOLCULUK</span>
+                <h2 class="section-title">Konya'dan Kopenhag'a Gönül Bağı</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="story-grid">
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Gurbette Vefa & Dostluk</h3>
+                    <p>15 Eylül 1979 doğumlu olan Bülent Küçük, Konya Bulduk'tan Danimarka Kopenhag'a uzanan hayatında her zaman dostluğun, sıla-i rahimin ve vefanın önemini vurguladı. Büyüklerin hatıralarını ve köy sohbetlerini kayıt altına alarak gelecek nesillere aktarıyor.</p>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Mutfak ve Gastronomi Tutkusu</h3>
+                    <p>1 Nisan 2018'den bu yana Danimarka Allerød bölgesinde hizmet veren <strong>Cantinos Allerød</strong> çatısı altında pizza, mangal ve özgün mutfak lezzetlerini samimi ustalığıyla buluşturuyor.</p>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-icon"><i class="fas fa-camera"></i></div>
+                    <h3>Dijital İçerik & Köy Hafızası</h3>
+                    <p>YouTube kanalında Arif Şahin, Hacı Yavaş, Ömer Şahin ve Memet Gürel gibi değerli gurbet büyükleriyle gerçekleştirdiği röportajlar ve Bulduk Evi projeleriyle milyonlarca yüreğe dokunuyor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3) CANTINOS ALLERØD BÖLÜMÜ -->
+    <section class="section cantinos-section" id="cantinos">
+        <div class="container">
+            <div class="cantinos-banner">
+                <div class="cantinos-content">
+                    <div class="badge-cantinos">CANTINOS ALLERØD • 2018'DEN BERİ</div>
+                    <h2 class="cantinos-title">Danimarka'da Gerçek Fırın & Pizza Lezzeti</h2>
+                    <p class="cantinos-desc">
+                        Allerød'un kalbinde, çıraklıktan ustalığa uzanan el emeğiyle hazırlanan çıtır hamurlar, özel soslar ve Akdeniz mutfağının seçkin lezzetleri. Dost meclislerinin ve sıcak buluşmaların değişmeyen adresi.
+                    </p>
+                    <div class="cantinos-features">
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Günlük Taze Hamur & Özel Fırın</div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Usta Dokunuşuyla Eşsiz Tarifler</div>
+                        <div class="feature-item"><i class="fas fa-check-circle"></i> Samimi ve Sıcak Aile Atmosferi</div>
+                        <div class="feature-item weather-feature-tag" onclick="checkLocalWeather()" id="weatherBtn" style="cursor:pointer; color:#fbbf24;">
+                            <i class="fas fa-cloud-sun" style="color:#f59e0b;"></i> <span id="weatherText">Danimarka Allerød Canlı Hava Durumu (Sorgula)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cantinos-visual">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80" alt="Cantinos Pizza" class="cantinos-img">
+                </div>
+            </div>
+
+            <!-- 🍕 CANTINOS ALLERØD CANLI MESAFE KUTUSU (BEYAZ ARKAPLAN & TURUNCU YAZI) -->
+            <div class="cantinos-distance-highlight-box" onclick="getGoogleMapsDirections()">
+                <div class="cdh-left">
+                    <div class="cdh-icon-box"><i class="fas fa-location-dot"></i></div>
+                    <div>
+                        <div class="cdh-title">Cantinos Allerød'a Uzaklığınız Kaç Km?</div>
+                        <div class="cdh-sub">Mevcut konumunuz ile Danimarka Allerød fırınımız arasındaki mesafeyi ve yol tarifini hesaplayın.</div>
+                    </div>
+                </div>
+                <button type="button" class="cdh-btn">
+                    <i class="fas fa-route"></i> Mesafeyi Hesapla &rarr;
+                </button>
+            </div>
+
+            <!-- 🗺️ RESMİ GOOGLE HARİTALAR & YOL TARİFİ KARTI (ŞÜPHE ÇEKMEZ) -->
+            <div class="gmaps-container-card">
+                <div class="gmaps-header">
+                    <div class="gmaps-title-wrap">
+                        <div class="gmaps-logo-badge"><i class="fas fa-map-marked-alt"></i></div>
+                        <div>
+                            <h3 class="gmaps-title">Google Haritalar • Cantinos Allerød Konumu</h3>
+                            <p class="gmaps-sub">M.D. Madsensvej, 3450 Allerød, Danimarka • <span style="color:#fbbf24;">★ 4.9 (180+ Yorum)</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="gmaps-action-box">
+                        <button type="button" class="btn btn-gmaps" onclick="getGoogleMapsDirections()" id="btnGmaps">
+                            <i class="fas fa-directions"></i> Konumumdan Yol Tarifi Başlat (Google Maps)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Google Maps Gömülü Haritası -->
+                <div class="gmaps-frame-wrapper">
+                    <iframe id="gmapsIframe" src="https://maps.google.com/maps?q=Aller%C3%B8d%20Denmark&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+                <!-- Yol Tarifi Sonuç Kartı -->
+                <div id="gmapsRouteResult" class="gmaps-route-result" style="display:none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4) BULDUK KÖYÜ & DERNEK BÖLÜMÜ (ZENGİN BLOGGER GÖRÜNÜMÜ & GOOGLE MAPS YOL TARİFİ) -->
     <section class="section bulduk-section" id="bulduk">
         <div class="container">
             
@@ -731,7 +754,7 @@
                                target="_blank" 
                                class="btn btn-wa-direct" 
                                id="btnBlogDirectWa"
-                               onclick="trackDirectWhatsAppClick()">
+                               onclick="trackDirectWhatsAppClick('guestbook_direct_box')">
                                 <i class="fab fa-whatsapp"></i> WhatsApp'tan Mesaj Yaz &rarr;
                             </a>
                         </div>
@@ -801,19 +824,34 @@
         <i class="fas fa-chevron-right floating-pill-arrow"></i>
     </div>
 
-    <!-- VİDEO MODAL PLAYER -->
+    <!-- 🎬 SİNEMATİK & GENİŞ EKRAN VİDEO MODAL PLAYER -->
     <div class="video-modal" id="videoModal" aria-hidden="true">
         <div class="video-modal-overlay" onclick="closeVideoModal()"></div>
         <div class="video-modal-dialog">
             <div class="video-modal-header">
-                <h4 id="videoModalTitle" class="video-modal-title">Video Oynatılıyor</h4>
-                <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Kapat">
+                <div class="video-modal-header-left">
+                    <span class="video-live-badge"><i class="fab fa-youtube"></i> YOUTUBE HD</span>
+                    <h4 id="videoModalTitle" class="video-modal-title">Bülent Küçük Video</h4>
+                </div>
+                <button class="video-modal-close" onclick="closeVideoModal()" aria-label="Kapat" title="Kapat (ESC)">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="video-modal-body">
                 <div class="video-iframe-wrapper">
                     <iframe id="videoIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="video-modal-footer">
+                <div class="vm-footer-left">
+                    <a href="https://www.youtube.com/@BulentK%C3%BC%C3%A7%C3%BCk79?sub_confirmation=1" target="_blank" class="btn-vm-yt">
+                        <i class="fab fa-youtube"></i> Kanala Abone Ol
+                    </a>
+                </div>
+                <div class="vm-footer-right">
+                    <a href="https://api.whatsapp.com/send?phone=4591965688&text=Selam%20B%C3%BClent%20Usta%2C%20videonuzu%20izledim..." target="_blank" class="btn-vm-wa" onclick="trackDirectWhatsAppClick('video_modal_footer')">
+                        <i class="fab fa-whatsapp"></i> Yorumu WhatsApp'tan Yaz &rarr;
+                    </a>
                 </div>
             </div>
         </div>
